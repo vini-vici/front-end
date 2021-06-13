@@ -1,0 +1,29 @@
+{
+    "browsers": [
+        "chrome",
+        "firefox:headless"
+    ],
+    "src": [
+        "./e2e/**/*.ts"
+    ],
+    "reporter": {
+        "name": "xunit",
+        "output": "reports/report.xml"
+    },
+    "screenshots": {
+        "path": "reports/screenshots",
+        "takeOnFails": true,
+        "pathPattern": "${DATE}_${TIME}/test-${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png"
+    },
+    "videoPath": "reports/screen-captures",
+    "quarantineMode": true,
+    "stopOnFirstFail": true,
+    "skipJsErrors": true,
+    "skipUncaughtErrors": true,
+    "selectorTimeout": 3000,
+    "assertionTimeout": 1000,
+    "pageLoadTimeout": 1000,
+    "port1": 8080,
+    "disablePageCaching": false,
+    "developmentMode": false
+}
