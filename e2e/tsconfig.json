@@ -1,0 +1,16 @@
+{
+  "extends": "../base.json",
+  "compilerOptions": {
+    "types": [
+      "testcafe"
+    ]
+  },
+  "include": [
+    "**/*",
+    "../src/**/*"
+  ],
+  "exclude": [
+    "../src/**/*.spec.tsx"
+  ],
+  "$schema": "https://json.schemastore.org/tsconfig"
+}

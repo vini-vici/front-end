@@ -1,0 +1,25 @@
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import TodosComponent from './todos.component';
+import { RootState } from '@/redux/root.reducer';
+import { addTodo, doneTodo } from '@/redux/todos/todos.action';
+
+export default function TodosContainer() {
+  // Map the todo state to the current object.
+  const todos = useSelector(({ TodosState: {
+    todos
+  }}: RootState) => todos);
+
+  // grab the dispatch.
+  const dispatch = useDispatch();
+
+  // This function merely serves as a wrapper for the actual TodosComponent.
+  return (
+    <TodosComponent
+      todos={todos}
+      toggleDone={(todoId) => dispatch(doneTodo(todoId))}
+      addTodo={(todo) => dispatch(addTodo(todo.title, todo.description, todo.done))}
+    />
+  )
+}
