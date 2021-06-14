@@ -2,7 +2,12 @@
   "extends": "../base.json",
   "compilerOptions": {
     "types": [
-      "jest"
+      "jest",
+      "redux",
+      "redux-saga"
     ]
-  }
+  },
+  "exclude": [
+    "e2e/**/*"
+  ]
 }

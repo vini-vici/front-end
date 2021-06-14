@@ -6,11 +6,8 @@
     ]
   },
   "include": [
-    "**/*",
-    "../src/**/*"
+    "./**/*"
   ],
-  "exclude": [
-    "../src/**/*.spec.tsx"
-  ],
+  "exclude": [],
   "$schema": "https://json.schemastore.org/tsconfig"
 }

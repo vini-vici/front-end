@@ -18,12 +18,31 @@ const todos: Todo[] = [
   }
 ];
 
+test('Render loading state', async () => {
+  const initTodos: Todo[] = [];
+  const addTodo = jest.fn();
+  const toggleDone = jest.fn();
+  const { container } = render(
+    <TodosComponent
+      loading={true}
+      addTodo={addTodo}
+      toggleDone={toggleDone}
+      todos={initTodos}
+    />
+  );
+
+  screen.getByText('Loading...');
+})
+
 test('Render with no initial items', async () => {
   const initTodos: Todo[] = [];
+
   const addTodo = jest.fn((t: Todo) => initTodos.push({ ... t, id: initTodos.length + 1}));
   const toggleDone = jest.fn();
+
   const wrapper = render(
     <TodosComponent
+      loading={false}
       addTodo={addTodo}
       toggleDone={toggleDone}
       todos={initTodos}
@@ -86,6 +105,7 @@ test('Render with some todos.', async () => {
   const toggleDone = jest.fn();
   const wrapper = render(
     <TodosComponent
+      loading={false}
       addTodo={addTodo}
       toggleDone={toggleDone}
       todos={todos}

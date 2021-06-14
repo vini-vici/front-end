@@ -22,6 +22,14 @@ node --version && npm --version
 
 I personally use [Pnpm](https://pnpm.io/installation) over NPM for reasons. If you don't care, you can use NPM and that would be fine, however whenever you run a command you would need to change `pnpm [command]` to `npm run [command]` if it is a package-defined script.
 
+## Running Locally
+
+You should be able to run the entire thing with just 
+
+```sh
+pnpm dev
+```
+
 ## Running Unit Tests
 
 Tests are run with Jest, and are setup in the [jest.config.js](./jest.config.js) file, with a setup file in [setup.ts](./src/test/setup.ts)

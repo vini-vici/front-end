@@ -39,12 +39,15 @@ const initialState: TodosState = {
 
 export function todosReducer(state: TodosState = initialState, action: TodosAction): TodosState {
   switch (action.type) {
+    // fetch status
     case TodosActionsTypes.FETCH:
       return {
         ...state,
         status: 'loading'
       };
 
+    // Successfully fetched items, meaning we need to set both the 
+    // todos array and the todosById.
     case TodosActionsTypes.FETCH_SUCCESS: {
       return {
         ...state,
@@ -60,6 +63,7 @@ export function todosReducer(state: TodosState = initialState, action: TodosActi
         }
       }
     }
+    // We had an error in trying to fetch.
     case TodosActionsTypes.FETCH_ERROR: {
       return {
         ...state,
@@ -68,6 +72,7 @@ export function todosReducer(state: TodosState = initialState, action: TodosActi
       };
     }
 
+    // Adding a todo.
     case TodosActionsTypes.ADD:
       return {
         ...state,
@@ -91,6 +96,7 @@ export function todosReducer(state: TodosState = initialState, action: TodosActi
         }
       };
 
+    // Removing a todo.
     case TodosActionsTypes.REMOVE: {
       const index = state.todos.findIndex((todo: Todo) => todo.title === action.title);
       if (index !== -1) {
@@ -108,6 +114,7 @@ export function todosReducer(state: TodosState = initialState, action: TodosActi
       }
     }
 
+    // marking a todo as done.
     case TodosActionsTypes.DONE: {
       const { id } = action;
       const itemIndex = state.todos.findIndex((todo) => todo.id === id);
@@ -129,6 +136,7 @@ export function todosReducer(state: TodosState = initialState, action: TodosActi
         }
       }
     }
+    // Updating a todo.
     case TodosActionsTypes.UPDATE: {
       const { id } = action;
       const newTodo = {
@@ -152,6 +160,7 @@ export function todosReducer(state: TodosState = initialState, action: TodosActi
 
       else return state;
     }
+    // default.
     default:
       return state;
   }

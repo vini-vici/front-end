@@ -34,7 +34,7 @@
     "developmentMode": false,
     "compilerOptions": {
         "typescript": {
-            "configPath": "./tsconfig.json"
+            "configPath": "./e2e/tsconfig.json"
         }
     }
 }
