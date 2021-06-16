@@ -1,12 +1,13 @@
 {
-  "extends": "../base.json",
+  "extends": "../tsconfig.json",
   "compilerOptions": {
     "types": [
-      "testcafe"
+      "testcafe",
+      "node"
     ]
   },
   "include": [
-    "./**/*"
+    "./**/*.ts"
   ],
   "exclude": [],
   "$schema": "https://json.schemastore.org/tsconfig"

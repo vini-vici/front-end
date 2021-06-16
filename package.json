@@ -7,7 +7,7 @@
     "dev": "webpack serve",
     "release": "webpack --mode production",
     "test": "jest",
-    "e2e:local": "testcafe chrome"
+    "e2e:local": "testcafe chrome -L"
   },
   "keywords": [],
   "browserslist": "> 0.25%, not dead",

@@ -1,7 +1,23 @@
+import { Selector } from 'testcafe';
 
-fixture('Landing')
-	.page('https://localhost:8080');
+fixture('Main Test')
+	.page('http://localhost:8080/');
 
-test('Landing page has correct items in it.', async testcafe => {
-	await testcafe.expect(1).eql(1);
+test('Base', async testcafe => {
+	const todoTitle = Selector('#todo-title')
+	const todoDescription = Selector('#todo-description');
+	await testcafe.click(
+		todoTitle
+	);
+	await testcafe.typeText(
+		todoTitle,
+		'Todo Test'
+	);
+	await testcafe.expect(
+		todoTitle.value
+	).eql('Todo Test');
+	await testcafe.typeText(
+		todoDescription,
+		'Optional!'
+	);
 });
