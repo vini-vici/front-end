@@ -32,7 +32,7 @@ test('Render loading state', async () => {
   );
 
   screen.getByText('Loading...');
-})
+});
 
 // test('Render with no initial items', async () => {
 //   const initTodos: Todo[] = [];
