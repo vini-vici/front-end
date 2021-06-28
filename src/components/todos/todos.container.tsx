@@ -29,5 +29,5 @@ export default function TodosContainer() {
       toggleDone={(todoId) => dispatch(doneTodo(todoId))}
       addTodo={(todo) => dispatch(addTodo(todo.title, todo.description, todo.done))}
     />
-  )
+  );
 }
