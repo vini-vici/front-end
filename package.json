@@ -7,7 +7,8 @@
     "dev": "webpack serve",
     "release": "webpack --mode production",
     "test": "jest",
-    "e2e:local": "testcafe chrome -L"
+    "e2e:local": "testcafe chrome -L",
+    "lint": "eslint --fix --ext .ts,.tsx src/"
   },
   "keywords": [],
   "browserslist": "> 0.25%, not dead",
@@ -19,14 +20,20 @@
     "@babel/preset-react": "^7.13.13",
     "@babel/preset-typescript": "^7.13.0",
     "@ffmpeg-installer/ffmpeg": "^1.0.20",
+    "@hot-loader/react-dom": "^17.0.1",
     "@reduxjs/toolkit": "^1.5.1",
     "@testing-library/react": "^11.2.7",
     "@types/jest": "^26.0.23",
     "@types/react-dom": "^17.0.6",
+    "@types/react-router-dom": "^5.1.7",
+    "@typescript-eslint/eslint-plugin": "^4.28.0",
+    "@typescript-eslint/parser": "^4.28.0",
     "autoprefixer": "^10.2.6",
     "babel-loader": "^8.2.2",
     "babel-register": "^6.26.0",
     "css-loader": "^5.2.6",
+    "eslint": "^7.29.0",
+    "eslint-plugin-react": "^7.24.0",
     "fork-ts-checker-webpack-plugin": "^6.2.10",
     "html-webpack-plugin": "^5.3.1",
     "jest": "^27.0.4",
@@ -44,10 +51,13 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "@mdi/js": "^5.9.55",
+    "@mdi/react": "^1.5.0",
     "core-js": "^3.13.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",
+    "react-router-dom": "^5.2.0",
     "redux": "^4.1.0",
     "redux-saga": "^1.1.3"
   }

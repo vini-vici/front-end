@@ -3,8 +3,8 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "noImplicitAny": true,
-    "module": "es6",
-    "target": "es5",
+    "module": "esnext",
+    "target": "es2015",
     "jsx": "react",
     "allowJs": false,
     "moduleResolution": "node",
@@ -13,7 +13,7 @@
     "noEmit": true,
     "lib": [
       "DOM",
-      "ES2018"
+      "ES2019"
     ],
     "paths": {
       "@/*": [
