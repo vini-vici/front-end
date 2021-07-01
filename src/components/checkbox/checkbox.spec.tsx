@@ -6,7 +6,7 @@ import Checkbox from './checkbox.component';
 test('Testing rendering with no props', async () => {
   const { container } = render(
     <Checkbox/>
-  )
+  );
   expect(container.querySelector('input[type="checkbox"]'));
 });
 

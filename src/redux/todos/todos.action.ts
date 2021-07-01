@@ -13,7 +13,7 @@ export enum TodosActionsTypes {
 
 export type FetchTodoAction = Action<TodosActionsTypes.FETCH>
 
-export function fetchTodos() {
+export function fetchTodos(): FetchTodoAction {
   return {
     type: TodosActionsTypes.FETCH
   };

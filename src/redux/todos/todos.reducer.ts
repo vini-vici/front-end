@@ -112,6 +112,7 @@ export function todosReducer(state: TodosState = initialState, action: TodosActi
         }
       };
     }
+    break;
   }
 
   // marking a todo as done.

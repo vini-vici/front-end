@@ -4,19 +4,19 @@ import { render, screen } from '@testing-library/react';
 import Loading from './loading.component';
 
 test('Default Loading text', async () => {
-  const { container } = render(<Loading/>);
+  render(<Loading/>);
   expect(screen.findByText('Loading'));
 });
 
 test('Customize loading text', async () => {
-  const { container } = render(
+  render(
     <Loading text="custom text"/>
   );
   expect(screen.findByTestId('custom text'));
 });
 
 test('Default size', async () => {
-  const { container } = render(
+  render(
     <Loading/>
   );
   expect(
