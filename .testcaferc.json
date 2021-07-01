@@ -1,15 +1,10 @@
 {
     "browsers": [
-        "chrome",
-        "firefox:headless"
+        "chrome:headless"
     ],
     "src": [
         "./e2e/**/*.ts"
     ],
-    "reporter": {
-        "name": "xunit",
-        "output": "reports/report.xml"
-    },
     "screenshots": {
         "path": "reports/screenshots",
         "takeOnFails": true,
@@ -23,7 +18,6 @@
     "selectorTimeout": 3000,
     "assertionTimeout": 1000,
     "pageLoadTimeout": 1000,
-    "port1": 8080,
     "disablePageCaching": false,
     "developmentMode": false
 }

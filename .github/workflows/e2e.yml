@@ -1,0 +1,27 @@
+name: Target Multiple Node.js Versions and Operating Systems
+on:
+  pull_request:
+    branches: [ mainline ]
+
+jobs:
+  e2e:
+    name: Running Tests.
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: [ 16.x ]
+    steps:
+      # Setup node
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      # checkout 
+      - uses: actions/checkout@v1
+      - run: npm i -g pnpm && pnpm i --frozen-lockfile
+      - run: pnpm e2e:ci
+      - uses: actions/upload-artifact@v2
+        name: Save screenshots
+        with:
+          name: e2e-ss
+          path: reports/
