@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { resolve } = require('path');
 const TsChecker = require('fork-ts-checker-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
@@ -15,12 +17,16 @@ module.exports = {
     path: fromRoot('public')
   },
   devServer: {
-    hot: true
+    contentBase: fromRoot('static'),
+    liveReload: true,
+    hot: true,
+    historyApiFallback: true
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
     alias: {
-      '@': fromSrc('.')
+      '@': fromSrc('.'),
+      'react-dom': '@hot-loader/react-dom'
     }
   },
   module: {
@@ -33,13 +39,27 @@ module.exports = {
         ]
       },
       {
+        test: /\.module\.css$/,
+        use: [
+          CssPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true
+            }
+          },
+          'postcss-loader'
+        ]
+      },
+      {
         test: /\.css$/,
+        exclude: /\.module\./,
         use: [
           CssPlugin.loader,
           'css-loader',
           'postcss-loader'
         ]
-      }
+      },
     ]
   },
   plugins: [

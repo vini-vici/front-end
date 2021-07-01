@@ -11,8 +11,7 @@ export enum TodosActionsTypes {
   FETCH_ERROR = 'FETCH_TODO_ERROR'
 }
 
-export interface FetchTodoAction extends Action<TodosActionsTypes.FETCH> {
-}
+export type FetchTodoAction = Action<TodosActionsTypes.FETCH>
 
 export function fetchTodos() {
   return {
@@ -27,7 +26,7 @@ export function fetchTodosSuccess(todos: Todo[]): FetchTodoSuccessAction {
   return {
     type: TodosActionsTypes.FETCH_SUCCESS,
     todos
-  }
+  };
 }
 
 export interface FetchTodoErrorAction extends Action<TodosActionsTypes.FETCH_ERROR> {
@@ -46,7 +45,7 @@ export interface AddTodoAction extends Action<TodosActionsTypes.ADD> {
   done: boolean;
 }
 
-export function addTodo(title: string, description: string, done: boolean = false): AddTodoAction {
+export function addTodo(title: string, description: string, done = false): AddTodoAction {
   return {
     type: TodosActionsTypes.ADD,
     title,
@@ -64,7 +63,7 @@ export function removeTodo(title: string, id: number = Number.MIN_SAFE_INTEGER):
     type: TodosActionsTypes.REMOVE,
     title,
     id
-  }
+  };
 }
 
 export interface UpdateTodoAction extends Action<TodosActionsTypes.UPDATE> {
@@ -74,7 +73,7 @@ export interface UpdateTodoAction extends Action<TodosActionsTypes.UPDATE> {
   done: boolean;
 }
 
-export function updateTodo(id: number, title: string, description?: string, done: boolean = false): UpdateTodoAction {
+export function updateTodo(id: number, title: string, description?: string, done = false): UpdateTodoAction {
   return {
     type: TodosActionsTypes.UPDATE,
     id,

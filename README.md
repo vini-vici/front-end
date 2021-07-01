@@ -1,6 +1,6 @@
 ## Vicci
 
-Vicci is a rough project meant to demonstrate TypeScript, React, Jest, Testing Library, and TestCafe.
+Vicci is a rough project meant to demonstrate TypeScript, React, Jest, Testing Library (React), and TestCafe.
 
 ## Installation
 
@@ -48,7 +48,7 @@ pnpm test # or "npm run test" - no quotes
 
 Our integration tests are run with [TestCafe](https://testcafe.io/), which tests how the components function in the scope of our app. Here you should code the tests for each main portion of your website just as a user would interact with it.
 
-These interactions should include some random clicks, back and forth, perhaps even random keypresses.
+These interactions should include some random clicks, back and forth, perhaps even random keypresses. *Should* being the keyword here -- all of that takes a lot of time so sometimes testing base functionality. Remember: _Some_ unit tests are better than _no_ unit tests.
 
 Integration tests are meant to ensure that new changes do not unexpectedly break functionality of previous pages or components.
 
@@ -59,3 +59,7 @@ To run the integration tests against your local changes, run
 ```sh
 pnpm e2e:local
 ```
+
+### Modifying which tests are run (useful during development)
+
+open `package.json` and edit the entry for `"e2e:local"` to include `-f \"Fixture name\"` or `-t \"Test name\"` to only have it run that one test. 
