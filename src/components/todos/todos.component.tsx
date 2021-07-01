@@ -14,7 +14,7 @@ interface TodosProps {
 }
 
 export default function TodosComponent(props: TodosProps): React.ReactElement {
-  const { todos, addTodo, toggleDone, loading = false } = props;
+  const { todos, loading = false } = props;
 
   const initialTodo: Todo = {
     id: -1,
@@ -24,7 +24,6 @@ export default function TodosComponent(props: TodosProps): React.ReactElement {
   };
 
   const [todo, setTodo] = React.useState(initialTodo);
-  const [checked, setChecked] = React.useState(true);
 
   if(loading)
     return (

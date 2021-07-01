@@ -4,7 +4,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import Input from './input.component';
 
 test('Testing Placeholders', async () => {
-  const { container } = render(
+  render(
     <Input placeholder="placeholder"/>
   );
   screen.findByPlaceholderText('placeholder');
@@ -12,7 +12,7 @@ test('Testing Placeholders', async () => {
 
 
 test('Testing value', async () => {
-  const { container } = render(
+  render(
     <Input value="testing value" />
   );
   screen.findByDisplayValue('testing value');

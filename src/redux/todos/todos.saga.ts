@@ -1,8 +1,10 @@
-import { all, call, put, takeLatest, delay } from 'redux-saga/effects';
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { put, takeLatest, delay } from 'redux-saga/effects';
 
 import { FetchTodoAction, TodosActionsTypes, fetchTodosSuccess, fetchTodosError } from './todos.action';
 
-export function* fetchTodoSaga(action: FetchTodoAction) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function* fetchTodoSaga(_action: FetchTodoAction) {
   try {
     if (Math.round(Math.random() * 10) == 1) {
       throw Error('Async failed');

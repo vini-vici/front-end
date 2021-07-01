@@ -3,7 +3,7 @@ interface CssModule {
 }
 
 const css = new Proxy({} as CssModule, {
-  get(target, prop, receiver) {
+  get(target, prop) {
     return prop;
   }
 });

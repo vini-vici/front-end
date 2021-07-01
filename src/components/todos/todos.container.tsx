@@ -5,7 +5,7 @@ import TodosComponent from './todos.component';
 import { RootState } from '@/redux/root.reducer';
 import { addTodo, doneTodo, fetchTodos } from '@/redux/todos/todos.action';
 
-export default function TodosContainer() {
+export default function TodosContainer(): React.ReactElement {
   // Map the todo state to the current object.
   const {todos, status} = useSelector(({ TodosState: {
     todos,

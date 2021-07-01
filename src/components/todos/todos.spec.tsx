@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, logDOM, fireEvent} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import TodosComponent from './todos.component';
 import { Todo } from '@/redux/todos/todos.reducer';
 
@@ -19,15 +19,15 @@ const todos: Todo[] = [
 ];
 
 test('Render loading state', async () => {
-  const initTodos: Todo[] = [];
+  // const initTodos: Todo[] = [];
   const addTodo = jest.fn();
   const toggleDone = jest.fn();
-  const { container } = render(
+  render(
     <TodosComponent
       loading={true}
       addTodo={addTodo}
       toggleDone={toggleDone}
-      todos={initTodos}
+      todos={todos}
     />
   );
 

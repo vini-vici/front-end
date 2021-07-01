@@ -15,7 +15,7 @@ interface ModalProps {
   dismissOnClick?: boolean;
 }
 
-export default function Modal(props: React.PropsWithChildren<ModalProps>) {
+export default function Modal(props: React.PropsWithChildren<ModalProps>): React.ReactElement {
   // grab some props
   const { 
     children,

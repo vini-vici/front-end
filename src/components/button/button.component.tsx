@@ -6,7 +6,7 @@ export interface ButtonProps {
   onClick?: () => void;
 }
 
-export default function Button(props: PropsWithChildren<ButtonProps>) {
+export default function Button(props: PropsWithChildren<ButtonProps>): React.ReactElement {
   const { children, variant = 'primary', className = '', onClick } = props;
   let c = '';
   if(variant == 'primary') c = 'bg-purple-400 text-white-100';
