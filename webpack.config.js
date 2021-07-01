@@ -8,13 +8,16 @@ const CssPlugin = require('mini-css-extract-plugin');
 const fromRoot = (...args) => resolve(process.cwd(), ...args);
 const fromSrc = fromRoot.bind(null, 'src');
 
+const { NODE_ENV = 'development' } = process.env;
+
 /** @type {import('webpack').Configuration} */
 module.exports = {
+  mode: NODE_ENV,
   entry: {
     main: fromSrc('main.tsx')
   },
   output: {
-    path: fromRoot('public')
+    path: fromRoot('dist')
   },
   devServer: {
     contentBase: fromRoot('static'),

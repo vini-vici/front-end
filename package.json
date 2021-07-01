@@ -1,19 +1,21 @@
 {
   "name": "vinny",
   "version": "1.0.0",
-  "description": "",
+  "description": "Example Repo using React, Redux, TypeScript, Jest, and TestCafe",
   "main": "index.js",
   "scripts": {
     "dev": "webpack serve",
     "release": "webpack --mode production",
     "test": "jest",
     "test:watch": "jest --watch",
-    "e2e:local": "testcafe chrome -L",
-    "lint": "eslint --fix --ext .ts,.tsx src/"
+    "e2e:local": "testcafe chrome:headless",
+    "e2e": "testcafe",
+    "e2e:ci": "testcafe -a \"pnpm dev\" --app-init-delay 5000",
+    "lint": "eslint --ext .ts,.tsx src/"
   },
   "keywords": [],
   "browserslist": "> 0.25%, not dead",
-  "author": "",
+  "author": "Jim Burbridge<jhechtf@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.14.6",
