@@ -3,6 +3,7 @@ import React from 'react';
 import Modal from '@/components/modal/modal.component';
 import TodoComponent from '@/components/todos/todo.component';
 import { Todo } from '@/redux/todos/todos.reducer';
+import Checkbox from '@/components/checkbox/checkbox.component';
 
 interface TodosProps {
   loading: boolean;
@@ -22,6 +23,7 @@ export default function TodosComponent(props: TodosProps) {
   }
 
   const [todo, setTodo] = React.useState(initialTodo);
+  const [checked, setChecked] = React.useState(true);
 
   if(loading) {
     return (
@@ -33,9 +35,12 @@ export default function TodosComponent(props: TodosProps) {
 
   return (
     <div>
-      <Modal>
-        Hello jim
-      </Modal>
+      <div className="text-2xl">
+        <Checkbox
+          checked={checked}
+          onChange={() => setChecked(!checked)}
+        />
+      </div>
       {
         todos.map(todo => <TodoComponent key={`todo-component-${todo.id}`} {...todo} />)
       }
