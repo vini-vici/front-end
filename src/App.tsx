@@ -28,11 +28,10 @@ function AppComponent() {
   return (
     <Provider
       store={store}
-    >
-      <Navbar/>
-      
+    > 
       <React.Suspense fallback={<Loading />}>
         <Router>
+          <Navbar />
           <Switch>
             <Route path="/" exact component={React.lazy(() => import(/* webpackChunkName: "IndexRoute" */'./routes/index.route'))}/>
             {/* TODO: Add more routes. */}

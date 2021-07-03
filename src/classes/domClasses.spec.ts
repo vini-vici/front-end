@@ -116,3 +116,17 @@ test('Serialization to JSON works', async () => {
   const tokens = new DomClasses('one', 'two', 'three');
   expect(tokens.toJSON()).toBe('one two three');
 });
+
+test('Combine works as expected', async () => {
+  const a = new DomClasses('one two');
+  const b = new DomClasses('three four');
+  a.combine(b);
+  expect(a.contains('three four')).toBeTruthy();
+  a.toggle('three');
+  expect(a.contains('one two four')).toBeTruthy();
+});
+
+test('Returns proper query selectors', async () => {
+  const tokens = new DomClasses('one two');
+  expect(tokens.toQuery()).toBe('.one.two');
+});

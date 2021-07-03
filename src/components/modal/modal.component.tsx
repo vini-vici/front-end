@@ -13,6 +13,8 @@ interface ModalProps {
   onConfirm: () => void;
   title?: React.ReactNode;
   dismissOnClick?: boolean;
+  confirmText?: React.ReactNode;
+  cancelText?: React.ReactNode;
 }
 
 export default function Modal(props: React.PropsWithChildren<ModalProps>): React.ReactElement {
@@ -23,7 +25,9 @@ export default function Modal(props: React.PropsWithChildren<ModalProps>): React
     onClose,
     onConfirm,
     title,
-    dismissOnClick = true
+    dismissOnClick = true,
+    confirmText = 'Confirm',
+    cancelText = 'Cancel'
   } = props;
 
   // React doesn't show anything if your component returns null.
@@ -49,14 +53,14 @@ export default function Modal(props: React.PropsWithChildren<ModalProps>): React
     >
       <div className="bg-gray-50 rounded w-full md:w-2/3 px-2 md:py-2 md:px-3 shadow-sm">
         {/* Header section */}
-        <header className="flex justify-between">
+        <header className="modal-header flex justify-between">
           <div className="font-semibold">
             {title}
           </div>
           <div className="closeButton text-gray-300 hover:text-gray-500" onClick={() => onClose() }>
             <Icon
               path={mdiClose}
-              size={0.75}
+              size={0.8}
             />
           </div>
         </header>
@@ -65,10 +69,12 @@ export default function Modal(props: React.PropsWithChildren<ModalProps>): React
         {children}
 
         {/* Footer Content */}
-        <footer className="flex justify-end py-2 border-t border-gray-300 ">
-          <Button variant="secondary" onClick={() => onClose()}>Cancel</Button>
+        <footer className="modal-footer flex justify-end py-2 border-t border-gray-300 ">
+          <Button variant="secondary" onClick={() => onClose()}>
+            {cancelText}
+          </Button>
           <Button className="ml-1" onClick={() => onConfirm()}>
-            Confirm
+            {confirmText}
           </Button>
         </footer>
       </div>

@@ -116,6 +116,7 @@ export function todosReducer(state: TodosState = initialState, action: TodosActi
   }
 
   // marking a todo as done.
+  // eslint-disable-next-line no-fallthrough
   case TodosActionsTypes.DONE: {
     const { id } = action;
     const itemIndex = state.todos.findIndex((todo) => todo.id === id);

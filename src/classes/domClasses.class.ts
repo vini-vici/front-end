@@ -92,6 +92,16 @@ export default class DomClasses {
   get count(): number {
     return this.#classes.size;
   }
+
+  /**
+   * 
+   * @param other Another DomClasses instance
+   * @returns returns the current DomClasses instance after the classes from `other` have been merged in.
+   */
+  combine(other: DomClasses): DomClasses {
+    other.#classes.forEach(cls => this.add(cls));
+    return this;
+  }
   /**
    * 
    * @returns returns a string representation of the object for HTML consumption. 
@@ -103,5 +113,14 @@ export default class DomClasses {
 
   toJSON(): string {
     return this.toString();
+  }
+
+  /**
+   * 
+   * @returns Returns a query string selector that can be used for `document.querySelector()` calls. Mostly used for testing purposes.
+   */
+  toQuery(): string {
+    const classes = Array.from(this.#classes);
+    return classes.reduce((queryString, current) => queryString += `.${current}`, '');
   }
 }

@@ -1,5 +1,5 @@
 import React, { PropsWithChildren} from 'react';
-
+import Dc from '@/classes/domClasses.class';
 export interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'custom';
   className?: string;
@@ -8,12 +8,16 @@ export interface ButtonProps {
 
 export default function Button(props: PropsWithChildren<ButtonProps>): React.ReactElement {
   const { children, variant = 'primary', className = '', onClick } = props;
-  let c = '';
-  if(variant == 'primary') c = 'bg-purple-400 text-white-100';
-  else if (variant == 'secondary') c = 'bg-gray-400';
+
+  const classes = new Dc('px-2 py-1 rounded-sm');
+  if(variant == 'primary') classes.add('bg-purple-400 text-white-100'); 
+  else if (variant == 'secondary') classes.add('bg-gray-400');
+
+  if(className) classes.add(className);
+  
   return (
     <button
-      className={'px-2 py-1 rounded-sm ' + className + ' ' + c}
+      className={classes.toString()}
       onClick={onClick}
     >
       {children}
