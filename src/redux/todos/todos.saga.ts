@@ -6,6 +6,7 @@ import { FetchTodoAction, TodosActionsTypes, fetchTodosSuccess, fetchTodosError 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function* fetchTodoSaga(_action: FetchTodoAction) {
   try {
+    // meant to mimic a random API call failure.
     if (Math.round(Math.random() * 10) == 1) {
       throw Error('Async failed');
     }

@@ -11,7 +11,7 @@ export enum TodosActionsTypes {
   FETCH_ERROR = 'FETCH_TODO_ERROR'
 }
 
-export type FetchTodoAction = Action<TodosActionsTypes.FETCH>
+export type FetchTodoAction = Action<TodosActionsTypes.FETCH>;
 
 export function fetchTodos(): FetchTodoAction {
   return {

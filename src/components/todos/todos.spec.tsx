@@ -19,15 +19,17 @@ const todos: Todo[] = [
 ];
 
 test('Render loading state', async () => {
-  // const initTodos: Todo[] = [];
   const addTodo = jest.fn();
   const toggleDone = jest.fn();
+  const updateTodo = jest.fn();
+  
   render(
     <TodosComponent
       loading={true}
       addTodo={addTodo}
       toggleDone={toggleDone}
       todos={todos}
+      updateTodo={updateTodo}
     />
   );
 

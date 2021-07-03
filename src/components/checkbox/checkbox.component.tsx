@@ -3,7 +3,7 @@ import styles from './checkbox.module.css';
 
 export interface CheckboxProps {
   checked?: boolean;
-  onChange?: React.ChangeEventHandler;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 /**

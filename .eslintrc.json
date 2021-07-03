@@ -5,7 +5,6 @@
     },
     "extends": [
         "eslint:recommended",
-        "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended"
     ],
     "parser": "@typescript-eslint/parser",
@@ -21,6 +20,7 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "react/jsx-uses-react": "error",
         "indent": [
             "error",
             2

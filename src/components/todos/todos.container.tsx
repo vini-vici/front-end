@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import TodosComponent from './todos.component';
 import { RootState } from '@/redux/root.reducer';
-import { addTodo, doneTodo, fetchTodos } from '@/redux/todos/todos.action';
+import { addTodo, doneTodo, fetchTodos, updateTodo } from '@/redux/todos/todos.action';
 
 export default function TodosContainer(): React.ReactElement {
   // Map the todo state to the current object.
@@ -28,6 +28,7 @@ export default function TodosContainer(): React.ReactElement {
       todos={todos}
       toggleDone={(todoId) => dispatch(doneTodo(todoId))}
       addTodo={(todo) => dispatch(addTodo(todo.title, todo.description, todo.done))}
+      updateTodo={(todo) => dispatch(updateTodo(todo.id, todo.title, todo.description, todo.done))}
     />
   );
 }
