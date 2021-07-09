@@ -23,7 +23,7 @@ export default function TodoComponent(
   const [isEditing, setEditing] = React.useState(false);
 
   return (
-    <>
+    <div className="todo-row contents">
       <div className="border-l p-2 text-center">
         <div className="mx-auto">
           <Checkbox
@@ -99,6 +99,6 @@ export default function TodoComponent(
           Delete
         </div>
       </div>
-    </>
+    </div>
   );
 }
