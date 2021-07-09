@@ -9,12 +9,12 @@ interface TodosProps {
   loading: boolean;
   todos: Todo[];
   toggleDone(todoId: number): void;
-  addTodo(todo: Todo): void;
+  deleteTodo(todoId: number): void;
   updateTodo(todo: Todo): void;
 }
 
 export default function TodosComponent(props: TodosProps): React.ReactElement {
-  const { todos, loading = false, updateTodo } = props;
+  const { todos, loading = false, updateTodo, deleteTodo } = props;
 
   if(loading)
     return (
@@ -25,7 +25,7 @@ export default function TodosComponent(props: TodosProps): React.ReactElement {
   
 
   return (
-    <div className="px-2">
+    <div className="todos-list px-2">
       <div className="grid grid-cols-4 gap-1">
         {/* Header Cells */}
         <div className={styles.header}>Done?</div>
@@ -34,16 +34,20 @@ export default function TodosComponent(props: TodosProps): React.ReactElement {
         <div className={styles.header}>Actions</div>
 
         {
-          todos.map(todo => (
-            <TodoComponent
-              key={`todo-component-${todo.id}`}
-              onDelete={() => console.log('hi jim')}
-              onChange={(e) => {
-                updateTodo(e.detail);
-              }}
-              {...todo}
-            />
-          ))
+          todos.length ?
+            todos.map(todo => (
+              <TodoComponent
+                key={`todo-component-${todo.id}`}
+                onDelete={(todo) => deleteTodo(todo)}
+                onChange={(e) => {
+                  updateTodo(e.detail);
+                }}
+                {...todo}
+              />
+            )) :
+            <div className="no-todos col-span-4 text-center py-3">
+              There are no todos. Please click on the pen icon in the top right to add one!
+            </div>
         }
       </div>
     </div>
