@@ -1,7 +1,8 @@
+declare interface CssModule {
+    [key: string]: string;
+}
+
 declare module '*.module.css' {
-    interface CssModule {
-        [key: string]: string;
-    }
     const exp: CssModule;
     export default exp;
 }
