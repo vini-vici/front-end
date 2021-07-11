@@ -33,7 +33,7 @@ export default function IndexRoute(): React.ReactElement {
   const [{id, title, description, done}, setTodo] = React.useState(initialTodos);
 
   return (
-    <div className="w-full sm:w-4/5 lg:w-3/4 mx-auto">
+    <div className="w-full sm:w-4/5 lg:w-3/4 mx-auto flex-grow">
       <Modal
         show={showModal}
         title="Add Todo"

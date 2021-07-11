@@ -1,3 +1,4 @@
+
 /**
  * @description a utility class to assist with chaining HTML class names back and forth.
  * 

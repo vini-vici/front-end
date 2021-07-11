@@ -11,6 +11,7 @@ import createSagaMiddleware from 'redux-saga';
 import rootSaga from './redux/root.saga';
 import Loading from './components/loading/loading.component';
 import Navbar from './components/navbar/navbar.component';
+import Footer from './components/footer/footer.component';
 
 // Create enhancement composers.
 const composeEnhancers = composeWithDevTools({});
@@ -36,7 +37,8 @@ function AppComponent() {
             <Route path="/" exact component={React.lazy(() => import(/* webpackChunkName: "IndexRoute" */'./routes/index.route'))}/>
             {/* TODO: Add more routes. */}
           </Switch>
-        </Router>      
+        </Router>
+        <Footer />
       </React.Suspense>
     </Provider>
   );
