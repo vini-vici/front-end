@@ -7,6 +7,8 @@ import Button from '@/components/button/button.component';
 
 import styles from './modal.module.css';
 
+import Dc from '@/classes/domClasses.class';
+
 interface ModalProps {
   show?: boolean;
   onClose: () => void;
@@ -33,9 +35,12 @@ export default function Modal(props: React.PropsWithChildren<ModalProps>): React
   // React doesn't show anything if your component returns null.
   if(!show) return null;
 
+  const classes = new Dc(styles.modal);
+  classes.add('modal');
+
   return (
     <div
-      className={styles.modal}
+      className={classes.toString()}
       tabIndex={0}
       onKeyUp={(e) => {
         if(e.code === 'Escape') {
