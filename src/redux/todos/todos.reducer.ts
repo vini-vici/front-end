@@ -98,7 +98,7 @@ export function todosReducer(state: TodosState = initialState, action: TodosActi
 
     // Removing a todo.
   case TodosActionsTypes.REMOVE: {
-    const index = state.todos.findIndex((todo: Todo) => todo.title === action.title);
+    const index = state.todos.findIndex((todo: Todo) => todo.title === action.title || todo.id === action.id);
     if (index !== -1) {
       return {
         ...state,
@@ -108,9 +108,11 @@ export function todosReducer(state: TodosState = initialState, action: TodosActi
         ],
         todosById: {
           ...state.todosById,
-          [index]: undefined
+          [action.id]: undefined
         }
       };
+    } else {
+      return state;
     }
     break;
   }
