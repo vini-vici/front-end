@@ -21,7 +21,7 @@ export function* fetchTodoSaga(_action: FetchTodoAction) {
       {
         id: 2,
         title: 'Further Data',
-        description: 'we definitely did the thing on this one.',
+        description: 'we definitely did the thing on this one.\nSomething Something dark side',
         done: true
       }
     ]));

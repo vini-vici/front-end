@@ -3,6 +3,7 @@ import { Todo } from '@/redux/todos/todos.reducer';
 import Input from '@/components/input/input.component';
 import Textarea from '@/components/textarea/textarea.component';
 import Checkbox from '@/components/checkbox/checkbox.component';
+import Button from '@/components/button/button.component';
 
 export interface TodoProps extends Todo {
   onDelete: (todoId: number) => void;
@@ -83,11 +84,11 @@ export default function TodoComponent(
                 )}
               />
             ) :
-            description
+            description.split('\n').map(s=> <p>{s}</p>)
         }
       </div>
       
-      <div className="flex justify-evenly">
+      <div className="flex justify-evenly items-start">
         <div onClick={() => setEditing(!isEditing)}>
           {
             isEditing
@@ -95,9 +96,12 @@ export default function TodoComponent(
               : (<span className="text-blue-500">Edit</span>)
           }
         </div>
-        <div onClick={() => onDelete(id)}>
+        <Button 
+          variant="secondary"
+          onClick={() => onDelete(id)}
+        >
           Delete
-        </div>
+        </Button>
       </div>
     </div>
   );
