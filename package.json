@@ -8,7 +8,7 @@
     "release": "webpack --mode production",
     "test": "jest",
     "test:watch": "jest --watch",
-    "e2e:local": "testcafe chrome:headless",
+    "e2e:local": "testcafe chrome -f \"Delete Items\"",
     "e2e": "testcafe",
     "e2e:ci": "testcafe -a \"pnpm dev\" --app-init-delay 5000",
     "lint": "eslint --ext .ts,.tsx src/"
@@ -22,6 +22,7 @@
     "@babel/preset-env": "^7.14.7",
     "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "^7.14.5",
+    "@core-fabrications/eslint-plugin": "^1.0.1",
     "@ffmpeg-installer/ffmpeg": "^1.0.20",
     "@hot-loader/react-dom": "^17.0.1",
     "@reduxjs/toolkit": "^1.6.0",
@@ -54,8 +55,12 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "@aws-amplify/auth": "^4.2.0",
+    "@aws-amplify/core": "^4.2.2",
     "@mdi/js": "^5.9.55",
     "@mdi/react": "^1.5.0",
+    "amazon-cognito-identity-js": "^5.0.6",
+    "aws-amplify": "^4.2.2",
     "core-js": "^3.15.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

@@ -41,12 +41,12 @@ export default function Tabs(props: TabsProps): React.ReactElement {
   React.useEffect(() => {
 
     const keys = Object.keys(tabMap);
-    if(activeTab !== undefined) {
+    if(activeTab !== undefined) 
       setCurrentTab(activeTab);
-    }
-    if(keys.length !== 0 && currentTab === '') {
+    
+    if(keys.length !== 0 && currentTab === '') 
       setCurrentTab(keys[0]);
-    }
+    
   }, [tabMap]);
 
   const context: TabsContext = {

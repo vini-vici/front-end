@@ -16,9 +16,9 @@ export default function TodosContainer(): React.ReactElement {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    if(status === 'initial') {
+    if(status === 'initial') 
       dispatch(fetchTodos());
-    }
+    
   }, []);
 
   // This function merely serves as a wrapper for the actual TodosComponent.
@@ -26,9 +26,9 @@ export default function TodosContainer(): React.ReactElement {
     <TodosComponent
       loading={!['success', 'error'].includes(status)}
       todos={todos}
-      toggleDone={(todoId) => dispatch(doneTodo(todoId))}
-      updateTodo={(todo) => dispatch(updateTodo(todo.id, todo.title, todo.description, todo.done))}
-      deleteTodo={(todo) =>  dispatch(removeTodo('', todo))}
+      toggleDone={todoId => dispatch(doneTodo(todoId))}
+      updateTodo={todo => dispatch(updateTodo(todo.id, todo.title, todo.description, todo.done))}
+      deleteTodo={todo =>  dispatch(removeTodo('', todo))}
     />
   );
 }

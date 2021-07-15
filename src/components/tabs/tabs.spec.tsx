@@ -34,7 +34,7 @@ test('Renders initial state of multiple tabs correctly', async () => {
 });
 
 test('Renders initial state of multiple tabs with given activeTab', async () => {
-  const { container } = render(
+  render(
     <Tabs activeTab="tab-3">
       <Tab header="Tab 1" id="tab-1">
         Content 1
@@ -77,7 +77,7 @@ test('Updates visible tab on selector click', async () => {
 
 test('Custom onChangeTab function is called', async () => {
   const onTabChange = jest.fn();
-  const { container } = render(
+  render(
     <Tabs onTabChange={onTabChange}>
       <Tab header="Header 1" id="tab-1">
         Tab 1 Content
@@ -109,10 +109,8 @@ test('Failure', async () => {
   };
   expect(incorrect).toThrow(Error);
 
-  const further = () => {
-    return render(
-      <Tab header='Test'>Tab content</Tab>
-    );
-  };
+  const further = () => render(
+    <Tab header='Test'>Tab content</Tab>
+  );
   expect(further).toThrow('useTabs');
 });

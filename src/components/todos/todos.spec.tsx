@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, logDOM } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import TodosComponent from './todos.component';
 import { Todo } from '@/redux/todos/todos.reducer';
 
@@ -79,7 +79,7 @@ test('Trigger Edit', async () => {
   const toggleDone = jest.fn();
   const updateTodo = jest.fn();
   const deleteTodo = jest.fn();
-  const { container } = render(
+  render(
     <TodosComponent
       todos={todos}
       loading={false}
@@ -89,13 +89,16 @@ test('Trigger Edit', async () => {
     />
   );
   // Grab the node
+  // eslint-disable-next-line @core-fabrications/prefer-destructuring
   const row = screen.getByText(todos[0].title).parentElement;
   expect(
     row.lastElementChild.querySelector('span.text-blue-500')
   ).not.toBeNull();
+
   fireEvent.click(row.lastElementChild.querySelector('span.text-blue-500'));
   const el = screen.getByDisplayValue(todos[0].title);
   expect(el.tagName.toLowerCase()).toBe('input');
+  
   fireEvent.change(el,{
     target: {
       value: 'New Title'

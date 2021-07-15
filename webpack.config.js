@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { resolve } = require('path');
+const { writeFileSync, existsSync } = require('fs');
+const { execSync } = require('child_process');
 const TsChecker = require('fork-ts-checker-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 const CssPlugin = require('mini-css-extract-plugin');
@@ -8,11 +10,18 @@ const CssPlugin = require('mini-css-extract-plugin');
 const fromRoot = (...args) => resolve(process.cwd(), ...args);
 const fromSrc = fromRoot.bind(null, 'src');
 
-const { NODE_ENV = 'development' } = process.env;
+function populateConfig() {
+  if(!existsSync(fromSrc('config.json'))) {
+    console.log('running appconfig');
+    execSync('aws appconfig get-configuration --application Vicci-gamma --environment gamma --configuration config --client-id webpack '+fromSrc('config.json'));
+  }
+}
+
+populateConfig();
+
 
 /** @type {import('webpack').Configuration} */
 module.exports = {
-  mode: NODE_ENV,
   entry: {
     main: fromSrc('main.tsx')
   },
@@ -23,7 +32,8 @@ module.exports = {
     contentBase: fromRoot('static'),
     liveReload: true,
     hot: true,
-    historyApiFallback: true
+    historyApiFallback: true,
+    https: true
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],

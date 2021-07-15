@@ -42,18 +42,17 @@ export default function Modal(props: React.PropsWithChildren<ModalProps>): React
     <div
       className={classes.toString()}
       tabIndex={0}
-      onKeyUp={(e) => {
-        if(e.code === 'Escape') {
+      onKeyUp={e => {
+        if(e.code === 'Escape') 
           onClose();
-        }
       }}
-      onClick={(e)=>{
+      onClick={e=>{
         // Needed for witchcraft
         const target = e.target as HTMLElement;
 
-        if( dismissOnClick && target.matches('.'+styles.modal)) {
+        if( dismissOnClick && target.matches('.'+styles.modal)) 
           onClose();
-        }
+        
       }}
     >
       <div className="bg-gray-50 rounded w-full md:w-2/3 px-2 md:py-2 md:px-3 shadow-sm">

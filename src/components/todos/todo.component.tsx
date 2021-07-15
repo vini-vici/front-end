@@ -37,7 +37,7 @@ export default function TodoComponent(
                     title,
                     description,
                     id
-                  } as Todo
+                  } 
                 })
               );
             }}
@@ -58,7 +58,7 @@ export default function TodoComponent(
                       done,
                       description,
                       title: target.value
-                    } as Todo
+                    } 
                   })
                 )}
               />
@@ -79,12 +79,12 @@ export default function TodoComponent(
                       done,
                       title,
                       description: target.value
-                    } as Todo
+                    }
                   })
                 )}
               />
             ) :
-            description.split('\n').map(s=> <p>{s}</p>)
+            description.split('\n').map((s, i)=> <p key={`paragraph-${id}-${i}`}>{s}</p>)
         }
       </div>
       

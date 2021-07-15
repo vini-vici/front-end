@@ -7,9 +7,9 @@ import { FetchTodoAction, TodosActionsTypes, fetchTodosSuccess, fetchTodosError 
 export function* fetchTodoSaga(_action: FetchTodoAction) {
   try {
     // meant to mimic a random API call failure.
-    if (Math.round(Math.random() * 10) == 1) {
+    if (Math.round(Math.random() * 10) == 1) 
       throw Error('Async failed');
-    }
+    
     yield delay(1100);
     yield put(fetchTodosSuccess([
       {
@@ -25,6 +25,7 @@ export function* fetchTodoSaga(_action: FetchTodoAction) {
         done: true
       }
     ]));
+    
   } catch (e) {
     yield put(fetchTodosError(e));
   }

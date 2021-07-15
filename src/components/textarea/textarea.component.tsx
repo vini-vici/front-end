@@ -14,7 +14,7 @@ export default function Textarea({ value, className, onChange, placeholder }: Te
   return (
     <textarea
       className={classes.toString()}
-      onChange={(e) => onChange?.(e)}
+      onChange={e => onChange?.(e)}
       value={value}
       placeholder={placeholder}
     />

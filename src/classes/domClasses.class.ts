@@ -65,11 +65,10 @@ export default class DomClasses {
       }
     }
 
-    if (this.contains(className)) {
+    if (this.contains(className)) 
       this.remove(className);
-    } else {
+    else 
       this.add(className);
-    }
 
     return this;
   }

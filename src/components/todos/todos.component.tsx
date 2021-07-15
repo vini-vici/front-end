@@ -16,12 +16,13 @@ interface TodosProps {
 export default function TodosComponent(props: TodosProps): React.ReactElement {
   const { todos, loading = false, updateTodo, deleteTodo } = props;
 
-  if(loading)
+  if(loading) {
     return (
       <div className="flex flex-col justify-items-center items-center">
         <Loading />
       </div>
     );
+  }
   
 
   return (
@@ -38,8 +39,8 @@ export default function TodosComponent(props: TodosProps): React.ReactElement {
             todos.map(todo => (
               <TodoComponent
                 key={`todo-component-${todo.id}`}
-                onDelete={(todo) => deleteTodo(todo)}
-                onChange={(e) => {
+                onDelete={todo => deleteTodo(todo)}
+                onChange={e => {
                   updateTodo(e.detail);
                 }}
                 {...todo}

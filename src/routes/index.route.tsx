@@ -14,6 +14,8 @@ import { showCreateModal, hideCreateModal } from '@/redux/createModal/createModa
 import { addTodo } from '@/redux/todos/todos.action';
 import { Todo } from '@/redux/todos/todos.reducer';
 
+import { CLIENT_ID, POOL_ID } from '@/constants';
+
 /**
  * @description Routes in general will not take any props in our application since the corresponding components
  * will always pull data from Redux.
@@ -36,7 +38,11 @@ export default function IndexRoute(): React.ReactElement {
     <div className="w-full sm:w-4/5 lg:w-3/4 mx-auto flex-grow">
       <Modal
         show={showModal}
-        title="Add Todo"
+        title={
+          <div>
+            Sup
+          </div>
+        }
         onClose={() => dispatch(hideCreateModal())}
         onConfirm={() => {
           dispatch(addTodo(title, description, done));

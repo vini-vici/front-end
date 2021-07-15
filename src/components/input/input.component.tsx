@@ -23,9 +23,9 @@ export default function Input(props: InputProps): React.ReactElement {
   
   const classes = new DomClasses('px-2 py-1 border rounded');
 
-  if(typeof className === 'string' && className != '') {
+  if(typeof className === 'string' && className != '') 
     classes.add(className);
-  }
+  
 
   return (
     <input
