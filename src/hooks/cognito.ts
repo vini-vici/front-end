@@ -1,11 +1,10 @@
 
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setUserData } from '@/redux/auth/auth.actions';
+import { resetUserData, setUserData } from '@/redux/auth/auth.actions';
 
 import { CLIENT_ID, COGNITO_DOMAIN, POOL_ID, REGION } from '@/constants';
 
-import Auth from '@aws-amplify/auth';
 import Amplify, { Hub } from '@aws-amplify/core';
 
 Amplify.configure({
@@ -34,6 +33,9 @@ export default function useCognito(): void {
       if(event.payload.event === 'signIn') {
         dispatch(setUserData(event.payload.data));
       }
+      if(event.payload.event === 'signOut') {
+        dispatch(resetUserData());
+      }
     });
-  });
+  }, []);
 }

@@ -14,6 +14,12 @@ export default function AboutRoute(): React.ReactElement {
         <h2 className="text-xl">
           So, what do we get out of it?
         </h2>
+        <p>
+          We see an application with quite a few components,
+          unit tests, and e2e tests. As well, we get to see
+          how to integrate with things like the AWS CDK, 
+          which builds our staging and production URLs.
+        </p>
       </div>
     </div>
   );

@@ -1,30 +1,26 @@
-import { CognitoUser } from '@aws-amplify/auth';
 import { Action } from 'redux';
 
 export enum AuthActions {
-  SET = 'SET_AUTH',
-  SET_USER = 'SET_AUTH_USER'
+  SET_USER = 'SET_AUTH_USER',
+  RESET_USER = 'RESET_AUTH_USER'
 }
 
-interface SetAuthCodeAction extends Action<AuthActions.SET> {
-  code: string;
-}
-export function setAuthCode(code: string): SetAuthCodeAction {
-  return {
-    type: AuthActions.SET,
-    code
-  };
-}
 
 interface SetAuthUserAction extends Action<AuthActions.SET_USER> {
-  user: CognitoUser
+  user: any;
 }
 
-export function setUserData(user: CognitoUser): SetAuthUserAction {
+export function setUserData(user: any): SetAuthUserAction {
   return {
     type: AuthActions.SET_USER,
     user
   };
 }
+type ResetAuthUserData = Action<AuthActions.RESET_USER>;
+export function resetUserData(): ResetAuthUserData {
+  return {
+    type: AuthActions.RESET_USER,
+  };
+}
 
-export type CombinedAuthActions = SetAuthCodeAction | SetAuthUserAction;
+export type CombinedAuthActions = ResetAuthUserData | SetAuthUserAction;

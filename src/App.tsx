@@ -44,10 +44,11 @@ function AppComponent() {
           <Router>
             <Navbar />
             <Switch>
-              <Route path="/" exact component={React.lazy(() => import(/* webpackChunkName: "IndexRoute" */'./routes/index.route'))}/>
-              <Route path="/callback" exact component={React.lazy(() => import('./routes/callback.route'))} />
-              <Route path="/about" exact component={React.lazy(() => import('./routes/about.route'))} />
-              {/* TODO: Add more routes. */}
+              <Route path="/" exact component={React.lazy(() => import(/* webpackChunkName: "IndexRoute", webpackPreload: true */'./routes/index.route'))}/>
+              <Route path="/callback" exact component={React.lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "CallbackRoute" */'./routes/callback.route'))} />
+              <Route path="/about" exact component={React.lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "AboutRoute"  */'./routes/about.route'))} />
+              <Route path="/login" exact component={React.lazy(() => import(/* webpackPrefetch: true, webpackChunkName: "LoginRoute" */'./routes/login.route'))}/>
+              <Route path="/" component={React.lazy(() => import(/* webpackChunkName: "404Route", webpackPrefetch: true */'./routes/_404'))}/>
             </Switch>
           </Router>
           <Footer />
