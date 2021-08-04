@@ -34,10 +34,6 @@ export class VicciStack extends cdk.Stack {
     const {
       stage = 'beta'
     } = props;
-
-    const {
-      AWS_ACCOUNT
-    } = process.env;
     
     // Create WebsiteBucket
     const websiteBucket = new Bucket(this, 'WebsiteBucket-'+stage);
@@ -104,6 +100,7 @@ export class VicciStack extends cdk.Stack {
             'https://localhost:8080/logout'
           ]
         },
+        generateSecret: false,
         authFlows: {
           userSrp: true
         },
@@ -112,6 +109,7 @@ export class VicciStack extends cdk.Stack {
       });
     } else {
       userPool.addClient('prod', {
+        generateSecret: false,
         oAuth: {
           flows: {
             authorizationCodeGrant: true,

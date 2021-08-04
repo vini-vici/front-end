@@ -1,20 +1,39 @@
 
-import { CognitoUserPool } from 'amazon-cognito-identity-js';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setUserData } from '@/redux/auth/auth.actions';
+
 import { CLIENT_ID, COGNITO_DOMAIN, POOL_ID, REGION } from '@/constants';
 
 import Auth from '@aws-amplify/auth';
-import { Hub } from '@aws-amplify/core';
+import Amplify, { Hub } from '@aws-amplify/core';
 
-Hub.listen('auth', ({ payload }) => {
-  
-  if(payload.event === 'signIn') {
-    const userObj = payload.data?.signInUserSession?.idToken?.payload ?? {};
-    console.log('SUP!!!');
-  }
-
-  if(payload.event === 'signOut') {
-    console.log('signed out');
+Amplify.configure({
+  Auth: {
+    region: REGION,
+    userPoolId: POOL_ID,
+    userPoolWebClientId: CLIENT_ID,
+    oauth: {
+      domain: COGNITO_DOMAIN,
+      scope: [
+        'phone',
+        'email',
+        'openid'
+      ],
+      redirectSignIn: 'https://localhost:8080/callback',
+      redirectSignOut: 'https://localhost:8080/signout',
+      responseType: 'code'
+    }
   }
 });
 
-export default {};
+export default function useCognito(): void {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    Hub.listen('auth', event => {
+      if(event.payload.event === 'signIn') {
+        dispatch(setUserData(event.payload.data));
+      }
+    });
+  });
+}
