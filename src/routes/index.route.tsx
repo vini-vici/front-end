@@ -14,7 +14,8 @@ import { showCreateModal, hideCreateModal } from '@/redux/createModal/createModa
 import { addTodo } from '@/redux/todos/todos.action';
 import { Todo } from '@/redux/todos/todos.reducer';
 import useCognito from '@/hooks/cognito';
-import Auth from '@aws-amplify/auth';
+import Auth, { CognitoUser } from '@aws-amplify/auth';
+import { POOL_ID } from '@/constants';
 
 /**
  * @description Routes in general will not take any props in our application since the corresponding components
@@ -34,11 +35,14 @@ export default function IndexRoute(): React.ReactElement {
   };
   const [{id, title, description, done}, setTodo] = React.useState(initialTodos);
 
-  useCognito();
-  
+  const { userData, signIn } = useCognito();
   React.useEffect(() => {
-    // Auth.signIn('username', 'password');
+    signIn('jhecht', 'Sanar421!')
+      .then((r: any) => console.log('Hey Jim', r))
+      .catch(console.error);
   }, []);
+
+  console.log('userdata', userData);
 
   return (
     <div className="w-full sm:w-4/5 lg:w-3/4 mx-auto flex-grow">

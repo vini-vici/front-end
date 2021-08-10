@@ -5,5 +5,5 @@ export default function NotFoundRoute(): React.ReactElement {
     <div className="flex-grow">
       How'd you get here my dude?
     </div>
-  )
+  );
 }

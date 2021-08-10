@@ -15,9 +15,16 @@ import {
   S3Origin
 } from '@aws-cdk/aws-cloudfront-origins';
 
+import * as appconfig from '@aws-cdk/aws-appconfig';
+
 import * as cognito from '@aws-cdk/aws-cognito';
 
-import ConfigStack from './config-stack';
+function getCognitoDomain(stage: string, account: string): string {
+  if(stage === 'alpha') return `vicci-dev-${account}`;
+  if(stage === 'beta') return 'vicci-dev';
+  if(stage === 'gamma') return 'vicci-gamma';
+  return 'vicci';
+}
 
 export interface VicciStackProps extends cdk.StackProps {
   stage?: string;
@@ -40,14 +47,15 @@ export class VicciStack extends cdk.Stack {
 
     // Create CDN Distribution
     const distribution = new Distribution(this, 'CdnDistribution-'+stage, {
-      domainNames: [
-        stage === 'gamma' ? 'staging.vicci.dev' : 'vicci.dev'
-      ],
+      // Need to figure out a way to do some shenanigans here.
+      // domainNames: [
+      //   stage === 'gamma' ? 'staging.vicci.dev' : 'vicci.dev'
+      // ],
       defaultRootObject: 'index.html',
       errorResponses: [
         {
           httpStatus: 404,
-          responsePagePath: 'index.html',
+          responsePagePath: '/index.html',
           responseHttpStatus: 200
         }
       ],
@@ -82,12 +90,15 @@ export class VicciStack extends cdk.Stack {
     const userPoolDomain = new cognito.UserPoolDomain(this, `VicciUserDomain-${stage}`, {
       userPool,
       cognitoDomain: {
-        domainPrefix: stage === 'prod' ? 'vicci' : `vicci-${stage}-${this.account}`,
+        domainPrefix: getCognitoDomain(stage, props.env?.account || '')
       }
     });
 
+    let UserPoolClient: cognito.UserPoolClient;
+
+    // If we are in alpha, we need to make sure the client allows access to the localhost.
     if(stage === 'alpha') {
-      userPool.addClient('local-dev', {
+      UserPoolClient = userPool.addClient('local-dev', {
         oAuth: {
           flows: {
             authorizationCodeGrant: true,
@@ -108,24 +119,79 @@ export class VicciStack extends cdk.Stack {
         accessTokenValidity: cdk.Duration.hours(2),
       });
     } else {
-      userPool.addClient('prod', {
+      // Otherwise we have to add it on the distribution domain name.
+      UserPoolClient = userPool.addClient('prod', {
         generateSecret: false,
         oAuth: {
           flows: {
             authorizationCodeGrant: true,
             implicitCodeGrant: true
           },
-          callbackUrls: [distribution.domainName + '/callback'],
-          logoutUrls: [distribution.distributionDomainName]
+          callbackUrls: ['https://' + distribution.domainName + '/callback'],
+          logoutUrls: ['https://' + distribution.distributionDomainName + '/logout']
         }
       });
     }
+
+    // AppConfig for shared profile access.
+    const App = new appconfig.CfnApplication(this,`Vicci-AppConfig-${this.region}`, {
+      name: 'Vicci',
+      description: `Vicci for ${this.region} region`
+    });
+
+    const AppEnv = new appconfig.CfnEnvironment(this, `Vicci-AppEnv-${this.region}`, {
+      applicationId: App.ref,
+      name: stage,
+      description: `${stage} env for Vicci app`
+    });
+
+    const AppProfile = new appconfig.CfnConfigurationProfile(this, `Vicci-AppProfile-${this.region}`, {
+      applicationId: App.ref,
+      locationUri: 'hosted',
+      name: 'config',
+    });
+
+    const fastDeploymentStrat = new appconfig.CfnDeploymentStrategy(this, `Vicci-deployment-strat-${this.region}`, {
+      deploymentDurationInMinutes: 0,
+      growthFactor: 100,
+      name: 'fast',
+      finalBakeTimeInMinutes: 1,
+      replicateTo: 'NONE'
+    });
+
+    const AppContent = new appconfig.CfnHostedConfigurationVersion(this, `Vicci-AppContent-${this.region}`, {
+      applicationId: App.ref,
+      configurationProfileId: AppProfile.ref,
+      content: JSON.stringify({
+        COGNITO_DOMAIN: userPoolDomain.baseUrl(),
+        CLIENT_ID: UserPoolClient.userPoolClientId,
+        POOL_ID: userPool.userPoolId,
+        REGION: this.region
+      }),
+      contentType: 'text/json'
+    });
     
+    new appconfig.CfnDeployment(this, `Vicci-AppDeployment-${this.region}`, {
+      applicationId: App.ref,
+      configurationProfileId: AppProfile.ref,
+      configurationVersion: AppContent.ref,
+      deploymentStrategyId: fastDeploymentStrat.ref,
+      environmentId: AppEnv.ref
+    });
+
+    // Outputs
+    // Base Cognito Domain
     new cdk.CfnOutput(this, 'CognitoUserDomain', {
       exportName: 'CognitoUserDomain',
       value: userPoolDomain.domainName
     });
 
+    new cdk.CfnOutput(this, 'AppConfig', {
+      value: App.ref,
+      exportName: 'AppConfigName'
+    });
+
+    // Cognito User Pool
     new cdk.CfnOutput(this, 'CognitoUserPool', {
       exportName: 'CognitoPoolId',
       value: userPool.userPoolId

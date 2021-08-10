@@ -19,9 +19,12 @@ function populateConfig() {
 
 populateConfig();
 
+const { NODE_ENV = 'development' } = process.env;
+
 
 /** @type {import('webpack').Configuration} */
 module.exports = {
+  mode: NODE_ENV,
   entry: {
     main: fromSrc('main.tsx')
   },

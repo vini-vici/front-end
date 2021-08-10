@@ -24,6 +24,22 @@ I personally use [Pnpm](https://pnpm.io/installation) over NPM for reasons. If y
 
 ## Running Locally
 
+Make sure that you have the AWS CDK CLI installed.
+### Getting Required Items
+
+First ensure that you have an AWS Account. From there run the following (assuming your AWS Account id is `123456789012`) 
+
+```sh
+# $Env:ACCOUNT_ID=123456789012 # for windows
+export ACCOUNT_ID=123456789012
+cd configuration
+cdk bootstrap aws://123456789012/us-west-1
+cdk list # Search for a stack named "Vicci-123456789012-alpha-us-west-1". 
+cdk deploy Vicci-140851651058-alpha-us-west-1
+```
+
+### Running thingamajig
+
 You should be able to run the entire thing with just 
 
 ```sh

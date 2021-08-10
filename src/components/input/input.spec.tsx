@@ -40,3 +40,10 @@ test('Adds custom class name', async () => {
   );
   expect(container.querySelector('input').classList.contains('custom-class'));
 });
+
+test('Changes type of rendered input', async () => {
+  render(
+    <Input type="password" placeholder="Password Placeholder"/>
+  );
+  screen.getByPlaceholderText('Password Placeholder');
+});

@@ -4,10 +4,11 @@ export interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'custom';
   className?: string;
   onClick?: () => void;
+  type?: 'submit' | 'button'
 }
 
 export default function Button(props: PropsWithChildren<ButtonProps>): React.ReactElement {
-  const { children, variant = 'primary', className = '', onClick } = props;
+  const { children, variant = 'primary', className = '', onClick, type = 'button' } = props;
 
   const classes = new Dc('px-2 py-1 rounded-sm');
   if(variant == 'primary') classes.add('bg-purple-400 text-white-100'); 
@@ -19,6 +20,7 @@ export default function Button(props: PropsWithChildren<ButtonProps>): React.Rea
     <button
       className={classes.toString()}
       onClick={onClick}
+      type={type}
     >
       {children}
     </button>

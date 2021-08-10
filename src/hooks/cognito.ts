@@ -1,11 +1,11 @@
+import React from 'react';
 
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { resetUserData, setUserData } from '@/redux/auth/auth.actions';
 
 import { CLIENT_ID, COGNITO_DOMAIN, POOL_ID, REGION } from '@/constants';
 
 import Amplify, { Hub } from '@aws-amplify/core';
+import Auth, { CognitoUser} from '@aws-amplify/auth';
 
 Amplify.configure({
   Auth: {
@@ -26,16 +26,30 @@ Amplify.configure({
   }
 });
 
-export default function useCognito(): void {
-  const dispatch = useDispatch();
+/**
+ * Things I want this to return
+ * 1. Current signed in user
+ * 2. Auth object
+ */
+export default function useCognito() {
+  const [userData, setUserData] = React.useState<any>({});
+  
   useEffect(() => {
     Hub.listen('auth', event => {
       if(event.payload.event === 'signIn') {
-        dispatch(setUserData(event.payload.data));
+        console.log('signin', event.payload.data);
+        const user = {
+          username: event.payload.data.user.username
+        };
+        console.log(user);
+        setUserData(event.payload.data.user);
       }
-      if(event.payload.event === 'signOut') {
-        dispatch(resetUserData());
-      }
+
+      if(event.payload.event === 'signOut') 
+        setUserData({});
+      
     });
   }, []);
+  
+  return { Auth, userData, signIn: Auth.signIn.bind(Auth) };
 }
