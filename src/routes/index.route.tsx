@@ -59,7 +59,7 @@ export default function IndexRoute(): React.ReactElement {
           dispatch(hideCreateModal());
         }}
         confirmText="Submit"
-      >        
+      >
         <FormField
           label="Todo Title"
           description="A todos title should be a good summarization of what the todo needs in order to be complete."
@@ -81,7 +81,6 @@ export default function IndexRoute(): React.ReactElement {
             onChange={({ target }) => setTodo({ id, title, done, description: target.value })}
           />
         </FormField>
-
       </Modal>
       <h1 className="text-2xl font-semibold p-3 flex justify-between">
         <div>Todos App</div>

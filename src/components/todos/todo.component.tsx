@@ -30,7 +30,7 @@ export default function TodoComponent(
           <Checkbox
             checked={done}
             onChange={({ target }) => {
-              onChange(
+              onChange?.(
                 new CustomEvent('updateTodo', {
                   detail: {
                     done: target.checked,
@@ -72,7 +72,7 @@ export default function TodoComponent(
             (
               <Textarea
                 value={description}
-                onChange={({ target }) => onChange(
+                onChange={({ target }) => onChange?.(
                   new CustomEvent('updateTodo', {
                     detail: {
                       id,

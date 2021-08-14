@@ -1,4 +1,5 @@
-export const COGNITO_DOMAIN = 'https://vicci-dev.auth.us-west-1.amazoncognito.com';
-export const CLIENT_ID = '71qdobem40tl3c2kvlq8qi9iga';
-export const POOL_ID = 'us-west-1_CkAk4CENW';
-export const REGION = 'us-west-1';
+export const COGNITO_DOMAIN = 'https://vicci-gamma.auth.us-west-2.amazoncognito.com';
+export const CLIENT_ID = '26tl9stskvmu7f74qqj8604li1';
+export const POOL_ID = 'us-west-2_2QFTJWBXM';
+export const REGION = 'us-west-2';
+

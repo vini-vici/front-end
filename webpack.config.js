@@ -10,10 +10,32 @@ const CssPlugin = require('mini-css-extract-plugin');
 const fromRoot = (...args) => resolve(process.cwd(), ...args);
 const fromSrc = fromRoot.bind(null, 'src');
 
+/**
+ * Run on build, checks for a config.json file and if it doesn't find one
+ * will pull values from the exports in cloudformation.
+ */
 function populateConfig() {
   if(!existsSync(fromSrc('config.json'))) {
-    console.log('running appconfig');
-    execSync('aws appconfig get-configuration --application Vicci-gamma --environment gamma --configuration config --client-id webpack '+fromSrc('config.json'));
+    // Get the raw data
+    const raw = execSync('aws cloudformation list-exports --region us-west-2').toString();
+    // Parse it
+    const data = JSON.parse(raw);
+    // if we don't have anything, fucky wucky
+    if(data.Exports.length === 0) throw Error('You must run the shared infrastructure and deployments first.');
+    // Turn the array into an object
+    const obj = data.Exports.reduce((cumulative, cur) => {
+      cumulative[cur.Name] = cur.Value;
+      return cumulative;
+    }, {});
+    // map out the config
+    const config = {
+      COGNITO_DOMAIN: obj.UserPoolDomain,
+      CLIENT_ID: obj.UserPoolClientId,
+      REGION: 'us-west-2',
+      API: obj.ApiEndpoint
+    };
+    // Write the file.
+    writeFileSync(fromSrc('config.json'), JSON.stringify(config));
   }
 }
 

@@ -3,3 +3,4 @@ coverage
 reports
 dist
 .ssl
+config.json
