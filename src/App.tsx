@@ -1,5 +1,7 @@
 import { hot } from 'react-hot-loader/root';
 import React from 'react';
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
@@ -9,9 +11,9 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 
 import rootSaga from './redux/root.saga';
-import Loading from './components/loading/loading.component';
-import Navbar from './components/navbar/navbar.component';
-import Footer from './components/footer/footer.component';
+import Loading from '@vini-vici/viddi/dist/loading/loading.component';
+// import Navbar from '@vini-vici/viddi/dist/navbar/navbar.component';
+// import Footer from '@vini-vici/viddi/dist/footer/footer.component';
 
 import ErrorBoundary from './components/errorBoundary.component';
 
@@ -32,8 +34,6 @@ const store = createStore(
 // run the root saga, which combines the rest of them.
 sagaMiddleware.run(rootSaga);
 
-
-
 function AppComponent() {
   return (
     <ErrorBoundary>
@@ -42,7 +42,6 @@ function AppComponent() {
       > 
         <React.Suspense fallback={<Loading />}>
           <Router>
-            <Navbar />
             <Switch>
               <Route
                 path="/"
@@ -99,7 +98,6 @@ function AppComponent() {
               />
             </Switch>
           </Router>
-          <Footer />
         </React.Suspense>
       </Provider>
     </ErrorBoundary>

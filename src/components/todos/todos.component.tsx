@@ -2,7 +2,7 @@ import React from 'react';
 
 import TodoComponent from '@/components/todos/todo.component';
 import { Todo } from '@/redux/todos/todos.reducer';
-import Loading from '../loading/loading.component';
+import Loading from '@vini-vici/viddi/dist/loading/loading.component';
 import styles from './todos.module.css';
 
 interface TodosProps {

@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 
-import Input from '@/components/input/input.component';
-import FormField from '@/components/formfield/formfield.component';
-import Button from '@/components/button/button.component';
+import Input from '@vini-vici/viddi/dist/input/input.component';
+import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
+import Button from '@vini-vici/viddi/dist/button/button.component';
 
 import useCognito from '@/hooks/cognito';
-import { ENV_PROFILE } from '.pnpm/@aws-sdk+node-config-provider@3.6.1/node_modules/@aws-sdk/node-config-provider/types/fromSharedConfigFiles';
 
 export default function SignupRoute(): React.ReactElement {
   const { Auth } = useCognito();

@@ -1,5 +1,8 @@
 lockfileVersion: 5.3
 
+overrides:
+  '@vini-vici/viddi': file:../viddi-ui
+
 specifiers:
   '@aws-amplify/auth': ^4.2.0
   '@aws-amplify/core': ^4.2.2
@@ -19,6 +22,7 @@ specifiers:
   '@types/react-router-dom': ^5.1.7
   '@typescript-eslint/eslint-plugin': ^4.28.2
   '@typescript-eslint/parser': ^4.28.2
+  '@vini-vici/viddi': file:../viddi-ui
   amazon-cognito-identity-js: ^5.0.6
   autoprefixer: ^10.2.6
   aws-amplify: ^4.2.2
@@ -30,12 +34,14 @@ specifiers:
   eslint-plugin-react: ^7.24.0
   fork-ts-checker-webpack-plugin: ^6.2.12
   html-webpack-plugin: ^5.3.2
+  i18next: ^20.4.0
   jest: ^27.0.6
   mini-css-extract-plugin: ^1.6.2
   postcss-loader: ^5.3.0
   react: ^17.0.2
   react-dom: ^17.0.2
   react-hot-loader: ^4.13.0
+  react-i18next: ^11.11.4
   react-redux: ^7.2.4
   react-router-dom: ^5.2.0
   redux: ^4.1.0
@@ -55,11 +61,14 @@ dependencies:
   '@aws-amplify/core': 4.2.2
   '@mdi/js': 5.9.55
   '@mdi/react': 1.5.0
+  '@vini-vici/viddi': link:../viddi-ui
   amazon-cognito-identity-js: 5.0.6
   aws-amplify: 4.2.2
   core-js: 3.15.2
+  i18next: 20.4.0
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
+  react-i18next: 11.11.4_i18next@20.4.0+react@17.0.2
   react-redux: 7.2.4_react-dom@17.0.2+react@17.0.2
   react-router-dom: 5.2.0_react@17.0.2
   redux: 4.1.0
@@ -2733,6 +2742,13 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.7
+
+  /@babel/runtime/7.15.3:
+    resolution: {integrity: sha512-OvwMLqNXkCXSz1kSm58sEsNuhqOx/fKpnUnKnFB5v8uDda5bLNEHNgKPvhDN6IU0LDcnHQ90LlJ0Q6jnyBSIBA==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      regenerator-runtime: 0.13.9
+    dev: false
 
   /@babel/template/7.14.5:
     resolution: {integrity: sha512-6Z3Po85sfxRGachLULUhOmvAaOo7xCvqGQtxINai2mEGPFm6pQ4z5QInFnUrRpfoSV60BnjyF5F3c+15fxFV1g==}
@@ -6617,6 +6633,12 @@ packages:
       terser: 4.8.0
     dev: true
 
+  /html-parse-stringify/3.0.1:
+    resolution: {integrity: sha512-KknJ50kTInJ7qIScF3jeaFRpMpE8/lfiTdzf/twXyPBLAGrLRTmkz3AdTnKeh40X8k9L2fdYwEp/42WGXIRGcg==}
+    dependencies:
+      void-elements: 3.1.0
+    dev: false
+
   /html-tags/3.1.0:
     resolution: {integrity: sha512-1qYz89hW3lFDEazhjW0yVAV87lw8lVkrJocr72XmBkMKsoSVJCQx3W8BXsC7hO2qAt8BoVjYjtAcZ9perqGnNg==}
     engines: {node: '>=8'}
@@ -6746,6 +6768,12 @@ packages:
   /humanize-duration/3.27.0:
     resolution: {integrity: sha512-qLo/08cNc3Tb0uD7jK0jAcU5cnqCM0n568918E7R2XhMr/+7F37p4EY062W/stg7tmzvknNn9b/1+UhVRzsYrQ==}
     dev: true
+
+  /i18next/20.4.0:
+    resolution: {integrity: sha512-89iWWJudmaHJwzIdJ/1eu98GtsJnwBhOUWwlAre70itPMuTE/NTPtgVeaS1CGaB8Q3XrYBGpEqlq4jsScDx9kg==}
+    dependencies:
+      '@babel/runtime': 7.15.3
+    dev: false
 
   /iconv-lite/0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
@@ -9326,6 +9354,18 @@ packages:
       source-map: 0.7.3
     dev: true
 
+  /react-i18next/11.11.4_i18next@20.4.0+react@17.0.2:
+    resolution: {integrity: sha512-ayWFlu8Sc7GAxW1PzMaPtzq+yiozWMxs0P1WeITNVzXAVRhC0Httkzw/IiODBta6seJRBCLrtUeFUSXhAIxlRg==}
+    peerDependencies:
+      i18next: '>= 19.0.0'
+      react: '>= 16.8.0'
+    dependencies:
+      '@babel/runtime': 7.15.3
+      html-parse-stringify: 3.0.1
+      i18next: 20.4.0
+      react: 17.0.2
+    dev: false
+
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -9505,6 +9545,10 @@ packages:
 
   /regenerator-runtime/0.13.7:
     resolution: {integrity: sha512-a54FxoJDIr27pgf7IgeQGxmqUNYrcV338lf/6gH456HZ/PhX+5BcwHXG9ajESmwe6WRO0tAzRUrRmNONWgkrew==}
+
+  /regenerator-runtime/0.13.9:
+    resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}
+    dev: false
 
   /regenerator-transform/0.14.5:
     resolution: {integrity: sha512-eOf6vka5IO151Jfsw2NO9WpGX58W6wWmefK3I1zEGr0lOD0u8rwPaNqQL1aRxUaxLeKO3ArNh3VYg1KbaD+FFw==}
@@ -11065,6 +11109,11 @@ packages:
     resolution: {integrity: sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=}
     engines: {node: '>= 0.8'}
     dev: true
+
+  /void-elements/3.1.0:
+    resolution: {integrity: sha1-YU9/v42AHwu18GYfWy9XhXUOTwk=}
+    engines: {node: '>=0.10.0'}
+    dev: false
 
   /w3c-hr-time/1.0.2:
     resolution: {integrity: sha512-z8P5DvDNjKDoFIHK7q8r8lackT6l+jo/Ye3HOle7l9nICP9lf1Ci25fy9vHd0JOWewkIFzXIEig3TdKT7JQ5fQ==}

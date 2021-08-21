@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Input from '@/components/input/input.component';
-import FormField from '@/components/formfield/formfield.component';
-import Button from '@/components/button/button.component';
-import Modal from '@/components/modal/modal.component';
+import Input from '@vini-vici/viddi/dist/input/input.component';
+import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
+import Button from '@vini-vici/viddi/dist/button/button.component';
+import Modal from '@vini-vici/viddi/dist/modal/modal.component';
 
 import Auth from '@aws-amplify/auth';
 
