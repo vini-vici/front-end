@@ -1,5 +1,8 @@
 lockfileVersion: 5.3
 
+overrides:
+  '@vini-vici/viddi': ../viddi-ui
+
 specifiers:
   '@aws-amplify/auth': ^4.3.0
   '@aws-amplify/core': ^4.2.4
@@ -19,7 +22,7 @@ specifiers:
   '@types/react-router-dom': ^5.1.8
   '@typescript-eslint/eslint-plugin': ^4.29.2
   '@typescript-eslint/parser': ^4.29.2
-  '@vini-vici/viddi': ^1.0.4
+  '@vini-vici/viddi': ../viddi-ui
   amazon-cognito-identity-js: ^5.1.0
   autoprefixer: ^10.3.2
   aws-amplify: ^4.2.4
@@ -58,7 +61,7 @@ dependencies:
   '@aws-amplify/core': 4.2.4
   '@mdi/js': 5.9.55
   '@mdi/react': 1.5.0
-  '@vini-vici/viddi': 1.0.4
+  '@vini-vici/viddi': link:../viddi-ui
   amazon-cognito-identity-js: 5.1.0
   aws-amplify: 4.2.4
   core-js: 3.16.2
@@ -3582,15 +3585,6 @@ packages:
       '@typescript-eslint/types': 4.29.2
       eslint-visitor-keys: 2.1.0
     dev: true
-
-  /@vini-vici/viddi/1.0.4:
-    resolution: {integrity: sha512-BFfhyCbOvLz1qVO+QM0QeYoIRFpXX/ZS5b628vFgElAQEOi5lr60gjRxEWZWj44oWo6TvMW6SPVaQY1nyg3TfA==, tarball: download/@vini-vici/viddi/1.0.4/b0abd76578f20ebbbac9f3196debeddd41e423893281b1afeb14c567ea6348bc}
-    dependencies:
-      '@mdi/js': 5.9.55
-      '@mdi/react': 1.5.0
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-    dev: false
 
   /@webassemblyjs/ast/1.11.1:
     resolution: {integrity: sha512-ukBh14qFLjxTQNTXocdyksN5QdM28S1CxHt2rdskFyL+xFV7VremuBLVbmCePj+URalXBENx/9Lm7lnhihtCSw==}

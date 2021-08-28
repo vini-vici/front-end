@@ -32,7 +32,8 @@ function populateConfig() {
       COGNITO_DOMAIN: obj.UserPoolDomain,
       CLIENT_ID: obj.UserPoolClientId,
       REGION: 'us-west-2',
-      API: obj.ApiEndpoint
+      API: obj.ApiEndpoint,
+      POOL_ID: obj.UserPoolId
     };
     // Write the file.
     writeFileSync(fromSrc('config.json'), JSON.stringify(config));

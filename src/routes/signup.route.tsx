@@ -7,7 +7,11 @@ import Button from '@vini-vici/viddi/dist/button/button.component';
 import useCognito from '@/hooks/cognito';
 
 export default function SignupRoute(): React.ReactElement {
-  const { Auth } = useCognito();
+  const { Auth } = useCognito({
+    clientId: '',
+    poolId: '',
+    region: ''
+  });
 
   const [signupData, setSignupData] = React.useState({
     username: '',

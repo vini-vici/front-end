@@ -4,8 +4,7 @@ import Input from '@vini-vici/viddi/dist/input/input.component';
 import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
 import Button from '@vini-vici/viddi/dist/button/button.component';
 import Modal from '@vini-vici/viddi/dist/modal/modal.component';
-
-import Auth from '@aws-amplify/auth';
+import { Redirect } from 'react-router-dom';
 
 import { useHistory } from 'react-router-dom';
 import useCognito from '@/hooks/cognito';
@@ -18,11 +17,23 @@ export default function LoginRoute(): React.ReactElement {
   const [error, setError] = React.useState('');
   const history = useHistory();
 
-  const { Auth, userData } = useCognito();
+  const { Auth, signIn, user } = useCognito({
+    poolId: '',
+    clientId: '',
+    region: ''
+  });
 
   const loginHandler = () => {
     console.log(`Login with ${username} and ${password}`);
+    signIn(username, password)
+      .then(console.log)
+      .catch(console.error);
   };
+
+  console.log('username', user?.username);
+  if(user?.username) 
+    return <Redirect to="/" />;
+  
 
   return (
     <div className="flex-grow">
@@ -53,7 +64,6 @@ export default function LoginRoute(): React.ReactElement {
         <form 
           onSubmit={e => {
             e.preventDefault();
-            loginHandler();
           }}
         >
           <FormField
