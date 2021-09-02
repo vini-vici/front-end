@@ -41,48 +41,42 @@ interface UseCognitoProps {
   poolId: string;
 }
 
-export default function useCognito(props: UseCognitoProps) {
+export default function useCognito(props?: UseCognitoProps) {
   const [user, setUser] = React.useState<any>({});
   useEffect(()=> {
-    Auth.currentUserInfo()
+    Auth.currentAuthenticatedUser()
       .then(user => {
-        console.log('user info');
+        console.log('authed user', user);
         setUser(user);
+
       })
       .catch(console.error);
   }, []);
-  // useEffect(() => {
-  //   Auth.currentUserInfo().then(
-  //     res => {
-  //       console.log('current user', res);
-  //       setUser(res);
-  //       return res;
-  //     }
-  //   ).catch(console.error);
-  //   Hub.listen('auth', event => {
-  //     if(event.payload.event === 'signIn') {
-  //       console.log('signin', event.payload.data);
-  //       const user = {
-  //         username: event.payload.data.user.username
-  //       };
-  //       setUser(event.payload.data.user);
-  //     }
-
-  //     if(event.payload.event === 'signOut') 
-  //       setUser(null);
-      
-  //   });
-  // }, []);
   
   return { 
     user,
-    Auth, 
+    Auth,
+    verify: (username: string, code: string) => Auth.confirmSignUp(username, code),
+    signUp: (username: string, password: string, email: string, phone: string, preferred_username: string) => Auth.signUp({
+      username,
+      password,
+      attributes: {
+        email,
+        phone_number: phone,
+        preferred_username: preferred_username
+      }
+    })
+      .then(res => {
+        console.log(res);
+        setUser(res.user);
+        return res;
+      }),
     signIn: (username: string, password: string) => Auth.signIn(username, password)
       .then(data => {
         console.log(data);
       })
       .catch(console.error),
-    signOut: () => Auth.signOut()
+    signOut: () => Auth.signOut({ global: true })
       .then(res => {
         setUser(null);
         return res;

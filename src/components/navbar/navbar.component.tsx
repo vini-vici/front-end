@@ -1,9 +1,11 @@
 import React from 'react';
 
 import { Link } from 'react-router-dom';
-import { COGNITO_DOMAIN, CLIENT_ID } from '@/constants';
+
+import useCognito from '@/hooks/cognito';
 
 export default function Navbar(): React.ReactElement {
+  const { user } = useCognito();
   return (
     <nav className="bg-gray-800 text-gray-100 h-12 px-2 flex items-center">
       <div className="container flex justify-between items-center">
@@ -13,7 +15,15 @@ export default function Navbar(): React.ReactElement {
         <div className="flex right-section gap-2">
           <Link to="/">Home</Link>
           <Link to="/about">About</Link>
-          <Link to="/login">Login</Link>
+          {
+            user?.username ?
+              (
+                <Link to="/logout">Logout</Link>
+              ) :
+              (
+                <Link to="/login">Login</Link>
+              )
+          }
         </div>
       </div>
     </nav>

@@ -3,7 +3,7 @@ import React from 'react';
 import useCognito from '@/hooks/cognito';
 import { Redirect } from 'react-router-dom';
 
-export default function LogoutRoute(): React.ReactNode {
+export default function LogoutRoute() {
   const { signOut } = useCognito({
     clientId: '',
     poolId: '',
@@ -15,6 +15,7 @@ export default function LogoutRoute(): React.ReactNode {
     signOut()
       .finally(() => setSignedOut(true));
   });
+
   if(signedOut) 
     return <Redirect to="/"/>;
     

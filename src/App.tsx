@@ -12,10 +12,10 @@ import createSagaMiddleware from 'redux-saga';
 
 import rootSaga from './redux/root.saga';
 import Loading from '@vini-vici/viddi/dist/loading/loading.component';
-// import Navbar from '@vini-vici/viddi/dist/navbar/navbar.component';
-// import Footer from '@vini-vici/viddi/dist/footer/footer.component';
+import Footer from '@/components/footer/footer.component';
 
 import ErrorBoundary from './components/errorBoundary.component';
+import Navbar from './components/navbar/navbar.component';
 
 // Create enhancement composers.
 const composeEnhancers = composeWithDevTools({
@@ -42,6 +42,7 @@ function AppComponent() {
       > 
         <React.Suspense fallback={<Loading />}>
           <Router>
+            <Navbar/>
             <Switch>
               <Route
                 path="/"
@@ -67,6 +68,15 @@ function AppComponent() {
                 component={
                   React.lazy(
                     () => import(/* webpackPrefetch: true, webpackChunkName: "AboutRoute"  */'./routes/about.route')
+                  )
+                }
+              />
+              <Route
+                path="/logout"
+                exact
+                component={
+                  React.lazy(
+                    () => import(/* webpackPrefetch: true, webpackChunkName: "LogoutRoute" */'./routes/logout.route')
                   )
                 }
               />
@@ -97,6 +107,7 @@ function AppComponent() {
                 }
               />
             </Switch>
+            <Footer />
           </Router>
         </React.Suspense>
       </Provider>

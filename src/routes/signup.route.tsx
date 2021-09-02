@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 
+import { Redirect } from 'react-router-dom';
+
 import Input from '@vini-vici/viddi/dist/input/input.component';
 import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
 import Button from '@vini-vici/viddi/dist/button/button.component';
@@ -7,11 +9,7 @@ import Button from '@vini-vici/viddi/dist/button/button.component';
 import useCognito from '@/hooks/cognito';
 
 export default function SignupRoute(): React.ReactElement {
-  const { Auth } = useCognito({
-    clientId: '',
-    poolId: '',
-    region: ''
-  });
+  const { Auth, signUp, verify, user } = useCognito();
 
   const [signupData, setSignupData] = React.useState({
     username: '',
@@ -19,7 +17,8 @@ export default function SignupRoute(): React.ReactElement {
     password: '',
     confirmPassword: '',
     email: '',
-    phone: ''
+    phone: '',
+    preferedUserName: ''
   });
 
   const [validations, setValidations] = React.useState({
@@ -29,10 +28,13 @@ export default function SignupRoute(): React.ReactElement {
 
   useEffect(() => {
     setValidations({
-      username: signupData.username === signupData.confirmUsername,
-      password: signupData.password === signupData.confirmPassword
+      username: (signupData.username.length > 0 && signupData.confirmUsername.length > 0) && signupData.username === signupData.confirmUsername,
+      password: (signupData.password.length > 0 && signupData.confirmPassword.length > 0) && signupData.password === signupData.confirmPassword
     });
   }, [signupData.username, signupData.confirmUsername, signupData.password, signupData.confirmPassword]);
+
+  if(user?.username) 
+    return <Redirect to="/" />;
 
   return (
     <div className="flex-grow">
@@ -40,19 +42,16 @@ export default function SignupRoute(): React.ReactElement {
         <h1 className="text-xl font-bold">
           Sign Up
         </h1>
-        {JSON.stringify(validations)}
         <form onSubmit={e => {
           e.preventDefault();
           if(validations.username && validations.password) {
-            Auth.signUp({
-              username: signupData.username,
-              password: signupData.password,
-              attributes: {
-                email: signupData.email,
-                phone_number: signupData.phone
-              }
-            })
-              .then(res =>  console.log(res));
+            signUp(
+              signupData.username,
+              signupData.password,
+              signupData.email,
+              signupData.phone,
+              signupData.preferedUserName
+            ); // AFter we sign up, we have to do code validations.... do we redirect to another page?
           }
         }}>
           <FormField
@@ -84,6 +83,11 @@ export default function SignupRoute(): React.ReactElement {
             label="Phone Number"
           >
             <Input className="w-full" type="tel" placeholder="Enter your full phone number, including country code"/>
+          </FormField>
+          <FormField
+            label="Preferred Username"
+          >
+            <Input className="w-full" type="text" placeholder="Enter your preferred username."/>
           </FormField>
           <div className="mt-2">
             <Button type="submit">Button</Button>
