@@ -8,8 +8,8 @@ import styles from './todos.module.css';
 interface TodosProps {
   loading: boolean;
   todos: Todo[];
-  toggleDone(todoId: number): void;
-  deleteTodo(todoId: number): void;
+  toggleDone(todoId: string): void;
+  deleteTodo(todoId: string): void;
   updateTodo(todo: Todo): void;
 }
 

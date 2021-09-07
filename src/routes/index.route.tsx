@@ -26,7 +26,7 @@ export default function IndexRoute(): React.ReactElement {
   const showModal = useSelector(({ CreateModalState: { show }}: RootState) => (show));
 
   const initialTodos: Todo = {
-    id: -1,
+    id: '',
     title: '',
     description: '',
     done: false

@@ -62,14 +62,12 @@ export function addTodo(title: string, description: string, done = false, token:
 }
 
 export interface RemoveTodoAction extends Action<TodosActionsTypes.REMOVE> {
-  title: string;
   id: string;
   token: string;
 }
-export function removeTodo(title: string, id: number = Number.MIN_SAFE_INTEGER, token: string): RemoveTodoAction {
+export function removeTodo(id: string, token: string): RemoveTodoAction {
   return {
     type: TodosActionsTypes.REMOVE,
-    title,
     id,
     token
   };
@@ -89,13 +87,13 @@ export function removeTodoSuccess(id: string, success: boolean): RemoveTodoSucce
 }
 
 export interface UpdateTodoAction extends Action<TodosActionsTypes.UPDATE> {
-  id: number;
+  id: string;
   title: string;
   description?: string;
   done: boolean;
 }
 
-export function updateTodo(id: number, title: string, description?: string, done = false): UpdateTodoAction {
+export function updateTodo(id: string, title: string, description?: string, done = false): UpdateTodoAction {
   return {
     type: TodosActionsTypes.UPDATE,
     id,
@@ -106,10 +104,10 @@ export function updateTodo(id: number, title: string, description?: string, done
 }
 
 export interface DoneTodoAction extends Action<TodosActionsTypes.DONE> {
-  id: number;
+  id: string;
 }
 
-export function doneTodo(id: number): DoneTodoAction {
+export function doneTodo(id: string): DoneTodoAction {
   return {
     type: TodosActionsTypes.DONE,
     id

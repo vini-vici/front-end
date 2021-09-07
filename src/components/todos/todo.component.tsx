@@ -6,7 +6,7 @@ import Checkbox from '@vini-vici/viddi/dist/checkbox/checkbox.component';
 import Button from '@vini-vici/viddi/dist/button/button.component';
 
 export interface TodoProps extends Todo {
-  onDelete: (todoId: number) => void;
+  onDelete: (todoId: string) => void;
   onChange?: (e: CustomEvent<Todo>) => void;
 }
 

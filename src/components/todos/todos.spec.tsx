@@ -5,13 +5,13 @@ import { Todo } from '@/redux/todos/todos.reducer';
 
 const todos: Todo[] = [
   {
-    id: 1,
+    id: '1',
     title: 'First todo',
     description: '',
     done: false
   },
   {
-    id: 2,
+    id: '2',
     title: 'Second todo',
     description: 'with optional description',
     done: true
