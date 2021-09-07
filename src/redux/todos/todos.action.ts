@@ -4,6 +4,8 @@ import { Todo } from './todos.reducer';
 export enum TodosActionsTypes {
   ADD = 'ADD_TODO',
   REMOVE = 'REMOVE_TODO',
+  REMOVE_SUCCESS = 'REMOVE_TODO_SUCCESS',
+  REMOVE_ERROR = 'REMOVE_TODO_ERROR',
   UPDATE = 'UPDATE_TODO',
   DONE = 'DONE_TODO',
   FETCH = 'FETCH_TODO',
@@ -11,11 +13,14 @@ export enum TodosActionsTypes {
   FETCH_ERROR = 'FETCH_TODO_ERROR'
 }
 
-export type FetchTodoAction = Action<TodosActionsTypes.FETCH>;
+export interface FetchTodoAction extends Action<TodosActionsTypes.FETCH>{
+  token: string;
+}
 
-export function fetchTodos(): FetchTodoAction {
+export function fetchTodos(token: string): FetchTodoAction {
   return {
-    type: TodosActionsTypes.FETCH
+    type: TodosActionsTypes.FETCH,
+    token
   };
 }
 
@@ -43,26 +48,43 @@ export interface AddTodoAction extends Action<TodosActionsTypes.ADD> {
   title: string;
   description?: string;
   done: boolean;
+  token: string;
 }
 
-export function addTodo(title: string, description: string, done = false): AddTodoAction {
+export function addTodo(title: string, description: string, done = false, token: string): AddTodoAction {
   return {
     type: TodosActionsTypes.ADD,
     title,
     description,
-    done
+    done,
+    token
   };
 }
 
 export interface RemoveTodoAction extends Action<TodosActionsTypes.REMOVE> {
   title: string;
-  id: number;
+  id: string;
+  token: string;
 }
-export function removeTodo(title: string, id: number = Number.MIN_SAFE_INTEGER): RemoveTodoAction {
+export function removeTodo(title: string, id: number = Number.MIN_SAFE_INTEGER, token: string): RemoveTodoAction {
   return {
     type: TodosActionsTypes.REMOVE,
     title,
-    id
+    id,
+    token
+  };
+}
+
+export interface RemoveTodoSuccessAction extends Action<TodosActionsTypes.REMOVE_SUCCESS> {
+  id: string;
+  success: boolean;
+}
+
+export function removeTodoSuccess(id: string, success: boolean): RemoveTodoSuccessAction {
+  return {
+    type: TodosActionsTypes.REMOVE_SUCCESS,
+    id,
+    success
   };
 }
 

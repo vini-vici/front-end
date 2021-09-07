@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import TodosComponent from './todos.component';
 import { RootState } from '@/redux/root.reducer';
 import { doneTodo, fetchTodos, removeTodo, updateTodo } from '@/redux/todos/todos.action';
+import useCognito from '@/hooks/cognito';
 
 export default function TodosContainer(): React.ReactElement {
   // Map the todo state to the current object.
@@ -12,14 +13,16 @@ export default function TodosContainer(): React.ReactElement {
     status
   }}: RootState) => ({ todos, status}));
 
+  const { user } = useCognito();
+
   // grab the dispatch.
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     if(status === 'initial') 
-      dispatch(fetchTodos());
+      dispatch(fetchTodos(user?.getSignInUserSession()?.getIdToken()?.getJwtToken()));
     
-  }, []);
+  }, [user?.getSignInUserSession()?.getIdToken()?.getJwtToken()]);
 
   // This function merely serves as a wrapper for the actual TodosComponent.
   return (

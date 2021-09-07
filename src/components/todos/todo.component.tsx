@@ -85,7 +85,7 @@ export default function TodoComponent(
                 )}
               />
             ) :
-            description.split('\n').map((s, i)=> <p key={`paragraph-${id}-${i}`}>{s}</p>)
+            description?.split('\n').map((s, i)=> <p key={`paragraph-${id}-${i}`}>{s}</p>)
         }
       </div>
       

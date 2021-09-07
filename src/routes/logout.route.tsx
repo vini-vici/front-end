@@ -4,11 +4,7 @@ import useCognito from '@/hooks/cognito';
 import { Redirect } from 'react-router-dom';
 
 export default function LogoutRoute() {
-  const { signOut } = useCognito({
-    clientId: '',
-    poolId: '',
-    region: ''
-  });
+  const { signOut } = useCognito();
   
   const [signedOut, setSignedOut] = React.useState(false);
   React.useEffect(() => {

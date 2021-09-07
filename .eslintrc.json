@@ -24,6 +24,7 @@
   "rules": {
     "no-unused-vars": "off",
     "react/jsx-uses-react": "error",
+    "react/jsx-indent-props": ["error", 2],
     "indent": [
       "error",
       2,

@@ -17,6 +17,8 @@ import Footer from '@/components/footer/footer.component';
 import ErrorBoundary from './components/errorBoundary.component';
 import Navbar from './components/navbar/navbar.component';
 
+import { CognitoProvider } from '@/hooks/cognito';
+
 // Create enhancement composers.
 const composeEnhancers = composeWithDevTools({
   shouldRecordChanges: import.meta.env !== 'production',
@@ -39,77 +41,79 @@ function AppComponent() {
     <ErrorBoundary>
       <Provider
         store={store}
-      > 
-        <React.Suspense fallback={<Loading />}>
-          <Router>
-            <Navbar/>
-            <Switch>
-              <Route
-                path="/"
-                exact
-                component={
-                  React.lazy(
-                    () => import(/* webpackChunkName: "IndexRoute", webpackPreload: true */'./routes/index.route')
-                  )
-                }
-              />
-              <Route
-                path="/callback"
-                exact
-                component={
-                  React.lazy(
-                    () => import(/* webpackPrefetch: true, webpackChunkName: "CallbackRoute" */'./routes/callback.route')  
-                  )
-                }
-              />
-              <Route
-                path="/about"
-                exact
-                component={
-                  React.lazy(
-                    () => import(/* webpackPrefetch: true, webpackChunkName: "AboutRoute"  */'./routes/about.route')
-                  )
-                }
-              />
-              <Route
-                path="/logout"
-                exact
-                component={
-                  React.lazy(
-                    () => import(/* webpackPrefetch: true, webpackChunkName: "LogoutRoute" */'./routes/logout.route')
-                  )
-                }
-              />
-              <Route
-                path="/login"
-                exact
-                component={
-                  React.lazy(
-                    () => import(/* webpackPrefetch: true, webpackChunkName: "LoginRoute" */'./routes/login.route')
-                  )
-                }
-              />
-              <Route
-                path="/signup"
-                exact
-                component={
-                  React.lazy(
-                    () => import(/* webpackPrefetch: true, webpackChunkName: "SignupRoute" */'./routes/signup.route')
-                  )
-                }
-              />
-              <Route
-                path="/" 
-                component={
-                  React.lazy(
-                    () => import(/* webpackChunkName: "404Route", webpackPrefetch: true */'./routes/_404')
-                  )
-                }
-              />
-            </Switch>
-            <Footer />
-          </Router>
-        </React.Suspense>
+      >
+        <CognitoProvider>
+          <React.Suspense fallback={<Loading />}>
+            <Router>
+              <Navbar/>
+              <Switch>
+                <Route
+                  path="/"
+                  exact
+                  component={
+                    React.lazy(
+                      () => import(/* webpackChunkName: "IndexRoute", webpackPreload: true */'./routes/index.route')
+                    )
+                  }
+                />
+                <Route
+                  path="/callback"
+                  exact
+                  component={
+                    React.lazy(
+                      () => import(/* webpackPrefetch: true, webpackChunkName: "CallbackRoute" */'./routes/callback.route')  
+                    )
+                  }
+                />
+                <Route
+                  path="/about"
+                  exact
+                  component={
+                    React.lazy(
+                      () => import(/* webpackPrefetch: true, webpackChunkName: "AboutRoute"  */'./routes/about.route')
+                    )
+                  }
+                />
+                <Route
+                  path="/logout"
+                  exact
+                  component={
+                    React.lazy(
+                      () => import(/* webpackPrefetch: true, webpackChunkName: "LogoutRoute" */'./routes/logout.route')
+                    )
+                  }
+                />
+                <Route
+                  path="/login"
+                  exact
+                  component={
+                    React.lazy(
+                      () => import(/* webpackPrefetch: true, webpackChunkName: "LoginRoute" */'./routes/login.route')
+                    )
+                  }
+                />
+                <Route
+                  path="/signup"
+                  exact
+                  component={
+                    React.lazy(
+                      () => import(/* webpackPrefetch: true, webpackChunkName: "SignupRoute" */'./routes/signup.route')
+                    )
+                  }
+                />
+                <Route
+                  path="/" 
+                  component={
+                    React.lazy(
+                      () => import(/* webpackChunkName: "404Route", webpackPrefetch: true */'./routes/_404')
+                    )
+                  }
+                />
+              </Switch>
+              <Footer />
+            </Router>
+          </React.Suspense>
+        </CognitoProvider>
       </Provider>
     </ErrorBoundary>
   );

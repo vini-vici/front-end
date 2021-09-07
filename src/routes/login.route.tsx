@@ -6,7 +6,6 @@ import Button from '@vini-vici/viddi/dist/button/button.component';
 import Modal from '@vini-vici/viddi/dist/modal/modal.component';
 import { Redirect } from 'react-router-dom';
 
-import { useHistory } from 'react-router-dom';
 import useCognito from '@/hooks/cognito';
 
 
@@ -15,23 +14,16 @@ export default function LoginRoute(): React.ReactElement {
   const [password, setPassword] = React.useState('');
   const [showClearModal, setClearModal] = React.useState(false);
   const [error, setError] = React.useState('');
-  const history = useHistory();
 
-  const { Auth, signIn, user } = useCognito({
-    poolId: '',
-    clientId: '',
-    region: ''
-  });
+  const { signIn, user } = useCognito();
 
   const loginHandler = () => {
-    console.log(`Login with ${username} and ${password}`);
     signIn(username, password)
       .then(console.log)
-      .catch(console.error);
+      .catch(e => setError(e.message));
   };
 
-  console.log('username', user?.username);
-  if(user?.username) 
+  if(user?.getUsername()) 
     return <Redirect to="/" />;
   
 

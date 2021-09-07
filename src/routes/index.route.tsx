@@ -33,24 +33,24 @@ export default function IndexRoute(): React.ReactElement {
   };
   const [{id, title, description, done}, setTodo] = React.useState(initialTodos);
 
-  const { user, signIn } = useCognito({
-    poolId: '',
-    clientId: '',
-    region: ''
-  });
+  const { genericUser, user } = useCognito();
+
+  React.useEffect(() => {
+    console.log('Generic username', genericUser?.username);
+  }, [genericUser?.username]);
 
   return (
     <div className="w-full sm:w-4/5 lg:w-3/4 mx-auto flex-grow">
       <Modal
         show={showModal}
         title={
-          <div>
-            Sup
+          <div className="text-xl font-bold">
+            Add a todo
           </div>
         }
         onClose={() => dispatch(hideCreateModal())}
         onConfirm={() => {
-          dispatch(addTodo(title, description, done));
+          dispatch(addTodo(title, description, done, user?.getSignInUserSession()?.getIdToken()?.getJwtToken()));
           dispatch(hideCreateModal());
         }}
         confirmText="Submit"
@@ -92,6 +92,8 @@ export default function IndexRoute(): React.ReactElement {
           </Button>
         </div>
       </h1>
+      <div>
+      </div>
       <TodosComponent />
     </div>
   );
