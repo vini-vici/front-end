@@ -24,6 +24,29 @@ I personally use [Pnpm](https://pnpm.io/installation) over NPM for reasons. If y
 
 ## Running Locally
 
+Make sure that you have the AWS CDK CLI installed.
+### Getting Required Items
+
+You will need to download and run two separate packages in this order.
+
+1. First, run through the steps to deploy the [shared-infra](https://github.com/vini-vici/shared-infra) package. This is fairly easy to do, so it shouldn't take long.
+2. Second, run through the steps to deploy the [back-end](https://github.com/vini-vici/back-end). This package uses some information from the shared infrastructure package, so it cannot be build/deployed before it.
+
+Once these have been done, you can get this package up and going.
+
+First ensure that you have an AWS Account. From there run the following (assuming your AWS Account id is `123456789012`) 
+
+```sh
+# $Env:ACCOUNT_ID=123456789012 # for windows
+export ACCOUNT_ID=123456789012
+cd configuration
+cdk bootstrap aws://123456789012/us-west-1
+cdk list # Search for a stack named "Vicci-123456789012-alpha-us-west-1". 
+cdk deploy Vicci-140851651058-alpha-us-west-1
+```
+
+### Running Locally
+
 You should be able to run the entire thing with just 
 
 ```sh

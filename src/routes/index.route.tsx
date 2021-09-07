@@ -4,15 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import Icon from '@mdi/react';
 import { mdiPenPlus } from '@mdi/js';
 import TodosComponent from '@/components/todos/todos.container';
-import Modal from '@/components/modal/modal.component';
-import Button from '@/components/button/button.component';
-import Input from '@/components/input/input.component';
-import Textarea from '@/components/textarea/textarea.component';
-import FormField from '@/components/formfield/formfield.component';
+import Modal from '@vini-vici/viddi/dist/modal/modal.component';
+import Button from '@vini-vici/viddi/dist/button/button.component';
+import Input from '@vini-vici/viddi/dist/input/input.component';
+import Textarea from '@vini-vici/viddi/dist/textarea/textarea.component';
+import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
 import { RootState } from '@/redux/root.reducer';
 import { showCreateModal, hideCreateModal } from '@/redux/createModal/createModal.actions';
 import { addTodo } from '@/redux/todos/todos.action';
 import { Todo } from '@/redux/todos/todos.reducer';
+import useCognito from '@/hooks/cognito';
 
 /**
  * @description Routes in general will not take any props in our application since the corresponding components
@@ -32,18 +33,28 @@ export default function IndexRoute(): React.ReactElement {
   };
   const [{id, title, description, done}, setTodo] = React.useState(initialTodos);
 
+  const { genericUser, user } = useCognito();
+
+  React.useEffect(() => {
+    console.log('Generic username', genericUser?.username);
+  }, [genericUser?.username]);
+
   return (
     <div className="w-full sm:w-4/5 lg:w-3/4 mx-auto flex-grow">
       <Modal
         show={showModal}
-        title="Add Todo"
+        title={
+          <div className="text-xl font-bold">
+            Add a todo
+          </div>
+        }
         onClose={() => dispatch(hideCreateModal())}
         onConfirm={() => {
-          dispatch(addTodo(title, description, done));
+          dispatch(addTodo(title, description, done, user?.getSignInUserSession()?.getIdToken()?.getJwtToken()));
           dispatch(hideCreateModal());
         }}
         confirmText="Submit"
-      >        
+      >
         <FormField
           label="Todo Title"
           description="A todos title should be a good summarization of what the todo needs in order to be complete."
@@ -65,7 +76,6 @@ export default function IndexRoute(): React.ReactElement {
             onChange={({ target }) => setTodo({ id, title, done, description: target.value })}
           />
         </FormField>
-
       </Modal>
       <h1 className="text-2xl font-semibold p-3 flex justify-between">
         <div>Todos App</div>
@@ -82,6 +92,8 @@ export default function IndexRoute(): React.ReactElement {
           </Button>
         </div>
       </h1>
+      <div>
+      </div>
       <TodosComponent />
     </div>
   );

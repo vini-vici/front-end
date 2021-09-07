@@ -1,0 +1,12 @@
+[
+  {
+    "stage": "beta",
+    "accountId": "471993188491",
+    "region": "us-west-1"
+  },
+  {
+    "stage": "gamma",
+    "accountId":"140851651058",
+    "region":"us-west-2"
+  }
+]

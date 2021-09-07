@@ -1,9 +1,9 @@
 import React from 'react';
 import { Todo } from '@/redux/todos/todos.reducer';
-import Input from '@/components/input/input.component';
-import Textarea from '@/components/textarea/textarea.component';
-import Checkbox from '@/components/checkbox/checkbox.component';
-import Button from '@/components/button/button.component';
+import Input from '@vini-vici/viddi/dist/input/input.component';
+import Textarea from '@vini-vici/viddi/dist/textarea/textarea.component';
+import Checkbox from '@vini-vici/viddi/dist/checkbox/checkbox.component';
+import Button from '@vini-vici/viddi/dist/button/button.component';
 
 export interface TodoProps extends Todo {
   onDelete: (todoId: number) => void;
@@ -30,14 +30,14 @@ export default function TodoComponent(
           <Checkbox
             checked={done}
             onChange={({ target }) => {
-              onChange(
+              onChange?.(
                 new CustomEvent('updateTodo', {
                   detail: {
                     done: target.checked,
                     title,
                     description,
                     id
-                  } as Todo
+                  } 
                 })
               );
             }}
@@ -58,7 +58,7 @@ export default function TodoComponent(
                       done,
                       description,
                       title: target.value
-                    } as Todo
+                    } 
                   })
                 )}
               />
@@ -71,20 +71,21 @@ export default function TodoComponent(
           isEditing ?
             (
               <Textarea
+                className="w-full"
                 value={description}
-                onChange={({ target }) => onChange(
+                onChange={({ target }) => onChange?.(
                   new CustomEvent('updateTodo', {
                     detail: {
                       id,
                       done,
                       title,
                       description: target.value
-                    } as Todo
+                    }
                   })
                 )}
               />
             ) :
-            description.split('\n').map(s=> <p>{s}</p>)
+            description?.split('\n').map((s, i)=> <p key={`paragraph-${id}-${i}`}>{s}</p>)
         }
       </div>
       

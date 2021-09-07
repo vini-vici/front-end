@@ -111,18 +111,18 @@ export function todosReducer(state: TodosState = initialState, action: TodosActi
           [action.id]: undefined
         }
       };
-    } else {
+    } else 
       return state;
-    }
-    break;
+    
   }
 
   // marking a todo as done.
   // eslint-disable-next-line no-fallthrough
   case TodosActionsTypes.DONE: {
     const { id } = action;
-    const itemIndex = state.todos.findIndex((todo) => todo.id === id);
-    const todo = state.todos[itemIndex];
+    const itemIndex = state.todos.findIndex(todo => todo.id === id);
+    const { [itemIndex]: todo } = state.todos;
+    // const todo = state.todos[itemIndex];
     const updatedTodo = {
       ...todo,
       done: !todo.done
@@ -148,7 +148,7 @@ export function todosReducer(state: TodosState = initialState, action: TodosActi
     };
     const index = state.todos.findIndex(todo => todo.id === id);
 
-    if (index !== -1)
+    if (index !== -1) {
       return {
         ...state,
         todos: [
@@ -161,6 +161,7 @@ export function todosReducer(state: TodosState = initialState, action: TodosActi
           [id]: newTodo
         }
       };
+    }
 
     else return state;
   }

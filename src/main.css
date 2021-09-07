@@ -5,3 +5,7 @@
 #app {
   @apply h-screen flex flex-col;
 }
+
+.container {
+  @apply w-full sm:w-4/5 lg:w-3/4 mx-auto;
+}

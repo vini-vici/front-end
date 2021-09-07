@@ -2,3 +2,5 @@ node_modules
 coverage
 reports
 dist
+.ssl
+config.json
