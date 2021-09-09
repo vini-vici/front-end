@@ -3,7 +3,7 @@ import React from 'react';
 export default function AboutRoute(): React.ReactElement {
   return (
     <div className="flex-grow">
-      <div className="container pb-3">
+      <div className="container pb-5">
         <h1 className="text-2xl mt-3">
           About this project
         </h1>
@@ -112,6 +112,12 @@ export default function AboutRoute(): React.ReactElement {
           At one point in development there were <em>a lot</em> of components in the FE repo. These components got split out into the Viddi UI components.
           The Viddi UI automates some parts of the process necessary for working with component UI, such as automatic CHANGELOG generation.
         </p>
+
+        <h3 className="text-lg mt-3">Wrapping Up</h3>
+
+        <p>So, what am I hoping this does for you?</p>
+
+        <p>Best case scenario I hope that this gives people a peek into what makes a simple app. It uses a lot of things, such as Infrastructure-as-Code (IaC), Serverless functions, and a very rough JAMStack implementation.</p>
 
       </div>
     </div>

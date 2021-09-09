@@ -40,7 +40,8 @@ export default function SignupRoute(): React.ReactElement {
   }, [signupData.username, signupData.confirmUsername, signupData.password, signupData.confirmPassword]);
 
 
-  if(redirect && genericUser?.username) 
+  console.log(redirect, genericUser?.username);
+  if(redirect || genericUser?.username) 
     return <Redirect to="/" />;
 
   return (

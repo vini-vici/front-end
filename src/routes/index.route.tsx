@@ -33,11 +33,7 @@ export default function IndexRoute(): React.ReactElement {
   };
   const [{id, title, description, done}, setTodo] = React.useState(initialTodos);
 
-  const { genericUser, user } = useCognito();
-
-  React.useEffect(() => {
-    console.log('Generic username', genericUser?.username);
-  }, [genericUser?.username]);
+  const { user } = useCognito();
 
   return (
     <div className="w-full sm:w-4/5 lg:w-3/4 mx-auto flex-grow">

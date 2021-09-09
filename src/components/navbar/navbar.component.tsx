@@ -21,7 +21,7 @@ export default function Navbar(): React.ReactElement {
                 <Link to="/logout">
                   Logout
                   <span className="text-gray-400 text-sm ml-1">
-                    ({genericUser?.username})
+                    ({user?.getUsername()})
                   </span>
                 </Link>
               ) :
