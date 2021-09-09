@@ -7,5 +7,5 @@
 }
 
 .container {
-  @apply w-full sm:w-4/5 lg:w-3/4 mx-auto;
+  @apply w-5/6 sm:w-4/5 lg:w-3/4 mx-auto;
 }

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import Icon from '@mdi/react';
-import { mdiPenPlus } from '@mdi/js';
+import { mdiPenPlus, mdiRefresh } from '@mdi/js';
 import TodosComponent from '@/components/todos/todos.container';
 import Modal from '@vini-vici/viddi/dist/modal/modal.component';
 import Button from '@vini-vici/viddi/dist/button/button.component';
@@ -11,7 +11,7 @@ import Textarea from '@vini-vici/viddi/dist/textarea/textarea.component';
 import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
 import { RootState } from '@/redux/root.reducer';
 import { showCreateModal, hideCreateModal } from '@/redux/createModal/createModal.actions';
-import { addTodo } from '@/redux/todos/todos.action';
+import { addTodo, fetchTodos } from '@/redux/todos/todos.action';
 import { Todo } from '@/redux/todos/todos.reducer';
 import useCognito from '@/hooks/cognito';
 
@@ -26,18 +26,14 @@ export default function IndexRoute(): React.ReactElement {
   const showModal = useSelector(({ CreateModalState: { show }}: RootState) => (show));
 
   const initialTodos: Todo = {
-    id: -1,
+    id: '',
     title: '',
     description: '',
     done: false
   };
   const [{id, title, description, done}, setTodo] = React.useState(initialTodos);
 
-  const { genericUser, user } = useCognito();
-
-  React.useEffect(() => {
-    console.log('Generic username', genericUser?.username);
-  }, [genericUser?.username]);
+  const { user } = useCognito();
 
   return (
     <div className="w-full sm:w-4/5 lg:w-3/4 mx-auto flex-grow">
@@ -78,18 +74,32 @@ export default function IndexRoute(): React.ReactElement {
         </FormField>
       </Modal>
       <h1 className="text-2xl font-semibold p-3 flex justify-between">
-        <div>Todos App</div>
-        <div aria-label="Add Todo" title="Add todo">
-          <Button
-            variant="custom"
-            className="text-gray-400 hover:text-purple-500"
-            onClick={() => dispatch(showCreateModal())}
-          >
-            <Icon
-              path={mdiPenPlus}
-              size={1}
-            />
-          </Button>
+        <div>Todos</div>
+        <div className="flex gap-2">
+          <div>
+            <Button
+              variant="custom"
+              className="text-gray-400 hover:text-purple-500"
+              onClick={() => dispatch(fetchTodos(user.getSignInUserSession().getIdToken().getJwtToken()))}
+            >
+              <Icon
+                path={mdiRefresh}
+                size={1}
+              />
+            </Button>
+          </div>
+          <div aria-label="Add Todo" title="Add todo">
+            <Button
+              variant="custom"
+              className="text-gray-400 hover:text-purple-500"
+              onClick={() => dispatch(showCreateModal())}
+            >
+              <Icon
+                path={mdiPenPlus}
+                size={1}
+              />
+            </Button>
+          </div>
         </div>
       </h1>
       <div>
