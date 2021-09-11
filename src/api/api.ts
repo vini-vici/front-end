@@ -14,6 +14,22 @@ export async function listTodos(token: string): Promise<Todo[]> {
     });
 }
 
+export async function addTodo(todo: Omit<Todo, 'id'>, token: string): Promise<string> {
+  return fetch(config.API, {
+    mode: 'cors',
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    method: 'PUT',
+    body: JSON.stringify(todo)
+  })
+    .then(async res => {
+      
+      const idString = await res.json();
+      return idString;
+    });
+}
+
 export async function updateTodo(id: string, data: Partial<Todo>, token: string): Promise<Todo> {
   return fetch(config.API + id, {
     mode: 'cors',

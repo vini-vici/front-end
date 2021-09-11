@@ -19,22 +19,8 @@ export interface TodosState {
 const initialState: TodosState = {
   status: 'initial',
   error: '',
-  todos: [
-    {
-      id: '1',
-      title: 'Example Todo',
-      description: 'You can add an optional description',
-      done: false
-    }
-  ],
-  todosById: {
-    '1': {
-      id: '1',
-      title: 'Example Todo',
-      description: 'You can add an optional description',
-      done: false
-    }
-  }
+  todos: [],
+  todosById: {}
 };
 
 export function todosReducer(state: TodosState = initialState, action: TodosAction): TodosState {

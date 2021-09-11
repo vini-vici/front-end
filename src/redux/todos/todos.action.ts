@@ -3,6 +3,8 @@ import { Todo } from './todos.reducer';
 
 export enum TodosActionsTypes {
   ADD = 'ADD_TODO',
+  ADD_SUCCESS = 'ADD_TODO_SUCCESS',
+  ADD_ERROR = 'ADD_TODO_ERROR',
   REMOVE = 'REMOVE_TODO',
   REMOVE_SUCCESS = 'REMOVE_TODO_SUCCESS',
   REMOVE_ERROR = 'REMOVE_TODO_ERROR',
@@ -58,6 +60,17 @@ export function addTodo(title: string, description: string, done = false, token:
     description,
     done,
     token
+  };
+}
+
+export interface AddTodoSuccessAction extends Action<TodosActionsTypes.ADD_SUCCESS>{
+  todo: Todo
+}
+
+export function addTodoSuccess(todo: Todo): AddTodoSuccessAction {
+  return {
+    type: TodosActionsTypes.ADD_SUCCESS,
+    todo
   };
 }
 
@@ -118,7 +131,8 @@ export type TodosAction =
   UpdateTodoAction |
   RemoveTodoAction |
   AddTodoAction |
+  AddTodoSuccessAction |
   DoneTodoAction |
   FetchTodoAction |
   FetchTodoSuccessAction |
-  FetchTodoErrorAction;
+  FetchTodoErrorAction ;
