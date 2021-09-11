@@ -12,29 +12,15 @@ export interface TodosState {
   error: string;
   todos: Todo[];
   todosById: {
-    [id: number]: Todo;
+    [id: string]: Todo;
   };
 }
 
 const initialState: TodosState = {
   status: 'initial',
   error: '',
-  todos: [
-    {
-      id: '1',
-      title: 'Example Todo',
-      description: 'You can add an optional description',
-      done: false
-    }
-  ],
-  todosById: {
-    '1': {
-      id: '1',
-      title: 'Example Todo',
-      description: 'You can add an optional description',
-      done: false
-    }
-  }
+  todos: [],
+  todosById: {}
 };
 
 export function todosReducer(state: TodosState = initialState, action: TodosAction): TodosState {
@@ -69,6 +55,33 @@ export function todosReducer(state: TodosState = initialState, action: TodosActi
         ...state,
         status: 'error',
         error: action.error.message
+      };
+    }
+
+    case TodosActionsTypes.UPDATE: {
+      const ind = state.todos.findIndex(todo => todo.id === action.id);
+      return {
+        ...state,
+        todos: [
+          ...state.todos.slice(0, ind),
+          {
+            ...state.todosById[action.id],
+            id: action.id,
+            title: action.title,
+            done: action.done,
+            description: action.description
+          },
+          ...state.todos.slice(ind+1)
+        ],
+        todosById: {
+          ...state.todosById,
+          [action.id]: {
+            ...state.todosById[action.id],
+            title: action.title,
+            description: action.description,
+            done: action.done
+          }
+        }
       };
     }
 

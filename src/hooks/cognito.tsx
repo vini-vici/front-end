@@ -147,10 +147,8 @@ export function CognitoProvider({ children }: {children: React.ReactElement}): R
 } 
 
 
-export default function useCognito() {
+export default function useCognito(): CognitoContext {
   const ctx = React.useContext(Context);
-  return { 
-    ...ctx,
-    Auth
-  };
+
+  return ctx;
 }

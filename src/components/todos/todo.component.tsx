@@ -4,6 +4,7 @@ import Input from '@vini-vici/viddi/dist/input/input.component';
 import Textarea from '@vini-vici/viddi/dist/textarea/textarea.component';
 import Checkbox from '@vini-vici/viddi/dist/checkbox/checkbox.component';
 import Button from '@vini-vici/viddi/dist/button/button.component';
+import { isTargetNameAssociation } from '.pnpm/@aws-amplify+datastore@3.4.1/node_modules/@aws-amplify/datastore';
 
 export interface TodoProps extends Todo {
   onDelete: (todoId: string) => void;
@@ -22,24 +23,23 @@ export default function TodoComponent(
 ): React.ReactElement {
 
   const [isEditing, setEditing] = React.useState(false);
+  const [local, setLocal] = React.useState({
+    title,
+    description,
+    done
+  })
 
   return (
     <div className="todo-row contents">
       <div className="border-l p-2 text-center">
         <div className="mx-auto">
           <Checkbox
-            checked={done}
+            checked={local.done}
             onChange={({ target }) => {
-              onChange?.(
-                new CustomEvent('updateTodo', {
-                  detail: {
-                    done: target.checked,
-                    title,
-                    description,
-                    id
-                  } 
-                })
-              );
+              setLocal({
+                ...local,
+                done: target.checked
+              });
             }}
           />
         </div>
@@ -50,17 +50,13 @@ export default function TodoComponent(
           isEditing ? 
             (
               <Input
-                value={title}
-                onChange={({ target }) => onChange(
-                  new CustomEvent('updateTodo', {
-                    detail: {
-                      id,
-                      done,
-                      description,
-                      title: target.value
-                    } 
-                  })
-                )}
+                value={local.title}
+                onChange={({ target }) => {
+                  setLocal({
+                    ...local,
+                    title: target.value
+                  });
+                }}
               />
             ):
             title
@@ -72,17 +68,8 @@ export default function TodoComponent(
             (
               <Textarea
                 className="w-full"
-                value={description}
-                onChange={({ target }) => onChange?.(
-                  new CustomEvent('updateTodo', {
-                    detail: {
-                      id,
-                      done,
-                      title,
-                      description: target.value
-                    }
-                  })
-                )}
+                value={local.description}
+                onChange={({ target }) => setLocal({...local, description: target.value})}
               />
             ) :
             description?.split('\n').map((s, i)=> <p key={`paragraph-${id}-${i}`}>{s}</p>)
@@ -90,7 +77,19 @@ export default function TodoComponent(
       </div>
       
       <div className="flex justify-evenly items-start">
-        <div onClick={() => setEditing(!isEditing)}>
+        <div onClick={() => {
+          if(isEditing) {
+            onChange?.(
+              new CustomEvent('TodoChange', {
+                detail: {
+                  ...local,
+                  id
+                }
+              })
+            );
+          }
+          setEditing(!isEditing);
+        }}>
           {
             isEditing
               ? (<button className="bg-purple-500 text-gray-100 px-2 py-1 rounded">Save</button>)

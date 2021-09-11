@@ -27,6 +27,7 @@ for(const account of accounts) {
   // Create the regular stacks too.
   new VicciStack(app, `Vicci-${account.accountId}-${account.stage}-${account.region}`, {
     stage: account.stage,
+    description: `FE Vicci for ${account.stage} in ${account.region}`,
     env: {
       region: account.region,
       account: account.accountId
