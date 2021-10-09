@@ -1,7 +1,18 @@
 import React from 'react';
 
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
-test('Jo', async () => {
-  expect(1).toBe(1);
+import useCognito, { CognitoProvider } from './cognito';
+
+test('Renders without issue.', async () => {
+  render(
+    <CognitoProvider>
+      <div>
+        Hello
+      </div>
+    </CognitoProvider>
+  );
+
+  screen.getByText('Hello');
+  
 });

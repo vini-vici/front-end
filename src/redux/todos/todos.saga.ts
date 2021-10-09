@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { put, takeLatest, takeEvery, call } from 'redux-saga/effects';
 
-import { FetchTodoAction, TodosActionsTypes, fetchTodosSuccess, fetchTodosError, RemoveTodoAction, UpdateTodoAction, removeTodoSuccess, AddTodoAction, addTodoSuccess, DoneTodoAction, updateTodoSuccess } from './todos.action';
+import { FetchTodoAction, TodosActionsTypes, fetchTodosSuccess, fetchTodosError, RemoveTodoAction, UpdateTodoAction, removeTodoSuccess, AddTodoAction, addTodoSuccess, DoneTodoAction, updateTodoSuccess, doneTodoSuccess } from './todos.action';
 import { listTodos, deleteTodo, addTodo, updateTodo } from '@/api/api';
 import { Todo } from './todos.reducer';
 
@@ -36,7 +36,13 @@ export function* updateTodoWatcher({ id, title, description, done, token }: Upda
       description,
       done
     }, token)) as Todo;
-
+    
+    yield put(updateTodoSuccess(
+      id,
+      title,
+      description,
+      done
+    ));
     // Add success line
   } catch (e) {
     console.error(e);
@@ -46,11 +52,11 @@ export function* updateTodoWatcher({ id, title, description, done, token }: Upda
 
 export function* addTodoWatcher({ title, done, description, token }: AddTodoAction) {
   try {
-    const id = (yield call(addTodo, {
+    const {id} = (yield call(addTodo, {
       title,
       done,
       description
-    }, token)) as string;
+    }, token)) as {id: string};
 
     yield put(addTodoSuccess({
       id,
@@ -58,6 +64,7 @@ export function* addTodoWatcher({ title, done, description, token }: AddTodoActi
       done, 
       description
     }));
+
   } catch(e) {
     console.error(e);
   }
@@ -68,7 +75,7 @@ export function* doneTodoWatcher(action: DoneTodoAction) {
     const res = (yield call(updateTodo, action.id, {
       done: true
     }, action.token)) as Todo;
-    console.log(res);
+    yield put(doneTodoSuccess(action.id));
   } catch(e) {
     console.error(e);
   }

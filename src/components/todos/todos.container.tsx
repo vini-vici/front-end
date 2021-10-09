@@ -20,8 +20,7 @@ export default function TodosContainer(): React.ReactElement {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    console.log('token', token);
-    if(status === 'initial') 
+    if(status === 'initial' && token?.length > 0)
       dispatch(fetchTodos(user?.getSignInUserSession()?.getIdToken()?.getJwtToken()));
     
   }, [token]);
@@ -33,7 +32,7 @@ export default function TodosContainer(): React.ReactElement {
       todos={todos}
       toggleDone={todoId => dispatch(doneTodo(todoId, token))}
       updateTodo={todo => dispatch(updateTodo(todo.id, token, todo.title, todo.description, todo.done))}
-      deleteTodo={todo =>  dispatch(removeTodo(todo,token))}
+      deleteTodo={todo =>  dispatch(removeTodo(todo, token))}
     />
   );
 }

@@ -4,11 +4,12 @@ import Input from '@vini-vici/viddi/dist/input/input.component';
 import Textarea from '@vini-vici/viddi/dist/textarea/textarea.component';
 import Checkbox from '@vini-vici/viddi/dist/checkbox/checkbox.component';
 import Button from '@vini-vici/viddi/dist/button/button.component';
-import { isTargetNameAssociation } from '.pnpm/@aws-amplify+datastore@3.4.1/node_modules/@aws-amplify/datastore';
+import Dc from '@vini-vici/viddi/dist/classes/domClasses.class';
 
 export interface TodoProps extends Todo {
   onDelete: (todoId: string) => void;
   onChange?: (e: CustomEvent<Todo>) => void;
+  onDone?: (e: CustomEvent<Todo>) => void;
 }
 
 export default function TodoComponent(
@@ -18,28 +19,37 @@ export default function TodoComponent(
     id,
     done,
     onDelete,
-    onChange
+    onChange,
+    onDone,
+    updating
   }: TodoProps
 ): React.ReactElement {
 
   const [isEditing, setEditing] = React.useState(false);
   const [local, setLocal] = React.useState({
     title,
-    description,
-    done
-  })
+    description
+  });
+
+  const rowClasses = new Dc('todo-row contents');
+
+  if(updating) rowClasses.add('text-gray-300');
 
   return (
-    <div className="todo-row contents">
+    <div className={rowClasses.toString()}>
       <div className="border-l p-2 text-center">
         <div className="mx-auto">
           <Checkbox
-            checked={local.done}
+            checked={done}
             onChange={({ target }) => {
-              setLocal({
-                ...local,
-                done: target.checked
-              });
+              onDone(new CustomEvent('TodoDone', {
+                detail: {
+                  id,
+                  title,
+                  description,
+                  done: target.checked
+                }
+              }));
             }}
           />
         </div>
@@ -83,7 +93,8 @@ export default function TodoComponent(
               new CustomEvent('TodoChange', {
                 detail: {
                   ...local,
-                  id
+                  id,
+                  done
                 }
               })
             );

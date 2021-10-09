@@ -15,8 +15,13 @@ import {
   S3Origin
 } from '@aws-cdk/aws-cloudfront-origins';
 
-import * as appconfig from '@aws-cdk/aws-appconfig';
+import {
+  PublicHostedZone
+} from '@aws-cdk/aws-route53';
 
+import * as certs from '@aws-cdk/aws-certificatemanager';
+import { CertificateValidation, DnsValidatedCertificate, ICertificate} from '@aws-cdk/aws-certificatemanager';
+import { Certificate } from 'crypto';
 
 export interface VicciStackProps extends cdk.StackProps {
   stage?: string;
@@ -25,6 +30,7 @@ export interface VicciStackProps extends cdk.StackProps {
  * What we are going to need
  * * S3 Bucket
  * * CDN Distribution from said S3 bucket
+ * * (prod only) Route53 domain + Certificate
  * * 
  */
 export class VicciStack extends cdk.Stack {
@@ -33,6 +39,19 @@ export class VicciStack extends cdk.Stack {
     const {
       stage = 'beta'
     } = props;
+
+    const zone = PublicHostedZone.fromLookup(this, 'HostedZone', {
+      domainName: 'vicci.dev'
+    });
+
+    const certificate = new DnsValidatedCertificate(this, 'VicciDnsCertificate', {
+      hostedZone: zone,
+      domainName: 'vicci.dev',
+      region: 'us-east-1'
+    });
+
+    // let certificate: DnsValidatedCertificate;
+    const domainNames = stage === 'prod' ? ['vicci.dev'] : undefined;
     
     // Create WebsiteBucket
     const websiteBucket = new Bucket(this, 'WebsiteBucket-'+stage);
@@ -40,9 +59,8 @@ export class VicciStack extends cdk.Stack {
     // Create CDN Distribution
     const distribution = new Distribution(this, 'CdnDistribution-'+stage, {
       // Need to figure out a way to do some shenanigans here.
-      // domainNames: [
-      //   stage === 'gamma' ? 'staging.vicci.dev' : 'vicci.dev'
-      // ],
+      domainNames,
+      certificate: stage === 'prod' ? certificate : undefined,
       defaultRootObject: 'index.html',
       errorResponses: [
         {

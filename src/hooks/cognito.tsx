@@ -72,8 +72,6 @@ export function CognitoProvider({ children }: {children: React.ReactElement}): R
       .catch(() => void 0);
     
     Hub.listen('auth', event => {
-      console.log('data payload', event.payload);
-
       if(event.payload.event === 'signIn') {
         setUser(event.payload.data);
         const ud = event.payload.data as CognitoUser;
@@ -111,14 +109,12 @@ export function CognitoProvider({ children }: {children: React.ReactElement}): R
       }),
     signOut: () => Auth.signOut({ global: true})
       .then( res => {
-        console.log('signing out?', res);
         setUser(null);
         return res;
       })
       .catch(console.error),
     verify: (username, code) => Auth.confirmSignUp(username, code)
       .then(res => {
-        console.log(res);
         setUser(res);
         return res;
       })

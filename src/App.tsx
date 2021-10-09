@@ -22,7 +22,7 @@ import { CognitoProvider } from '@/hooks/cognito';
 // Create enhancement composers.
 const composeEnhancers = composeWithDevTools({
   shouldRecordChanges: import.meta.env !== 'production',
-  actionSanitizer: a =>  a
+  actionSanitizer: a => a
 });
 
 // Create the saga middleware.
@@ -43,9 +43,9 @@ function AppComponent() {
         store={store}
       >
         <CognitoProvider>
-          <React.Suspense fallback={<Loading />}>
-            <Router>
-              <Navbar/>
+          <Router>
+            <Navbar />
+            <React.Suspense fallback={<Loading />}>
               <Switch>
                 <Route
                   path="/"
@@ -61,7 +61,7 @@ function AppComponent() {
                   exact
                   component={
                     React.lazy(
-                      () => import(/* webpackPrefetch: true, webpackChunkName: "CallbackRoute" */'./routes/callback.route')  
+                      () => import(/* webpackChunkName: "CallbackRoute" */'./routes/callback.route')
                     )
                   }
                 />
@@ -70,7 +70,7 @@ function AppComponent() {
                   exact
                   component={
                     React.lazy(
-                      () => import(/* webpackPrefetch: true, webpackChunkName: "AboutRoute"  */'./routes/about.route')
+                      () => import(/* webpackChunkName: "AboutRoute"  */'./routes/about.route')
                     )
                   }
                 />
@@ -79,7 +79,7 @@ function AppComponent() {
                   exact
                   component={
                     React.lazy(
-                      () => import(/* webpackPrefetch: true, webpackChunkName: "LogoutRoute" */'./routes/logout.route')
+                      () => import(/* webpackChunkName: "LogoutRoute" */'./routes/logout.route')
                     )
                   }
                 />
@@ -88,7 +88,7 @@ function AppComponent() {
                   exact
                   component={
                     React.lazy(
-                      () => import(/* webpackPrefetch: true, webpackChunkName: "LoginRoute" */'./routes/login.route')
+                      () => import(/* webpackChunkName: "LoginRoute" */'./routes/login.route')
                     )
                   }
                 />
@@ -97,12 +97,12 @@ function AppComponent() {
                   exact
                   component={
                     React.lazy(
-                      () => import(/* webpackPrefetch: true, webpackChunkName: "SignupRoute" */'./routes/signup.route')
+                      () => import(/* webpackChunkName: "SignupRoute" */'./routes/signup.route')
                     )
                   }
                 />
                 <Route
-                  path="/" 
+                  path="/"
                   component={
                     React.lazy(
                       () => import(/* webpackChunkName: "404Route", webpackPrefetch: true */'./routes/_404')
@@ -110,13 +110,13 @@ function AppComponent() {
                   }
                 />
               </Switch>
-              <Footer />
-            </Router>
-          </React.Suspense>
+            </React.Suspense>
+            <Footer />
+          </Router>
         </CognitoProvider>
       </Provider>
     </ErrorBoundary>
   );
 }
 
-export default hot(AppComponent);
+export default AppComponent;

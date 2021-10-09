@@ -1,6 +1,5 @@
 import React from 'react';
 import { useLocation, Redirect } from 'react-router-dom';
-import { COGNITO_DOMAIN, CLIENT_ID} from '@/constants';
 
 export default function CallbackRoute(): React.ReactElement {
   // Get the location search.

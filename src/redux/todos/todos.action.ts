@@ -11,6 +11,8 @@ export enum TodosActionsTypes {
   UPDATE = 'UPDATE_TODO',
   UPDATE_SUCCESS = 'UPDATE_TODO_SUCCESS',
   DONE = 'DONE_TODO',
+  DONE_SUCCESS = 'DONE_TODO_SUCCESS',
+  DONE_ERROR = 'DONE_TODO_ERROR',
   FETCH = 'FETCH_TODO',
   FETCH_SUCCESS = 'FETCH_TODO_SUCCESS',
   FETCH_ERROR = 'FETCH_TODO_ERROR'
@@ -148,12 +150,27 @@ export function doneTodo(id: string, token: string): DoneTodoAction {
   };
 }
 
+export interface DoneTodoSuccessAction extends Action<TodosActionsTypes.DONE_SUCCESS> {
+  id: string;
+}
+
+export function doneTodoSuccess(id: string): DoneTodoSuccessAction {
+  return {
+    type: TodosActionsTypes.DONE_SUCCESS,
+    id
+  };
+}
+
 export type TodosAction =
   UpdateTodoAction |
+  UpdateTodoSuccessAction |
   RemoveTodoAction |
   AddTodoAction |
   AddTodoSuccessAction |
   DoneTodoAction |
+  DoneTodoSuccessAction |
   FetchTodoAction |
   FetchTodoSuccessAction |
-  FetchTodoErrorAction ;
+  FetchTodoErrorAction |
+  RemoveTodoAction |
+  RemoveTodoSuccessAction ;
