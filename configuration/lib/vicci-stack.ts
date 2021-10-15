@@ -16,12 +16,12 @@ import {
 } from '@aws-cdk/aws-cloudfront-origins';
 
 import {
-  PublicHostedZone
+  PublicHostedZone,
+  ARecord,
+  RecordTarget
 } from '@aws-cdk/aws-route53';
 
 import * as certs from '@aws-cdk/aws-certificatemanager';
-import { CertificateValidation, DnsValidatedCertificate, ICertificate} from '@aws-cdk/aws-certificatemanager';
-import { Certificate } from 'crypto';
 
 export interface VicciStackProps extends cdk.StackProps {
   stage?: string;
@@ -44,7 +44,7 @@ export class VicciStack extends cdk.Stack {
       domainName: 'vicci.dev'
     });
 
-    const certificate = new DnsValidatedCertificate(this, 'VicciDnsCertificate', {
+    const certificate = new certs.DnsValidatedCertificate(this, 'VicciDnsCertificate', {
       hostedZone: zone,
       domainName: 'vicci.dev',
       region: 'us-east-1'

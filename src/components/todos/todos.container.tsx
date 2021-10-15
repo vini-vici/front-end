@@ -28,7 +28,7 @@ export default function TodosContainer(): React.ReactElement {
   // This function merely serves as a wrapper for the actual TodosComponent.
   return (
     <TodosComponent
-      loading={!['success', 'error'].includes(status)}
+      loading={status === 'loading'}
       todos={todos}
       toggleDone={todoId => dispatch(doneTodo(todoId, token))}
       updateTodo={todo => dispatch(updateTodo(todo.id, token, todo.title, todo.description, todo.done))}

@@ -17,7 +17,6 @@ export default function SignupRoute(): React.ReactElement {
     password: '',
     confirmPassword: '',
     email: '',
-    phone: '',
     preferedUserName: ''
   });
 
@@ -40,7 +39,6 @@ export default function SignupRoute(): React.ReactElement {
   }, [signupData.username, signupData.confirmUsername, signupData.password, signupData.confirmPassword]);
 
 
-  console.log(redirect, genericUser?.username);
   if(redirect || genericUser?.username) 
     return <Redirect to="/" />;
 
@@ -55,13 +53,11 @@ export default function SignupRoute(): React.ReactElement {
         </h1>
         <form onSubmit={e => {
           e.preventDefault();
-          console.log(validations, showVerify);
           if(validations.username && validations.password && !showVerify) {
             signUp(
               signupData.username,
               signupData.password,
               signupData.email,
-              signupData.phone,
               signupData.preferedUserName
             )
               .then(() => setVerify(true))
@@ -118,17 +114,6 @@ export default function SignupRoute(): React.ReactElement {
               type="password"
               placeholder="Confirm your password"
               onChange={e => setSignupData({...signupData, confirmPassword: e.target.value})}
-            />
-          </FormField>
-          <FormField
-            label="Phone Number"
-          >
-            <Input
-              disabled={showVerify}
-              className="w-full"
-              type="tel"
-              placeholder="Enter your full phone number, including country code"
-              onChange={e => setSignupData({...signupData, phone: e.target.value})}
             />
           </FormField>
           <FormField

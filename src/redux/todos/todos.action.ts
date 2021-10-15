@@ -2,6 +2,7 @@ import { Action } from 'redux';
 import { Todo } from './todos.reducer';
 
 export enum TodosActionsTypes {
+  RESET = 'RESET_TODO',
   ADD = 'ADD_TODO',
   ADD_SUCCESS = 'ADD_TODO_SUCCESS',
   ADD_ERROR = 'ADD_TODO_ERROR',
@@ -16,6 +17,14 @@ export enum TodosActionsTypes {
   FETCH = 'FETCH_TODO',
   FETCH_SUCCESS = 'FETCH_TODO_SUCCESS',
   FETCH_ERROR = 'FETCH_TODO_ERROR'
+}
+
+export type ResetTodoAction = Action<TodosActionsTypes.RESET>;
+
+export function resetTodos(): ResetTodoAction {
+  return {
+    type: TodosActionsTypes.RESET
+  };
 }
 
 export interface FetchTodoAction extends Action<TodosActionsTypes.FETCH>{
@@ -173,4 +182,5 @@ export type TodosAction =
   FetchTodoSuccessAction |
   FetchTodoErrorAction |
   RemoveTodoAction |
-  RemoveTodoSuccessAction ;
+  RemoveTodoSuccessAction |
+  ResetTodoAction ;

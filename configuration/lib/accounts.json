@@ -8,5 +8,10 @@
     "stage": "gamma",
     "accountId":"140851651058",
     "region":"us-west-2"
+  },
+  {
+    "stage": "prod",
+    "accountId": "519202335406",
+    "region": "us-west-1"
   }
 ]

@@ -30,6 +30,8 @@ jobs:
         registry-url: 'https://npm.pkg.github.com'
     - run: npm i -g pnpm
     - run: pnpm i --frozen-lockfile
+      with:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - run: pnpm test
   lint:
     runs-on: ubuntu-latest
@@ -45,4 +47,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm i -g pnpm
     - run: pnpm i --frozen-lockfile
+      with:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - run: pnpm lint

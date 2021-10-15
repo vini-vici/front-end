@@ -6,6 +6,7 @@ import useCognito from '@/hooks/cognito';
 
 export default function Navbar(): React.ReactElement {
   const { user } = useCognito();
+  console.log('from the navbar', user);
   return (
     <nav className="bg-gray-800 dark:bg-black text-gray-100 h-12 min-h-12 px-2 flex-shrink-0 flex items-center">
       <div className="container flex justify-between items-center">

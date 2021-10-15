@@ -6,6 +6,7 @@ import { CLIENT_ID, COGNITO_DOMAIN, POOL_ID, REGION } from '@/config.json';
 
 import Amplify, { Hub } from '@aws-amplify/core';
 import Auth from '@aws-amplify/auth';
+// import { CognitoUser } from '@aws-amplify/auth';
 import { CognitoUser, ISignUpResult, UserData } from 'amazon-cognito-identity-js';
 
 // Q: How do we do this without needing to hardcode the values for the 
@@ -37,7 +38,7 @@ interface CognitoContext {
   signIn(username: string, password: string): Promise<CognitoUser>;
   signOut(): Promise<null>;
   verify(username: string, code: string): Promise<unknown>;
-  signUp(username:string, password: string, email: string, phone: string, preferredUsername: string): Promise<ISignUpResult>;
+  signUp(username:string, password: string, email: string, preferredUsername: string): Promise<ISignUpResult>;
 }
 
 const Context = React.createContext<CognitoContext | undefined>(undefined);
@@ -114,17 +115,13 @@ export function CognitoProvider({ children }: {children: React.ReactElement}): R
       })
       .catch(console.error),
     verify: (username, code) => Auth.confirmSignUp(username, code)
-      .then(res => {
-        setUser(res);
-        return res;
-      })
+      .then(res => res)
       .catch(console.error),
-    signUp: (username, password, email, phone, preferredUsername) => 
+    signUp: (username, password, email, preferredUsername) => 
       Auth.signUp({
         username,
         password,
         attributes: {
-          phone,
           email,
           preferred_username: preferredUsername
         }

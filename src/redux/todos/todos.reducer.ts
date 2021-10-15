@@ -26,7 +26,11 @@ const initialState: TodosState = {
 
 export function todosReducer(state: TodosState = initialState, action: TodosAction): TodosState {
   switch (action.type) {
-  // fetch status
+    case TodosActionsTypes.RESET:
+      return {
+        ...initialState
+      };
+    // fetch status
     case TodosActionsTypes.FETCH:
       return {
         ...state,
