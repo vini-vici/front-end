@@ -16,8 +16,9 @@ const fromSrc = fromRoot.bind(null, 'src');
  */
 function populateConfig() {
   if(!existsSync(fromSrc('config.json'))) {
+    const { region = 'us-west-1' } = process.env;
     // Get the raw data
-    const raw = execSync('aws cloudformation list-exports --region us-west-2').toString();
+    const raw = execSync('aws cloudformation list-exports --region ' + region).toString();
     // Parse it
     const data = JSON.parse(raw);
     // if we don't have anything, fucky wucky
@@ -31,7 +32,7 @@ function populateConfig() {
     const config = {
       COGNITO_DOMAIN: obj.UserPoolDomain,
       CLIENT_ID: obj.UserPoolClientId,
-      REGION: 'us-west-2',
+      REGION: region,
       API: obj.ApiEndpoint,
       POOL_ID: obj.UserPoolId
     };

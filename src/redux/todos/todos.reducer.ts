@@ -5,6 +5,7 @@ export interface Todo {
   title: string;
   description?: string;
   done: boolean;
+  updating?: boolean;
 }
 
 export interface TodosState {
@@ -12,34 +13,24 @@ export interface TodosState {
   error: string;
   todos: Todo[];
   todosById: {
-    [id: number]: Todo;
+    [id: string]: Todo & { updating?: boolean };
   };
 }
 
 const initialState: TodosState = {
   status: 'initial',
   error: '',
-  todos: [
-    {
-      id: '1',
-      title: 'Example Todo',
-      description: 'You can add an optional description',
-      done: false
-    }
-  ],
-  todosById: {
-    '1': {
-      id: '1',
-      title: 'Example Todo',
-      description: 'You can add an optional description',
-      done: false
-    }
-  }
+  todos: [],
+  todosById: {}
 };
 
 export function todosReducer(state: TodosState = initialState, action: TodosAction): TodosState {
   switch (action.type) {
-  // fetch status
+    case TodosActionsTypes.RESET:
+      return {
+        ...initialState
+      };
+    // fetch status
     case TodosActionsTypes.FETCH:
       return {
         ...state,
@@ -72,6 +63,124 @@ export function todosReducer(state: TodosState = initialState, action: TodosActi
       };
     }
 
+    case TodosActionsTypes.ADD_SUCCESS: {
+      return {
+        ...state,
+        todos: [
+          ...state.todos,
+          action.todo
+        ],
+        todosById: {
+          ...state.todosById,
+          [action.todo.id]: {
+            ...action.todo
+          }
+        }
+      };
+    }
+
+    case TodosActionsTypes.UPDATE: {
+      const ind = state.todos.findIndex(todo => todo.id === action.id);
+      return {
+        ...state,
+        todos: [
+          ...state.todos.slice(0, ind),
+          {
+            ...state.todosById[action.id],
+            id: action.id,
+            title: action.title,
+            done: action.done,
+            description: action.description,
+            updating: true
+          },
+          ...state.todos.slice(ind+1)
+        ],
+        todosById: {
+          ...state.todosById,
+          [action.id]: {
+            ...state.todosById[action.id],
+            title: action.title,
+            description: action.description,
+            done: action.done,
+            updating: true
+          }
+        }
+      };
+    }
+
+    case TodosActionsTypes.UPDATE_SUCCESS: {
+      const { [action.id]: item } = state.todosById;
+      const index = state.todos.findIndex(item => item.id === action.id);
+      return {
+        ...state,
+        todos: [
+          ...state.todos.slice(0, index),
+          {
+            ...item,
+            updating: false
+          },
+          ...state.todos.slice(index + 1)
+        ],
+        todosById: {
+          ...state.todosById,
+          [action.id]: {
+            ...item,
+            updating: false
+          }
+        }
+      };
+    }
+
+    case TodosActionsTypes.DONE: {
+      const index = state.todos.findIndex(todo => todo.id === action.id);
+      const item = {
+        ...state.todos[index],
+        done: !state.todos[index].done
+      };
+      return {
+        ...state,
+        todosById: {
+          ...state.todosById,
+          [action.id]: {
+            ...item,
+            updating: true
+          }
+        }
+      };
+    }
+
+    case TodosActionsTypes.DONE_SUCCESS: {
+      const index = state.todos.findIndex(todo => todo.id === action.id);
+      if(!index) return state;
+      const item = {
+        ...state.todos[index]
+      };
+      return {
+        ...state,
+        todos: [
+          ...state.todos.slice(0, index),
+          item,
+        ],
+        todosById:{
+          ...state.todosById,
+          [action.id]: {
+            ...item,
+            updating: false
+          }
+        }
+      };
+    }
+
+    case TodosActionsTypes.REMOVE: {
+      return {
+        ...state,
+        todos: state.todos.filter(item =>  item.id !== action.id),
+        todosById: {
+          ...state.todosById,
+          [action.id]: undefined
+        }
+      };
+    }
     //
     default:
       return state;

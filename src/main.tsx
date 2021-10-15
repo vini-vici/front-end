@@ -1,4 +1,4 @@
-import 'react-hot-loader';
+// import 'react-hot-loader';
 import 'regenerator-runtime/runtime';
 import React from 'react';
 import { render } from 'react-dom';

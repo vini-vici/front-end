@@ -14,24 +14,25 @@ export default function TodosContainer(): React.ReactElement {
   }}: RootState) => ({ todos, status}));
 
   const { user } = useCognito();
+  const token = user?.getSignInUserSession()?.getIdToken()?.getJwtToken();
 
   // grab the dispatch.
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    if(status === 'initial') 
+    if(status === 'initial' && token?.length > 0)
       dispatch(fetchTodos(user?.getSignInUserSession()?.getIdToken()?.getJwtToken()));
     
-  }, [user?.getSignInUserSession()?.getIdToken()?.getJwtToken()]);
+  }, [token]);
 
   // This function merely serves as a wrapper for the actual TodosComponent.
   return (
     <TodosComponent
-      loading={!['success', 'error'].includes(status)}
+      loading={status === 'loading'}
       todos={todos}
-      toggleDone={todoId => dispatch(doneTodo(todoId))}
-      updateTodo={todo => dispatch(updateTodo(todo.id, todo.title, todo.description, todo.done))}
-      deleteTodo={todo =>  dispatch(removeTodo(todo, user?.getSignInUserSession()?.getIdToken()?.getJwtToken()))}
+      toggleDone={todoId => dispatch(doneTodo(todoId, token))}
+      updateTodo={todo => dispatch(updateTodo(todo.id, token, todo.title, todo.description, todo.done))}
+      deleteTodo={todo =>  dispatch(removeTodo(todo, token))}
     />
   );
 }

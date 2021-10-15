@@ -4,7 +4,7 @@ import Input from '@vini-vici/viddi/dist/input/input.component';
 import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
 import Button from '@vini-vici/viddi/dist/button/button.component';
 import Modal from '@vini-vici/viddi/dist/modal/modal.component';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import useCognito from '@/hooks/cognito';
 
@@ -19,7 +19,6 @@ export default function LoginRoute(): React.ReactElement {
 
   const loginHandler = () => {
     signIn(username, password)
-      .then(console.log)
       .catch(e => setError(e.message));
   };
 
@@ -86,7 +85,7 @@ export default function LoginRoute(): React.ReactElement {
             />
           </FormField>
           <div className="mt-2 text-right">
-            <a href="/">Signup</a>
+            <Link to="/signup">Signup</Link>
           </div>
           <div className="flex mt-3 justify-end gap-2">
             <Button

@@ -25,6 +25,8 @@ export default function IndexRoute(): React.ReactElement {
   // maps the state to the what we need.
   const showModal = useSelector(({ CreateModalState: { show }}: RootState) => (show));
 
+  const { user } = useCognito();
+
   const initialTodos: Todo = {
     id: '',
     title: '',
@@ -32,8 +34,6 @@ export default function IndexRoute(): React.ReactElement {
     done: false
   };
   const [{id, title, description, done}, setTodo] = React.useState(initialTodos);
-
-  const { user } = useCognito();
 
   return (
     <div className="w-full sm:w-4/5 lg:w-3/4 mx-auto flex-grow">

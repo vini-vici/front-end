@@ -43,6 +43,9 @@ export default function TodosComponent(props: TodosProps): React.ReactElement {
                 onChange={e => {
                   updateTodo(e.detail);
                 }}
+                onDone={e => {
+                  updateTodo(e.detail);
+                }}
                 {...todo}
               />
             )) :

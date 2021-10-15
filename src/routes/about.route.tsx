@@ -69,7 +69,7 @@ export default function AboutRoute(): React.ReactElement {
             </ul>
           </div>
         </div>
-        <small>* Vidi UI is a part of the same project, just split out into its own project.</small>
+        <small>* Vidi UI is a part of the same project, just split out into its own repo.</small>
 
         <h2 className="text-xl mt-3">
           That's it?
@@ -83,8 +83,8 @@ export default function AboutRoute(): React.ReactElement {
         <ol className="list-decimal list-inside mt-2">
           <li><a className="text-underline text-purple-700" href="//github.com/vini-vici/front-end">Vici Front-End</a></li>
           <li><a className="text-underline text-purple-700" href="//github.com/vini-vici/back-end">Vici Back-End</a></li>
-          <li><a href="//github.com/vini-vici/shared-infra" className="text-underline text-purple-700"> Vici Shared-Infrastructure</a></li>
-          <li><a href="//github.com/vini-vici/viddi" className="text-underline text-purple-700"> Viddi UI</a></li>
+          <li><a href="//github.com/vini-vici/shared-infra" className="text-underline text-purple-700">Vici Shared-Infrastructure</a></li>
+          <li><a href="//github.com/vini-vici/viddi" className="text-underline text-purple-700">Viddi UI</a></li>
         </ol>
 
         <h3 className="text-lg mt-3">Vicci Front-End (FE)</h3>
@@ -93,31 +93,32 @@ export default function AboutRoute(): React.ReactElement {
 
         <h3 className="text-lg mt-3">Vicci Back-End (BE)</h3>
 
-        <p>This is the main repository for the API. It creates an API Gateway, as well as some lambda functions.</p>
+        <p>This is the main repository for the API. It creates an API Gateway, as well as some lambda functions for basic <abbr title="Create, Read, Update, DELETE">CRUD</abbr> functionality.</p>
 
         <h3 className="text-lg mt-3">Vicci Share Infrastructure</h3>
 
         <p>
           Both the FE and BE rely on Cognito, so the infrastructure package that creates it is separate from the FE or BE repo.
           This was done largely because the FE needs information from the BE, but the BE needs information about Cognito in order to authorize requests.
-        </p>
-
-        <p>
-          Originally this code was a part of the FE package, but it was split out in order to avoid needing to build the front-end or back-end without proper values initially and then re-building them later.
+          This meant that putting the Cognito information in the FE would require someone to build and deploy the front-end, then build and deploy the back-end,
+          and then re-build and re-deploy the front end. Separating it out means that we do not have to perform that flow.
         </p>
 
         <h3 className="text-lg mt-3">Viddi UI</h3>
 
         <p>
           At one point in development there were <em>a lot</em> of components in the FE repo. These components got split out into the Viddi UI components.
-          The Viddi UI automates some parts of the process necessary for working with component UI, such as automatic CHANGELOG generation.
+          The Viddi UI automates some parts of the process necessary for working with component UI, such as automatic CHANGELOG generation. Automated publishing to NPM is still <abbr title="work in progress">WIP</abbr>
         </p>
 
         <h3 className="text-lg mt-3">Wrapping Up</h3>
 
         <p>So, what am I hoping this does for you?</p>
 
-        <p>Best case scenario I hope that this gives people a peek into what makes a simple app. It uses a lot of things, such as Infrastructure-as-Code (IaC), Serverless functions, and a very rough JAMStack implementation.</p>
+        <p>
+          Best case scenario I hope that this gives people a peek into what makes a simple app. 
+          It uses a lot of things, such as Infrastructure-as-Code (IaC), Serverless functions, and a very rough JAMStack implementation.
+        </p>
 
       </div>
     </div>
