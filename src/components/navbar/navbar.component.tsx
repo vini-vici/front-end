@@ -6,13 +6,16 @@ import useCognito from '@/hooks/cognito';
 
 export default function Navbar(): React.ReactElement {
   const { user } = useCognito();
-  console.log('from the navbar', user);
   return (
     <nav className="bg-gray-800 dark:bg-black text-gray-100 h-12 min-h-12 px-2 flex-shrink-0 flex items-center">
       <div className="container flex justify-between items-center">
-        <div className="left-section">
-          Vicci
+        <div className="left-section flex items-center">
+          <img src="./vicci-favicon.svg" style={{ height: '1.5em', display: 'inline-block', marginRight: '0.5em'}} alt="Vicci" />
+          <div>
+            Vicci
+          </div>
         </div>
+        
         <div className="flex right-section gap-2">
           <NavLink to="/" exact activeClassName="font-semibold underline">Home</NavLink>
           <NavLink to="/about" activeClassName="font-semibold underline">About</NavLink>

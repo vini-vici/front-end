@@ -36,7 +36,7 @@ const store = createStore(
 // run the root saga, which combines the rest of them.
 sagaMiddleware.run(rootSaga);
 
-function AppComponent() {
+function AppComponent(): React.ReactElement {
   return (
     <ErrorBoundary>
       <Provider
@@ -45,7 +45,11 @@ function AppComponent() {
         <CognitoProvider>
           <Router>
             <Navbar />
-            <React.Suspense fallback={<Loading />}>
+            <React.Suspense fallback={
+              <div style={{flexGrow: 1, textAlign: 'center'}}>
+                <Loading />
+              </div>
+            }>
               <Switch>
                 <Route
                   path="/"
