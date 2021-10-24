@@ -14,5 +14,9 @@
   "hosted-zone:account=519202335406:domainName=vicci.dev:region=us-west-1": {
     "Id": "/hostedzone/Z04114571GHQ6YKEZ9BIQ",
     "Name": "vicci.dev."
+  },
+  "hosted-zone:account=471993188491:domainName=staging.vicci.dev:region=us-west-1": {
+    "Id": "/hostedzone/Z04643353LGF73001XERH",
+    "Name": "staging.vicci.dev."
   }
 }

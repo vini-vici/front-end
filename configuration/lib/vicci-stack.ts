@@ -17,11 +17,14 @@ import {
 
 import {
   PublicHostedZone,
-  ARecord,
-  RecordTarget
 } from '@aws-cdk/aws-route53';
 
 import * as certs from '@aws-cdk/aws-certificatemanager';
+
+function getDomainName(stage: string): string {
+  if(stage === 'gamma') return 'staging.vicci.dev';
+  return 'vicci.dev';
+}
 
 export interface VicciStackProps extends cdk.StackProps {
   stage?: string;
@@ -41,12 +44,12 @@ export class VicciStack extends cdk.Stack {
     } = props;
 
     const zone = PublicHostedZone.fromLookup(this, 'HostedZone', {
-      domainName: 'vicci.dev'
+      domainName: getDomainName(stage)
     });
 
     const certificate = new certs.DnsValidatedCertificate(this, 'VicciDnsCertificate', {
       hostedZone: zone,
-      domainName: 'vicci.dev',
+      domainName: getDomainName(stage),
       region: 'us-east-1'
     });
 
@@ -65,6 +68,13 @@ export class VicciStack extends cdk.Stack {
       errorResponses: [
         {
           httpStatus: 404,
+          responsePagePath: '/index.html',
+          responseHttpStatus: 200
+        },
+        // Since we are connecting via CloudFront, the actual status given to us when we try to access
+        // Objects that don't exist is 403.
+        {
+          httpStatus: 403,
           responsePagePath: '/index.html',
           responseHttpStatus: 200
         }
