@@ -12,7 +12,7 @@ specifiers:
   '@hot-loader/react-dom': ^17.0.1
   '@mdi/js': ^5.9.55
   '@mdi/react': ^1.5.0
-  '@reduxjs/toolkit': ^1.6.1
+  '@reduxjs/toolkit': ^1.6.2
   '@testing-library/react': ^11.2.7
   '@types/jest': ^26.0.24
   '@types/react-dom': ^17.0.9
@@ -79,7 +79,7 @@ devDependencies:
   '@babel/preset-typescript': 7.15.0_@babel+core@7.15.5
   '@core-fabrications/eslint-plugin': 1.0.1
   '@ffmpeg-installer/ffmpeg': 1.1.0
-  '@reduxjs/toolkit': 1.6.1_react-redux@7.2.5+react@17.0.2
+  '@reduxjs/toolkit': 1.6.2_react-redux@7.2.5+react@17.0.2
   '@testing-library/react': 11.2.7_react-dom@17.0.2+react@17.0.2
   '@types/jest': 26.0.24
   '@types/react-dom': 17.0.9
@@ -3209,8 +3209,8 @@ packages:
     resolution: {integrity: sha512-afmTuJrylUU/0OtqzaRkbyYFFNgCF73Bvel/sw90pvGrWIZ+vyoIJqA6eMSoA6+nb443kTmulmBtC9NerXboNg==}
     dev: false
 
-  /@reduxjs/toolkit/1.6.1_react-redux@7.2.5+react@17.0.2:
-    resolution: {integrity: sha512-pa3nqclCJaZPAyBhruQtiRwtTjottRrVJqziVZcWzI73i6L3miLTtUyWfauwv08HWtiXLx1xGyGt+yLFfW/d0A==}
+  /@reduxjs/toolkit/1.6.2_react-redux@7.2.5+react@17.0.2:
+    resolution: {integrity: sha512-HbfI/hOVrAcMGAYsMWxw3UJyIoAS9JTdwddsjlr5w3S50tXhWb+EMyhIw+IAvCVCLETkzdjgH91RjDSYZekVBA==}
     peerDependencies:
       react: ^16.14.0 || ^17.0.0
       react-redux: ^7.2.1

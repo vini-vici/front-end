@@ -8,6 +8,8 @@ import Amplify, { Hub } from '@aws-amplify/core';
 import Auth from '@aws-amplify/auth';
 // import { CognitoUser } from '@aws-amplify/auth';
 import { CognitoUser, ISignUpResult, UserData } from 'amazon-cognito-identity-js';
+import { setCredentials } from '@/redux/auth/authSlice';
+import { useDispatch } from 'react-redux';
 
 // Q: How do we do this without needing to hardcode the values for the 
 Amplify.configure({
@@ -41,7 +43,7 @@ interface CognitoContext {
   signUp(username:string, password: string, email: string, preferredUsername: string): Promise<ISignUpResult>;
 }
 
-const Context = React.createContext<CognitoContext | undefined>(undefined);
+export const Context = React.createContext<CognitoContext | undefined>(undefined);
 
 function attributeToObject(attr: UserData): GenericUser {
   return attr.UserAttributes.reduce((cum, cur) => {
@@ -54,12 +56,18 @@ export function CognitoProvider({ children }: {children: React.ReactElement}): R
 
   const [user, setUser] = React.useState<CognitoUser | null>(null);
   const [genericUser, setGenericUser] = React.useState<GenericUser>({});
+  const dispatch = useDispatch();
   
   useEffect(() => {
     Auth
       .currentAuthenticatedUser()
       .then((res: CognitoUser) => {
         setUser(res);
+        console.log(res);
+        dispatch(setCredentials({
+          user: res.getUsername(),
+          token: res.getSignInUserSession().getIdToken().getJwtToken()
+        }));
         res.getUserData((err, ud) => {
           if(err) {
             console.error(err);
