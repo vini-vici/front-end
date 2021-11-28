@@ -31,6 +31,10 @@ for(const account of accounts) {
     env: {
       region: account.region,
       account: account.accountId
+    },
+    tags: {
+      stage: 'prod',
+      app: 'vicci'
     }
   });
 }

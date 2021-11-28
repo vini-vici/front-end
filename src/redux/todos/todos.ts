@@ -9,41 +9,46 @@ export const todosApi = createApi({
     baseUrl: CONFIG.API,
     prepareHeaders: (headers, { getState }) => {
       const state = getState() as RootState;
-      if (state.auth.token)
-        headers.set('authorization', 'Bearer '+state.auth.token)
+      if (state.auth.idToken)
+        headers.set('authorization', 'Bearer '+state.cognito.idToken);
       return headers;
     },
-
   }),
   tagTypes: ['Todo'],
-  endpoints: (builder) => ({
+  
+  endpoints: builder => ({
     // Queries the items
     getTodos: builder.query<Todo[], void>({
       query: () => '/',
-      providesTags: (result) => 
+      onQueryStarted: (a, { getState }) => {
+        const { cognito } = getState() as unknown as RootState;
+        console.log(cognito);
+      },
+      providesTags: result => 
         result ? 
           [
             ...result.map(({ id }) => ({ type: 'Todo' as const, id })),
-            { type: 'Todo', id: 'LIST'}
+            { type: 'Todo', id: 'LIST' }
           ] :
-          [{ type: 'Todo', id: 'LIST'}]
+          [{ type: 'Todo', id: 'LIST' }]
     }),
     addTodo: builder.mutation<Todo, Partial<Todo>>({
-      query: (body) => ({
+      query: body => ({
         url: '',
         method: 'PUT',
         body
       }),
-      invalidatesTags: [{ type: 'Todo', id: 'LIST'}]
+      invalidatesTags: [{ type: 'Todo', id: 'LIST' }]
     }),
     updateTodo: builder.mutation<void, Pick<Todo, 'id'> & Partial<Todo>>({
-      query: ({id, ...rest}) => ({
+      query: ({ id, ...rest }) => ({
         url: `/${id}`,
         method: 'POST',
         body: rest,
-      })
+      }),
+      invalidatesTags: [{ type: 'Todo', id: 'LIST' }]
     })
   })
 });
 
-export const { useGetTodosQuery, useAddTodoMutation } = todosApi;
+export const { useGetTodosQuery, useAddTodoMutation, useUpdateTodoMutation } = todosApi;

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
-interface AuthState {
+export interface AuthState {
   username: string;
   preferredUsername?: string;
   idToken: string;
@@ -11,20 +11,24 @@ interface AuthState {
 const slice = createSlice({
   name: 'auth',
   initialState: { 
-    user: null,
-    token: null
-  },
+    username: '',
+    idToken: '',
+    authToken: ''
+  } as AuthState,
   reducers: {
     setCredentials: (
       state,
-      { payload: { user, token }}: PayloadAction<{user: string; token: string}>
-    ) => {
-      state.user = user
-      state.token = token
-    }
+      { payload: { username, idToken, authToken, preferredUsername } }: PayloadAction<AuthState>
+    ) => ({
+      ...state,
+      username,
+      preferredUsername,
+      idToken,
+      authToken
+    }),
   }
 });
 
 export const { setCredentials } = slice.actions;
 export default slice.reducer;
-export const selectCurrentUser =  (state: RootState) => state.auth.user;
+export const selectCurrentUser =  (state: RootState) => state.auth.username;

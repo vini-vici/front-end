@@ -65,8 +65,9 @@ export function CognitoProvider({ children }: {children: React.ReactElement}): R
         setUser(res);
         console.log(res);
         dispatch(setCredentials({
-          user: res.getUsername(),
-          token: res.getSignInUserSession().getIdToken().getJwtToken()
+          username: res.getUsername(),
+          idToken: res.getSignInUserSession().getIdToken().getJwtToken(),
+          authToken: res.getSignInUserSession().getAccessToken().getJwtToken()
         }));
         res.getUserData((err, ud) => {
           if(err) {
@@ -79,7 +80,7 @@ export function CognitoProvider({ children }: {children: React.ReactElement}): R
         });
       })
       .catch(() => void 0);
-    
+
     Hub.listen('auth', event => {
       if(event.payload.event === 'signIn') {
         setUser(event.payload.data);

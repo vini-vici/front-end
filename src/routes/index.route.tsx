@@ -9,12 +9,14 @@ import Button from '@vini-vici/viddi/dist/button/button.component';
 import Input from '@vini-vici/viddi/dist/input/input.component';
 import Textarea from '@vini-vici/viddi/dist/textarea/textarea.component';
 import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
-import { RootState } from '@/redux/root.reducer';
+// import { RootState } from '@/redux/root.reducer';
+import { RootState } from '@/redux/store';
 import { showCreateModal, hideCreateModal } from '@/redux/createModal/createModal.actions';
 import { addTodo, fetchTodos } from '@/redux/todos/todos.action';
 import { Todo } from '@/redux/todos/todos.reducer';
 import useCognito from '@/hooks/cognito';
 import { useGetTodosQuery, useAddTodoMutation } from '@/redux/todos/todos';
+import { getUserThunk, loginUserThunk } from '@/redux/cognito/cognito.thunk';
 
 /**
  * @description Routes in general will not take any props in our application since the corresponding components
@@ -22,7 +24,9 @@ import { useGetTodosQuery, useAddTodoMutation } from '@/redux/todos/todos';
  */
 export default function IndexRoute(): React.ReactElement {
 
-  const { user } = useCognito();
+  const dispatch = useDispatch();
+
+  const v = useSelector((v: RootState) => v.cognito.username);
 
   const initialTodos: Todo = {
     id: '',
@@ -32,23 +36,22 @@ export default function IndexRoute(): React.ReactElement {
   };
 
   const [{ title, description }, setTodo] = React.useState<Todo>(initialTodos);
-  const {data, error, isLoading } = useGetTodosQuery();
+  const { data: todos } = useGetTodosQuery();
   const [addTodo, { isLoading: addTodoLoading }] = useAddTodoMutation();
-
-  console.log(data);
 
   return (
     <div>
+      Welcome {v}!<br />
       {addTodoLoading ? 'Adding todo....' : null}
       <FormField
         label="Todo Title"
       >
-        <Input onChange={(e) => setTodo({title: e.target.value, description, done: false, id: ''})}/>
+        <Input onChange={e => setTodo({ title: e.target.value, description, done: false, id: '' })} />
       </FormField>
       <FormField
         label="Description"
       >
-        <Textarea placeholder="what you need to do in more detail, e.g. 'go to the store' " onChange={(e) => setTodo({ description: e.target.value, title, done: false, id: ''})}/>
+        <Textarea placeholder="what you need to do in more detail, e.g. 'go to the store' " onChange={(e) => setTodo({ description: e.target.value, title, done: false, id: '' })} />
       </FormField>
       <Button
         onClick={() => {
@@ -58,8 +61,8 @@ export default function IndexRoute(): React.ReactElement {
           });
         }}
       >Add Todo</Button>
-      <hr/>
-      {data?.map(todo => (
+      <hr />
+      {todos?.map(todo => (
         <div className="todo" key={`todo-${todo.id}`}>
           <header className="font-bold" >{todo.title}</header>
           {todo.description}

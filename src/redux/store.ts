@@ -1,16 +1,17 @@
-import { configureStore} from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { todosApi } from '@/redux/todos/todos';
 import authReducer from '@/redux/auth/authSlice';
+import { cognitoSlice } from '@/redux/cognito/cognito.thunk';
 
 const store = configureStore({
   reducer: {
     [todosApi.reducerPath]: todosApi.reducer,
-    auth: authReducer
+    auth: authReducer,
+    cognito: cognitoSlice.reducer
   },
-  middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat(todosApi.middleware);
-  }
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(todosApi.middleware),
+  devTools: true
 });
 
 setupListeners(store.dispatch);

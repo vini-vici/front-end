@@ -1,5 +1,4 @@
-import React from 'react';
-import { createStore, applyMiddleware } from 'redux';
+import React, { PropsWithChildren } from 'react';
 import { Provider } from 'react-redux';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 
@@ -9,21 +8,32 @@ import Footer from '@/components/footer/footer.component';
 import ErrorBoundary from './components/errorBoundary.component';
 import Navbar from './components/navbar/navbar.component';
 
-import { CognitoProvider } from '@/hooks/cognito';
-
 import store from '@/redux/store';
+import { getUserThunk } from '@/redux/cognito/cognito.thunk';
+
+const CognitoWrapper = ({ children }: PropsWithChildren<Record<string, unknown>>) => {
+  React.useEffect(() => {
+    store.dispatch(getUserThunk());
+  }, []);
+  return (
+    <div>
+      {children}
+    </div>
+  );
+};
 
 function AppComponent(): React.ReactElement {
+  
   return (
     <ErrorBoundary>
       <Provider
         store={store}
       >
-        <CognitoProvider>
+        <CognitoWrapper>
           <Router>
             <Navbar />
             <React.Suspense fallback={
-              <div style={{flexGrow: 1, textAlign: 'center'}}>
+              <div style={{ flexGrow: 1, textAlign: 'center' }}>
                 <Loading />
               </div>
             }>
@@ -94,7 +104,7 @@ function AppComponent(): React.ReactElement {
             </React.Suspense>
             <Footer />
           </Router>
-        </CognitoProvider>
+        </CognitoWrapper>
       </Provider>
     </ErrorBoundary>
   );
