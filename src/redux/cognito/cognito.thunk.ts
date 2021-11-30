@@ -22,8 +22,15 @@ Amplify.configure({
   }
 });
 
+interface CognitoState {
+  username: string;
+  idToken: string;
+  accessToken: string;
+  preferredUsername?: string;
+}
 
-export const getUserThunk = createAsyncThunk('cognito/fetchUser', 
+
+export const getUserThunk = createAsyncThunk<CognitoState>('cognito/fetchUser', 
   async () => {
     const user = await Auth.currentAuthenticatedUser() as CognitoUser;
     const userDetails = await Auth.currentUserInfo();
@@ -42,12 +49,7 @@ type UserLogin = {
   password: string;
 }
 
-export const loginUserThunk = createAsyncThunk<{
-  username: string;
-  idToken: string;
-  accessToken: string;
-  preferredUsername?: string;
-}, UserLogin>('cognito/login',
+export const loginUserThunk = createAsyncThunk<CognitoState, UserLogin>('cognito/login',
   async action => {
     const user = await Auth.signIn(action.username, action.password);
     const userAttributes = await Auth.currentUserInfo();
@@ -63,12 +65,12 @@ export const loginUserThunk = createAsyncThunk<{
 
 export const logoutUserThunk = createAsyncThunk(
   'cognito/logout',
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, fulfillWithValue }) => {
     try {
       await Auth.signOut({ global: true });
-      return true;
+      await fulfillWithValue(true);
     } catch(e) {
-      rejectWithValue(e);
+      await rejectWithValue(e);
     }
   }
 );
@@ -88,7 +90,7 @@ export const cognitoSlice = createSlice({
       state.username = action.payload.username;
       state.accessToken = action.payload.accessToken;
       state.idToken = action.payload.idToken,
-      state.preferredUsername = action.payload.prerredUsername;
+      state.preferredUsername = action.payload.preferredUsername;
     });
     
     // When logging a user in is fulfilled.

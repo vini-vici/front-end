@@ -1,38 +1,29 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { RootState } from '@/redux/store';
 import TodosComponent from './todos.component';
-import { RootState } from '@/redux/root.reducer';
-import { doneTodo, fetchTodos, removeTodo, updateTodo } from '@/redux/todos/todos.action';
 import useCognito from '@/hooks/cognito';
+import { useGetTodosQuery } from '@/redux/todos/todos.api';
 
 export default function TodosContainer(): React.ReactElement {
   // Map the todo state to the current object.
-  const {todos, status} = useSelector(({ TodosState: {
-    todos,
-    status
-  }}: RootState) => ({ todos, status}));
-
-  const { user } = useCognito();
-  const token = user?.getSignInUserSession()?.getIdToken()?.getJwtToken();
+  
+  const idToken = useSelector(({ cognito: { idToken } }: RootState) => idToken);
 
   // grab the dispatch.
   const dispatch = useDispatch();
-
-  React.useEffect(() => {
-    if(status === 'initial' && token?.length > 0)
-      dispatch(fetchTodos(user?.getSignInUserSession()?.getIdToken()?.getJwtToken()));
-    
-  }, [token]);
+  const { data: todos, isLoading } = useGetTodosQuery(undefined, {
+    skip: idToken === ''
+  });
 
   // This function merely serves as a wrapper for the actual TodosComponent.
   return (
     <TodosComponent
-      loading={status === 'loading'}
+      loading={isLoading}
       todos={todos}
-      toggleDone={todoId => dispatch(doneTodo(todoId, token))}
-      updateTodo={todo => dispatch(updateTodo(todo.id, token, todo.title, todo.description, todo.done))}
-      deleteTodo={todo =>  dispatch(removeTodo(todo, token))}
+      toggleDone={todoId => void 0}
+      updateTodo={todo => void 0}
+      deleteTodo={todo =>  void 0}
     />
   );
 }

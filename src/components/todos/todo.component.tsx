@@ -1,5 +1,5 @@
 import React from 'react';
-import { Todo } from '@/redux/todos/todos.reducer';
+import { Todo } from '@/redux/todos/todos.api';
 import Input from '@vini-vici/viddi/dist/input/input.component';
 import Textarea from '@vini-vici/viddi/dist/textarea/textarea.component';
 import Checkbox from '@vini-vici/viddi/dist/checkbox/checkbox.component';
@@ -10,6 +10,7 @@ export interface TodoProps extends Todo {
   onDelete: (todoId: string) => void;
   onChange?: (e: CustomEvent<Todo>) => void;
   onDone?: (e: CustomEvent<Todo>) => void;
+  updating: boolean;
 }
 
 export default function TodoComponent(
@@ -79,7 +80,7 @@ export default function TodoComponent(
               <Textarea
                 className="w-full"
                 value={local.description}
-                onChange={({ target }) => setLocal({...local, description: target.value})}
+                onChange={({ target }) => setLocal({ ...local, description: target.value })}
               />
             ) :
             description?.split('\n').map((s, i)=> <p key={`paragraph-${id}-${i}`}>{s}</p>)

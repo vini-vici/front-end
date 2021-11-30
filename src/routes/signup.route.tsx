@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
 
 import { Redirect } from 'react-router-dom';
+import { } from '@/redux/cognito/cognito.thunk';
 
 import Input from '@vini-vici/viddi/dist/input/input.component';
 import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
 import Button from '@vini-vici/viddi/dist/button/button.component';
-
-import useCognito from '@/hooks/cognito';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 export default function SignupRoute(): React.ReactElement {
-  const { signUp, verify, genericUser } = useCognito();
+
+  const loggedInUser = useSelector(({ cognito: { username } }: RootState) => username);
 
   const [signupData, setSignupData] = React.useState({
     username: '',
@@ -39,7 +41,7 @@ export default function SignupRoute(): React.ReactElement {
   }, [signupData.username, signupData.confirmUsername, signupData.password, signupData.confirmPassword]);
 
 
-  if(redirect || genericUser?.username) 
+  if(redirect || loggedInUser) 
     return <Redirect to="/" />;
 
   return (
@@ -54,18 +56,18 @@ export default function SignupRoute(): React.ReactElement {
         <form onSubmit={e => {
           e.preventDefault();
           if(validations.username && validations.password && !showVerify) {
-            signUp(
-              signupData.username,
-              signupData.password,
-              signupData.email,
-              signupData.preferedUserName
-            )
-              .then(() => setVerify(true))
-              .catch(() => setVerify(false));
+            // signUp(
+            //   signupData.username,
+            //   signupData.password,
+            //   signupData.email,
+            //   signupData.preferedUserName
+            // )
+            //   .then(() => setVerify(true))
+            //   .catch(() => setVerify(false));
           } else if(showVerify && token.length) {
-            verify(signupData.username, token)
-              .then(() => setRedirect(true))
-              .catch(e => setError(e.message));
+            // verify(signupData.username, token)
+            //   .then(() => setRedirect(true))
+            //   .catch(e => setError(e.message));
           }
         }}>
           <FormField
@@ -75,13 +77,13 @@ export default function SignupRoute(): React.ReactElement {
               className="w-full"
               placeholder="Desired Username"
               value={signupData.username}
-              onChange={e => setSignupData({...signupData, username: e.target.value}) }
+              onChange={e => setSignupData({ ...signupData, username: e.target.value }) }
             />
           </FormField>
           <FormField
             label="Confirm Username"
           >
-            <Input disabled={showVerify} className="w-full" placeholder="Confirm Username" value={signupData.confirmUsername} onChange={e => setSignupData({...signupData, confirmUsername: e.target.value}) }/>
+            <Input disabled={showVerify} className="w-full" placeholder="Confirm Username" value={signupData.confirmUsername} onChange={e => setSignupData({ ...signupData, confirmUsername: e.target.value }) }/>
           </FormField>
           <FormField
             label="Email"
@@ -91,7 +93,7 @@ export default function SignupRoute(): React.ReactElement {
               className="w-full"
               type="email"
               placeholder="Your email address, e.g. bob@company.com"
-              onChange={e => setSignupData({...signupData, email: e.target.value})}
+              onChange={e => setSignupData({ ...signupData, email: e.target.value })}
             />
           </FormField>
           <FormField
@@ -102,7 +104,7 @@ export default function SignupRoute(): React.ReactElement {
               className="w-full"
               type="password"
               placeholder="Enter your password"
-              onChange={e => setSignupData({...signupData, password: e.target.value})}
+              onChange={e => setSignupData({ ...signupData, password: e.target.value })}
             />
           </FormField>
           <FormField
@@ -113,7 +115,7 @@ export default function SignupRoute(): React.ReactElement {
               className="w-full"
               type="password"
               placeholder="Confirm your password"
-              onChange={e => setSignupData({...signupData, confirmPassword: e.target.value})}
+              onChange={e => setSignupData({ ...signupData, confirmPassword: e.target.value })}
             />
           </FormField>
           <FormField
@@ -124,7 +126,7 @@ export default function SignupRoute(): React.ReactElement {
               className="w-full"
               type="text"
               placeholder="Enter your preferred username."
-              onChange={e => setSignupData({...signupData, preferedUserName: e.target.value})}
+              onChange={e => setSignupData({ ...signupData, preferedUserName: e.target.value })}
             />
           </FormField>
           {

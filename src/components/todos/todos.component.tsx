@@ -1,7 +1,7 @@
 import React from 'react';
 
 import TodoComponent from '@/components/todos/todo.component';
-import { Todo } from '@/redux/todos/todos.reducer';
+import { Todo } from '@/redux/todos/todos.api';
 import Loading from '@vini-vici/viddi/dist/loading/loading.component';
 import styles from './todos.module.css';
 
@@ -35,7 +35,7 @@ export default function TodosComponent(props: TodosProps): React.ReactElement {
         <div className={styles.header}>Actions</div>
 
         {
-          todos.length ?
+          todos?.length ?
             todos.map(todo => (
               <TodoComponent
                 key={`todo-component-${todo.id}`}
@@ -46,6 +46,7 @@ export default function TodosComponent(props: TodosProps): React.ReactElement {
                 onDone={e => {
                   updateTodo(e.detail);
                 }}
+                updating={false}
                 {...todo}
               />
             )) :

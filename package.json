@@ -11,7 +11,7 @@
     "e2e:local": "testcafe chrome -f \"Delete Items\"",
     "e2e": "testcafe",
     "e2e:ci": "testcafe -a \"pnpm dev\" --app-init-delay 5000",
-    "lint": "eslint --ext .ts,.tsx src/",
+    "lint": "eslint --fix --ext .ts,.tsx src/",
     "version": "standard-version"
   },
   "keywords": [],

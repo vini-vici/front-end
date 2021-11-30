@@ -8,9 +8,7 @@ import Amplify, { Hub } from '@aws-amplify/core';
 import Auth from '@aws-amplify/auth';
 // import { CognitoUser } from '@aws-amplify/auth';
 import { CognitoUser, ISignUpResult, UserData } from 'amazon-cognito-identity-js';
-import { setCredentials } from '@/redux/auth/authSlice';
 import { useDispatch } from 'react-redux';
-
 // Q: How do we do this without needing to hardcode the values for the 
 Amplify.configure({
   Auth: {
@@ -40,7 +38,7 @@ interface CognitoContext {
   signIn(username: string, password: string): Promise<CognitoUser>;
   signOut(): Promise<null>;
   verify(username: string, code: string): Promise<unknown>;
-  signUp(username:string, password: string, email: string, preferredUsername: string): Promise<ISignUpResult>;
+  signUp(username: string, password: string, email: string, preferredUsername: string): Promise<ISignUpResult>;
 }
 
 export const Context = React.createContext<CognitoContext | undefined>(undefined);
@@ -52,25 +50,19 @@ function attributeToObject(attr: UserData): GenericUser {
   }, {} as GenericUser);
 }
 
-export function CognitoProvider({ children }: {children: React.ReactElement}): React.ReactElement {
+export function CognitoProvider({ children }: { children: React.ReactElement }): React.ReactElement {
 
   const [user, setUser] = React.useState<CognitoUser | null>(null);
   const [genericUser, setGenericUser] = React.useState<GenericUser>({});
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     Auth
       .currentAuthenticatedUser()
       .then((res: CognitoUser) => {
         setUser(res);
-        console.log(res);
-        dispatch(setCredentials({
-          username: res.getUsername(),
-          idToken: res.getSignInUserSession().getIdToken().getJwtToken(),
-          authToken: res.getSignInUserSession().getAccessToken().getJwtToken()
-        }));
         res.getUserData((err, ud) => {
-          if(err) {
+          if (err) {
             console.error(err);
             return false;
           }
@@ -82,25 +74,25 @@ export function CognitoProvider({ children }: {children: React.ReactElement}): R
       .catch(() => void 0);
 
     Hub.listen('auth', event => {
-      if(event.payload.event === 'signIn') {
+      if (event.payload.event === 'signIn') {
         setUser(event.payload.data);
         const ud = event.payload.data as CognitoUser;
         ud.getUserData((err, d) => {
-          if(err) 
+          if (err)
             return console.error(err);
-          
+
           setGenericUser(d.UserAttributes.reduce((cum, cur) => {
             cum[cur.Name] = cur.Value;
             return cum;
           }, {} as GenericUser));
         });
       }
-      
-      if(event.payload.event === 'signOut') {
-        setGenericUser({username: ''});
+
+      if (event.payload.event === 'signOut') {
+        setGenericUser({ username: '' });
         setUser(null);
       }
-      
+
     });
 
   }, []);
@@ -117,8 +109,8 @@ export function CognitoProvider({ children }: {children: React.ReactElement}): R
         console.error(e);
         throw e;
       }),
-    signOut: () => Auth.signOut({ global: true})
-      .then( res => {
+    signOut: () => Auth.signOut({ global: true })
+      .then(res => {
         setUser(null);
         return res;
       })
@@ -126,7 +118,7 @@ export function CognitoProvider({ children }: {children: React.ReactElement}): R
     verify: (username, code) => Auth.confirmSignUp(username, code)
       .then(res => res)
       .catch(console.error),
-    signUp: (username, password, email, preferredUsername) => 
+    signUp: (username, password, email, preferredUsername) =>
       Auth.signUp({
         username,
         password,
@@ -146,7 +138,7 @@ export function CognitoProvider({ children }: {children: React.ReactElement}): R
       {children}
     </Context.Provider>
   );
-} 
+}
 
 
 export default function useCognito(): CognitoContext {

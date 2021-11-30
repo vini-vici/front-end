@@ -1,7 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Todo } from './todos.reducer';
 import CONFIG from '@/config.json';
 import { RootState } from '../store';
+
+export interface Todo {
+  title: string;
+  description: string;
+  done: boolean;
+  id: string;
+}
 
 export const todosApi = createApi({
   reducerPath: 'todosApi',
@@ -9,8 +15,8 @@ export const todosApi = createApi({
     baseUrl: CONFIG.API,
     prepareHeaders: (headers, { getState }) => {
       const state = getState() as RootState;
-      if (state.auth.idToken)
-        headers.set('authorization', 'Bearer '+state.cognito.idToken);
+      if (state.cognito.idToken)
+        headers.set('authorization', `Bearer ${state.cognito.idToken}`);
       return headers;
     },
   }),
@@ -20,10 +26,6 @@ export const todosApi = createApi({
     // Queries the items
     getTodos: builder.query<Todo[], void>({
       query: () => '/',
-      onQueryStarted: (a, { getState }) => {
-        const { cognito } = getState() as unknown as RootState;
-        console.log(cognito);
-      },
       providesTags: result => 
         result ? 
           [
