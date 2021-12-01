@@ -27,6 +27,7 @@ interface CognitoState {
   idToken: string;
   accessToken: string;
   preferredUsername?: string;
+  needsVerification?: boolean;
 }
 
 
@@ -41,6 +42,35 @@ export const getUserThunk = createAsyncThunk<CognitoState>('cognito/fetchUser',
       idToken:signedIn.getIdToken().getJwtToken(),
       accessToken: signedIn.getAccessToken().getJwtToken()
     }; 
+  }
+);
+
+export const signupUserThunk = createAsyncThunk<CognitoState, {
+  username: string;
+  password: string;
+  email: string;
+  preferredUsername?: string;
+}>(
+  'cognito/signupUser',
+  async ({ username, preferredUsername, password, email }, { getState }) => {
+    const state = getState();
+    console.log(state);
+    const newUser = await Auth.signUp({
+      username,
+      password,
+      attributes: {
+        email,
+        preferred_username: preferredUsername
+      }
+    });
+    return {
+      username,
+      preferredUsername,
+      email,
+      needsVerification: true,
+      idToken: newUser.user.getSignInUserSession().getIdToken().getJwtToken(),
+      accessToken: newUser.user.getSignInUserSession().getAccessToken().getJwtToken()
+    };
   }
 );
 
@@ -82,7 +112,7 @@ export const cognitoSlice = createSlice({
     idToken: '',
     accessToken: '',
     preferredUsername: ''
-  },
+  } as CognitoState,
   reducers: {},
   extraReducers: builder => {
     // when the fetch user thunk is fulfilled
@@ -104,6 +134,13 @@ export const cognitoSlice = createSlice({
 
     // When this is fulfilled.
     builder.addCase(logoutUserThunk.fulfilled, state => {
+      state.username = '';
+      state.idToken = '';
+      state.accessToken = '';
+      state.preferredUsername = '';
+    });
+
+    builder.addCase(signupUserThunk.fulfilled, state => {
       state.username = '';
       state.idToken = '';
       state.accessToken = '';

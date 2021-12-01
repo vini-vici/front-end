@@ -21,7 +21,6 @@ export const todosApi = createApi({
     },
   }),
   tagTypes: ['Todo'],
-  
   endpoints: builder => ({
     // Queries the items
     getTodos: builder.query<Todo[], void>({
@@ -48,9 +47,25 @@ export const todosApi = createApi({
         method: 'POST',
         body: rest,
       }),
+      invalidatesTags: [{ type: 'Todo', id: 'LIST' }],
+      async onQueryStarted({ id, ...rest }, { getState, dispatch, queryFulfilled }) {
+        // const r = getState();
+        // console.log(todosApi.util.updateQueryData('getTodos', ));
+        try {
+          await queryFulfilled;
+        } catch(e) {
+          console.error('whoop');
+        }
+      }
+    }),
+    deleteTodo: builder.mutation<void, string>({
+      query: id => ({
+        url: `/${id}`,
+        method: 'DELETE'
+      }),
       invalidatesTags: [{ type: 'Todo', id: 'LIST' }]
     })
   })
 });
 
-export const { useGetTodosQuery, useAddTodoMutation, useUpdateTodoMutation } = todosApi;
+export const { useGetTodosQuery, useAddTodoMutation, useUpdateTodoMutation, useDeleteTodoMutation } = todosApi;

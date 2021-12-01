@@ -6,23 +6,29 @@ import Button from '@vini-vici/viddi/dist/button/button.component';
 import Modal from '@vini-vici/viddi/dist/modal/modal.component';
 import { Link, Redirect } from 'react-router-dom';
 
-import useCognito from '@/hooks/cognito';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { loginUserThunk } from '@/redux/cognito/cognito.thunk';
 
 
 export default function LoginRoute(): React.ReactElement {
+  const user = useSelector(({ cognito }: RootState) => cognito);
+  const dispatch = useDispatch();
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [showClearModal, setClearModal] = React.useState(false);
   const [error, setError] = React.useState('');
 
-  const { signIn, user } = useCognito();
-
   const loginHandler = () => {
-    signIn(username, password)
-      .catch(e => setError(e.message));
+    // signIn(username, password)
+    //   .catch(e => setError(e.message));
+    dispatch(loginUserThunk({
+      username,
+      password
+    }));
   };
 
-  if(user?.getUsername()) 
+  if(user.username) 
     return <Redirect to="/" />;
   
 

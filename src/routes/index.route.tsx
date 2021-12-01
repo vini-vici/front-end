@@ -22,8 +22,7 @@ export default function IndexRoute(): React.ReactElement {
 
   const dispatch = useDispatch();
 
-  const { idToken } = useSelector((r: RootState) => r.cognito);
-  const showCreateModal = useSelector((r: RootState) => r.modal.show);
+  const { idToken, showCreateModal } = useSelector((r: RootState) => ({ idToken: r.cognito.idToken, showCreateModal: r.modal.show }));
 
   const initialTodos: Todo = {
     id: '',
@@ -33,9 +32,10 @@ export default function IndexRoute(): React.ReactElement {
   };
 
   const [{ title, description }, setTodo] = React.useState<Todo>(initialTodos);
-  const [ addTodo, { isLoading: addTodoLoading }] = useAddTodoMutation();
-  const { data: todos } = useGetTodosQuery(undefined, {
-    skip: idToken === ''
+  const [ addTodo ] = useAddTodoMutation();
+  const { refetch } = useGetTodosQuery(undefined, {
+    skip: idToken === '',
+    
   });
 
   return (
@@ -49,7 +49,11 @@ export default function IndexRoute(): React.ReactElement {
         }
         onClose={() => dispatch(hideModal())}
         onConfirm={() => {
-          // dispatch(addTodo(title, description, done, user?.getSignInUserSession()?.getIdToken()?.getJwtToken()));
+          addTodo({
+            title,
+            description,
+            done: false
+          });
           dispatch(hideModal());
         }}
         confirmText="Submit"
@@ -61,7 +65,7 @@ export default function IndexRoute(): React.ReactElement {
           <Input
             className="w-full"
             placeholder="Todo title..."
-            onChange={({ target }) => void 0}
+            onChange={({ target }) => setTodo({ ...initialTodos, description, title: target.value })}
           />
         </FormField>
 
@@ -72,7 +76,7 @@ export default function IndexRoute(): React.ReactElement {
           <Textarea
             className="w-full"
             placeholder="Any details that are needed to complete the todo."
-            onChange={({ target }) => void 0}
+            onChange={({ target }) => setTodo({ ...initialTodos, title, description: target.value })}
           />
         </FormField>
       </Modal>
@@ -83,7 +87,7 @@ export default function IndexRoute(): React.ReactElement {
             <Button
               variant="custom"
               className="text-gray-400 hover:text-purple-500"
-              onClick={() => void 0}
+              onClick={() => refetch()}
             >
               <Icon
                 path={mdiRefresh}
