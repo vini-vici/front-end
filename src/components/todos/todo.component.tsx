@@ -10,7 +10,6 @@ export interface TodoProps extends Todo {
   onDelete: (todoId: string) => void;
   onChange?: (e: CustomEvent<Todo>) => void;
   onDone?: (e: CustomEvent<Todo>) => void;
-  updating: boolean;
 }
 
 export default function TodoComponent(
@@ -22,7 +21,6 @@ export default function TodoComponent(
     onDelete,
     onChange,
     onDone,
-    updating
   }: TodoProps
 ): React.ReactElement {
 
@@ -33,8 +31,6 @@ export default function TodoComponent(
   });
 
   const rowClasses = new Dc('todo-row contents');
-
-  if(updating) rowClasses.add('text-gray-300');
 
   return (
     <div className={rowClasses.toString()}>

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Icon from '@mdi/react';
 import { mdiPenPlus, mdiRefresh } from '@mdi/js';
@@ -13,6 +14,7 @@ import { RootState } from '@/redux/store';
 import { Todo } from '@/redux/todos/todos.api';
 import { useAddTodoMutation, useGetTodosQuery } from '@/redux/todos/todos.api';
 import { hideModal, showModal } from '@/redux/createModal/createModal.slice';
+import { Loading } from '@vini-vici/viddi';
 
 /**
  * @description Routes in general will not take any props in our application since the corresponding components
@@ -22,7 +24,7 @@ export default function IndexRoute(): React.ReactElement {
 
   const dispatch = useDispatch();
 
-  const { idToken, showCreateModal } = useSelector((r: RootState) => ({ idToken: r.cognito.idToken, showCreateModal: r.modal.show }));
+  const { idToken, showCreateModal, cognitoStatus } = useSelector((r: RootState) => ({ idToken: r.cognito.idToken, showCreateModal: r.modal.show, cognitoStatus: r.cognito.status }));
 
   const initialTodos: Todo = {
     id: '',
@@ -32,11 +34,12 @@ export default function IndexRoute(): React.ReactElement {
   };
 
   const [{ title, description }, setTodo] = React.useState<Todo>(initialTodos);
-  const [ addTodo ] = useAddTodoMutation();
+  const [ addTodo, { isLoading: addTodoLoading }] = useAddTodoMutation();
   const { refetch } = useGetTodosQuery(undefined, {
-    skip: idToken === '',
-    
+    skip: idToken === '',    
   });
+
+  if((cognitoStatus === 'success' || cognitoStatus === 'failure') && idToken === '') return <Redirect to="/login" />;
 
   return (
     <div className="w-full sm:w-4/5 lg:w-3/4 mx-auto flex-grow">
@@ -81,13 +84,22 @@ export default function IndexRoute(): React.ReactElement {
         </FormField>
       </Modal>
       <h1 className="text-2xl font-semibold p-3 flex justify-between">
-        <div>Todos</div>
+        <div className="flex items-center">
+          <div>Todos</div>
+          <div className="ml-2">
+            {
+              addTodoLoading && <Loading text="" size={0.75}/>
+            }
+          </div>
+        </div>
         <div className="flex gap-2">
           <div>
             <Button
               variant="custom"
               className="text-gray-400 hover:text-purple-500"
-              onClick={() => refetch()}
+              onClick={() => {
+                refetch();
+              }}
             >
               <Icon
                 path={mdiRefresh}

@@ -1,17 +1,23 @@
 import React, { useEffect } from 'react';
 
 import { Redirect } from 'react-router-dom';
-import { } from '@/redux/cognito/cognito.thunk';
+import { signupUserThunk, verifyUserThunk } from '@/redux/cognito/cognito.thunk';
 
 import Input from '@vini-vici/viddi/dist/input/input.component';
 import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
 import Button from '@vini-vici/viddi/dist/button/button.component';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { mdiConsoleNetwork } from '@mdi/js';
 
 export default function SignupRoute(): React.ReactElement {
 
-  const loggedInUser = useSelector(({ cognito: { username } }: RootState) => username);
+  const {
+    loggedInUser,
+    needsVerification
+  } = useSelector(({ cognito: { username, needsVerification, idToken  } }: RootState) => ({ loggedInUser: username, needsVerification, idToken }));
+
+  const dispatch = useDispatch();
 
   const [signupData, setSignupData] = React.useState({
     username: '',
@@ -22,7 +28,6 @@ export default function SignupRoute(): React.ReactElement {
     preferedUserName: ''
   });
 
-  const [showVerify, setVerify] = React.useState(false);
   const [token, setToken] = React.useState('');
 
   const [validations, setValidations] = React.useState({
@@ -41,7 +46,7 @@ export default function SignupRoute(): React.ReactElement {
   }, [signupData.username, signupData.confirmUsername, signupData.password, signupData.confirmPassword]);
 
 
-  if(redirect || loggedInUser) 
+  if(redirect || (loggedInUser && !needsVerification))
     return <Redirect to="/" />;
 
   return (
@@ -55,19 +60,15 @@ export default function SignupRoute(): React.ReactElement {
         </h1>
         <form onSubmit={e => {
           e.preventDefault();
-          if(validations.username && validations.password && !showVerify) {
-            // signUp(
-            //   signupData.username,
-            //   signupData.password,
-            //   signupData.email,
-            //   signupData.preferedUserName
-            // )
-            //   .then(() => setVerify(true))
-            //   .catch(() => setVerify(false));
-          } else if(showVerify && token.length) {
-            // verify(signupData.username, token)
-            //   .then(() => setRedirect(true))
-            //   .catch(e => setError(e.message));
+          if(validations.username && validations.password && !needsVerification) {
+            dispatch(signupUserThunk({
+              ...signupData
+            }));
+          } else if(needsVerification && token.length) {
+            dispatch(verifyUserThunk({
+              code: token,
+              password: signupData.password
+            }));
           }
         }}>
           <FormField
@@ -83,13 +84,13 @@ export default function SignupRoute(): React.ReactElement {
           <FormField
             label="Confirm Username"
           >
-            <Input disabled={showVerify} className="w-full" placeholder="Confirm Username" value={signupData.confirmUsername} onChange={e => setSignupData({ ...signupData, confirmUsername: e.target.value }) }/>
+            <Input disabled={needsVerification} className="w-full" placeholder="Confirm Username" value={signupData.confirmUsername} onChange={e => setSignupData({ ...signupData, confirmUsername: e.target.value }) }/>
           </FormField>
           <FormField
             label="Email"
           >
             <Input
-              disabled={showVerify}
+              disabled={needsVerification}
               className="w-full"
               type="email"
               placeholder="Your email address, e.g. bob@company.com"
@@ -100,7 +101,7 @@ export default function SignupRoute(): React.ReactElement {
             label="Password"
           >
             <Input
-              disabled={showVerify}
+              disabled={needsVerification}
               className="w-full"
               type="password"
               placeholder="Enter your password"
@@ -111,7 +112,7 @@ export default function SignupRoute(): React.ReactElement {
             label="Password Confirm"
           >
             <Input
-              disabled={showVerify}
+              disabled={needsVerification}
               className="w-full"
               type="password"
               placeholder="Confirm your password"
@@ -122,7 +123,7 @@ export default function SignupRoute(): React.ReactElement {
             label="Preferred Username"
           >
             <Input
-              disabled={showVerify}
+              disabled={needsVerification}
               className="w-full"
               type="text"
               placeholder="Enter your preferred username."
@@ -130,7 +131,7 @@ export default function SignupRoute(): React.ReactElement {
             />
           </FormField>
           {
-            showVerify && 
+            needsVerification && 
             (
               <FormField
                 label="Verification Code"
@@ -141,7 +142,7 @@ export default function SignupRoute(): React.ReactElement {
           }
           <div className="mt-2">
             <Button type="submit">
-              {showVerify ? 'Verify' : 'Sign Up'}
+              {needsVerification ? 'Verify' : 'Sign Up'}
             </Button>
           </div>
         </form>

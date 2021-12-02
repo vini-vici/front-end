@@ -16,7 +16,7 @@ export default function TodosContainer(): React.ReactElement {
   });
 
   const [updateTodo, { isSuccess, isLoading: updateLoading, isError: addError }] = useUpdateTodoMutation();
-  const [deleteTodo, { isSuccess: deleteSuccess, isLoading: deleteLoading, isError: deleteError}] = useDeleteTodoMutation();
+  const [deleteTodo, { isSuccess: deleteSuccess, isLoading: deleteLoading, isError: deleteError }] = useDeleteTodoMutation();
 
   // This function merely serves as a wrapper for the actual TodosComponent.
   return (
