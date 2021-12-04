@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/vini-vici/front-end/compare/v1.0.0...v1.1.0) (2021-12-04)
+
+
+### Features
+
+* Adds in favicon ([f6d57a6](https://github.com/vini-vici/front-end/commit/f6d57a66d19211c896fccb791a8ae237c3fdbd42))
+* Move to Redux Tool Kit. ([c25d702](https://github.com/vini-vici/front-end/commit/c25d70280142ae4f9d3e537c512de8eaebcd3c5e)), closes [#27](https://github.com/vini-vici/front-end/issues/27)
+
 ## 1.0.0 (2021-10-15)
 
 

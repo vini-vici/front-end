@@ -1,6 +1,6 @@
 {
   "name": "vinny",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Example Repo using React, Redux, TypeScript, Jest, and TestCafe",
   "main": "index.js",
   "scripts": {
