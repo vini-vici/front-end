@@ -60,7 +60,7 @@ dependencies:
   '@hot-loader/react-dom': 17.0.1_react@17.0.2
   '@mdi/js': 5.9.55
   '@mdi/react': 1.5.0
-  '@vini-vici/viddi': 1.1.0
+  '@vini-vici/viddi': 1.1.1
   aws-amplify: 4.2.10
   core-js: 3.18.0
   i18next: 20.6.1
@@ -3650,8 +3650,8 @@ packages:
       eslint-visitor-keys: 2.1.0
     dev: true
 
-  /@vini-vici/viddi/1.1.0:
-    resolution: {integrity: sha512-JnZfyhwtvvCSAYEns9T0UxWFPx480nJ5L6fjfLHwnSEJa8HJBhLLMdpMuf/fKxycw9ZYaCCfQni4kXAjf5hRAA==, tarball: download/@vini-vici/viddi/1.1.0/ea72f9a473150bc00128858732576e745fc1c9ec99bf28f9b8715424819f0748}
+  /@vini-vici/viddi/1.1.1:
+    resolution: {integrity: sha512-wMQgb19o77WhwoVq/ZankbyvjvEOYKAPfDUce5FauoGJdFJZD+m+t1pz+2hrbbp2qFbfbMMoxVV7nuL6frIIeg==, tarball: download/@vini-vici/viddi/1.1.1/c750777d497ba028a55537c6e286425c4149f75a8cbdae44200707aadf1504c2}
     dependencies:
       '@mdi/js': 5.9.55
       '@mdi/react': 1.5.0

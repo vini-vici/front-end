@@ -8,7 +8,6 @@ import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
 import Button from '@vini-vici/viddi/dist/button/button.component';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { mdiConsoleNetwork } from '@mdi/js';
 
 export default function SignupRoute(): React.ReactElement {
 
