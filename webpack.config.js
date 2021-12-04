@@ -6,6 +6,7 @@ const { execSync } = require('child_process');
 const TsChecker = require('fork-ts-checker-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
 const CssPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const fromRoot = (...args) => resolve(process.cwd(), ...args);
 const fromSrc = fromRoot.bind(null, 'src');
@@ -56,9 +57,14 @@ module.exports = {
     path: fromRoot('dist')
   },
   devServer: {
-    contentBase: fromRoot('static'),
-    liveReload: true,
-    hot: true,
+    static: {
+      directory: fromRoot('static'),
+      publicPath: '/static'
+    },
+    allowedHosts: [
+      'test.vicci.dev',
+      'localhost'
+    ],
     historyApiFallback: true,
     https: true
   },
@@ -108,9 +114,20 @@ module.exports = {
         configFile: fromSrc('tsconfig.json')
       }
     }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: 'static/*.svg',
+          to: fromRoot('public/'),
+          globOptions: {
+            ignore: ['index.html']
+          }
+        }
+      ]
+    }),
     new HtmlPlugin({
       template: fromRoot('static', 'index.html')
     }),
-    new CssPlugin()
+    new CssPlugin(),
   ]
 };
