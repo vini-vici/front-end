@@ -15,6 +15,7 @@ import { Todo } from '@/redux/todos/todos.api';
 import { useAddTodoMutation, useGetTodosQuery } from '@/redux/todos/todos.api';
 import { hideModal, showModal } from '@/redux/createModal/createModal.slice';
 import { Loading } from '@vini-vici/viddi';
+import { getReleases } from '@/redux/releases/releases.thunk';
 
 /**
  * @description Routes in general will not take any props in our application since the corresponding components

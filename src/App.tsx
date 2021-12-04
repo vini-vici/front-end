@@ -10,11 +10,13 @@ import Navbar from './components/navbar/navbar.component';
 
 import store from '@/redux/store';
 import { getUserThunk } from '@/redux/cognito/cognito.thunk';
+import { getGithubIssues } from './redux/github/github.thunk';
 
 function AppComponent(): React.ReactElement {
 
   React.useEffect(() => {
     store.dispatch(getUserThunk());
+    store.dispatch(getGithubIssues());
   }, []);
 
   return (
@@ -54,6 +56,15 @@ function AppComponent(): React.ReactElement {
                 component={
                   React.lazy(
                     () => import(/* webpackChunkName: "AboutRoute"  */'./routes/about.route')
+                  )
+                }
+              />
+              <Route
+                path="/releases"
+                exact
+                component={
+                  React.lazy(
+                    () => import(/* webpackChunkName: "ReleaseRoute" */'./routes/releases.route')
                   )
                 }
               />

@@ -48,6 +48,7 @@ export const todosApi = createApi({
         body: rest,
       }),
       invalidatesTags: [{ type: 'Todo', id: 'LIST' }],
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       async onQueryStarted({ id, ...rest }, { getState, dispatch, queryFulfilled }) {
         // const r = getState();
         // console.log(todosApi.util.updateQueryData('getTodos', ));
