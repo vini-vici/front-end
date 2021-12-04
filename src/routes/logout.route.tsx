@@ -1,23 +1,24 @@
+import { logoutUserThunk } from '@/redux/cognito/cognito.thunk';
+import { RootState } from '@/redux/store';
 import React from 'react';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 
-import useCognito from '@/hooks/cognito';
 import { Redirect } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { resetTodos } from '@/redux/todos/todos.action';
 
 export default function LogoutRoute(): React.ReactElement {
   const dispatch = useDispatch();
-  const { signOut } = useCognito();
+  const username = useSelector((r: RootState) => r.cognito.username);
   
   const [signedOut, setSignedOut] = React.useState(false);
 
   React.useEffect(() => {
-    signOut()
-      .finally(() => {
-        setSignedOut(true);
-        dispatch(resetTodos());
-      });
-  });
+    dispatch(logoutUserThunk());
+  }, []);
+
+  React.useEffect(() => {
+    if(username === '')
+      setSignedOut(true);
+  }, [username]);
 
   if(signedOut) 
     return <Redirect to="/"/>;

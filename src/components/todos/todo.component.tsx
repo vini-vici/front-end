@@ -1,5 +1,5 @@
 import React from 'react';
-import { Todo } from '@/redux/todos/todos.reducer';
+import { Todo } from '@/redux/todos/todos.api';
 import Input from '@vini-vici/viddi/dist/input/input.component';
 import Textarea from '@vini-vici/viddi/dist/textarea/textarea.component';
 import Checkbox from '@vini-vici/viddi/dist/checkbox/checkbox.component';
@@ -21,7 +21,6 @@ export default function TodoComponent(
     onDelete,
     onChange,
     onDone,
-    updating
   }: TodoProps
 ): React.ReactElement {
 
@@ -32,8 +31,6 @@ export default function TodoComponent(
   });
 
   const rowClasses = new Dc('todo-row contents');
-
-  if(updating) rowClasses.add('text-gray-300');
 
   return (
     <div className={rowClasses.toString()}>
@@ -79,7 +76,7 @@ export default function TodoComponent(
               <Textarea
                 className="w-full"
                 value={local.description}
-                onChange={({ target }) => setLocal({...local, description: target.value})}
+                onChange={({ target }) => setLocal({ ...local, description: target.value })}
               />
             ) :
             description?.split('\n').map((s, i)=> <p key={`paragraph-${id}-${i}`}>{s}</p>)

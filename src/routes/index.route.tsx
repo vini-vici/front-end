@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Icon from '@mdi/react';
 import { mdiPenPlus, mdiRefresh } from '@mdi/js';
@@ -9,23 +10,21 @@ import Button from '@vini-vici/viddi/dist/button/button.component';
 import Input from '@vini-vici/viddi/dist/input/input.component';
 import Textarea from '@vini-vici/viddi/dist/textarea/textarea.component';
 import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
-import { RootState } from '@/redux/root.reducer';
-import { showCreateModal, hideCreateModal } from '@/redux/createModal/createModal.actions';
-import { addTodo, fetchTodos } from '@/redux/todos/todos.action';
-import { Todo } from '@/redux/todos/todos.reducer';
-import useCognito from '@/hooks/cognito';
+import { RootState } from '@/redux/store';
+import { Todo } from '@/redux/todos/todos.api';
+import { useAddTodoMutation, useGetTodosQuery } from '@/redux/todos/todos.api';
+import { hideModal, showModal } from '@/redux/createModal/createModal.slice';
+import { Loading } from '@vini-vici/viddi';
 
 /**
  * @description Routes in general will not take any props in our application since the corresponding components
  * will always pull data from Redux.
  */
 export default function IndexRoute(): React.ReactElement {
-  // Creates a dispatch function
-  const dispatch = useDispatch();
-  // maps the state to the what we need.
-  const showModal = useSelector(({ CreateModalState: { show }}: RootState) => (show));
 
-  const { user } = useCognito();
+  const dispatch = useDispatch();
+
+  const { idToken, showCreateModal, cognitoStatus } = useSelector((r: RootState) => ({ idToken: r.cognito.idToken, showCreateModal: r.modal.show, cognitoStatus: r.cognito.status }));
 
   const initialTodos: Todo = {
     id: '',
@@ -33,21 +32,32 @@ export default function IndexRoute(): React.ReactElement {
     description: '',
     done: false
   };
-  const [{id, title, description, done}, setTodo] = React.useState(initialTodos);
+
+  const [{ title, description }, setTodo] = React.useState<Todo>(initialTodos);
+  const [ addTodo, { isLoading: addTodoLoading }] = useAddTodoMutation();
+  const { refetch } = useGetTodosQuery(undefined, {
+    skip: idToken === '',    
+  });
+
+  if((cognitoStatus === 'success' || cognitoStatus === 'failure') && idToken === '') return <Redirect to="/login" />;
 
   return (
     <div className="w-full sm:w-4/5 lg:w-3/4 mx-auto flex-grow">
       <Modal
-        show={showModal}
+        show={showCreateModal}
         title={
           <div className="text-xl font-bold">
             Add a todo
           </div>
         }
-        onClose={() => dispatch(hideCreateModal())}
+        onClose={() => dispatch(hideModal())}
         onConfirm={() => {
-          dispatch(addTodo(title, description, done, user?.getSignInUserSession()?.getIdToken()?.getJwtToken()));
-          dispatch(hideCreateModal());
+          addTodo({
+            title,
+            description,
+            done: false
+          });
+          dispatch(hideModal());
         }}
         confirmText="Submit"
       >
@@ -58,7 +68,7 @@ export default function IndexRoute(): React.ReactElement {
           <Input
             className="w-full"
             placeholder="Todo title..."
-            onChange={({ target }) => setTodo({id, description, done, title: target.value})}
+            onChange={({ target }) => setTodo({ ...initialTodos, description, title: target.value })}
           />
         </FormField>
 
@@ -69,18 +79,27 @@ export default function IndexRoute(): React.ReactElement {
           <Textarea
             className="w-full"
             placeholder="Any details that are needed to complete the todo."
-            onChange={({ target }) => setTodo({ id, title, done, description: target.value })}
+            onChange={({ target }) => setTodo({ ...initialTodos, title, description: target.value })}
           />
         </FormField>
       </Modal>
       <h1 className="text-2xl font-semibold p-3 flex justify-between">
-        <div>Todos</div>
+        <div className="flex items-center">
+          <div>Todos</div>
+          <div className="ml-2">
+            {
+              addTodoLoading && <Loading text="" size={0.75}/>
+            }
+          </div>
+        </div>
         <div className="flex gap-2">
           <div>
             <Button
               variant="custom"
               className="text-gray-400 hover:text-purple-500"
-              onClick={() => dispatch(fetchTodos(user.getSignInUserSession().getIdToken().getJwtToken()))}
+              onClick={() => {
+                refetch();
+              }}
             >
               <Icon
                 path={mdiRefresh}
@@ -92,7 +111,7 @@ export default function IndexRoute(): React.ReactElement {
             <Button
               variant="custom"
               className="text-gray-400 hover:text-purple-500"
-              onClick={() => dispatch(showCreateModal())}
+              onClick={() => dispatch(showModal())}
             >
               <Icon
                 path={mdiPenPlus}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import TodosComponent from './todos.component';
-import { Todo } from '@/redux/todos/todos.reducer';
+import { Todo } from '@/redux/todos/todos.api';
 
 const todos: Todo[] = [
   {

@@ -1,8 +1,8 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@aws-amplify/auth': ^4.3.6
-  '@aws-amplify/core': ^4.2.10
+  '@aws-amplify/auth': ^4.3.16
+  '@aws-amplify/core': ^4.3.8
   '@babel/core': ^7.15.5
   '@babel/preset-env': ^7.15.6
   '@babel/preset-react': ^7.14.5
@@ -12,7 +12,7 @@ specifiers:
   '@hot-loader/react-dom': ^17.0.1
   '@mdi/js': ^5.9.55
   '@mdi/react': ^1.5.0
-  '@reduxjs/toolkit': ^1.6.1
+  '@reduxjs/toolkit': ^1.6.2
   '@testing-library/react': ^11.2.7
   '@types/jest': ^26.0.24
   '@types/react-dom': ^17.0.9
@@ -55,12 +55,12 @@ specifiers:
   webpack-dev-server: ^3.11.2
 
 dependencies:
-  '@aws-amplify/auth': 4.3.6
-  '@aws-amplify/core': 4.2.10
+  '@aws-amplify/auth': 4.3.16
+  '@aws-amplify/core': 4.3.8
   '@hot-loader/react-dom': 17.0.1_react@17.0.2
   '@mdi/js': 5.9.55
   '@mdi/react': 1.5.0
-  '@vini-vici/viddi': 1.1.0
+  '@vini-vici/viddi': 1.1.1
   aws-amplify: 4.2.10
   core-js: 3.18.0
   i18next: 20.6.1
@@ -79,7 +79,7 @@ devDependencies:
   '@babel/preset-typescript': 7.15.0_@babel+core@7.15.5
   '@core-fabrications/eslint-plugin': 1.0.1
   '@ffmpeg-installer/ffmpeg': 1.1.0
-  '@reduxjs/toolkit': 1.6.1_react-redux@7.2.5+react@17.0.2
+  '@reduxjs/toolkit': 1.6.2_react-redux@7.2.5+react@17.0.2
   '@testing-library/react': 11.2.7_react-dom@17.0.2+react@17.0.2
   '@types/jest': 26.0.24
   '@types/react-dom': 17.0.9
@@ -164,6 +164,17 @@ packages:
       - react-native
     dev: false
 
+  /@aws-amplify/auth/4.3.16:
+    resolution: {integrity: sha512-+COay64RXfYGIdWCZDE5phLE0/0JCxXI+6J1lloyDaUspi0kjWBBtxPLj+lTshnSfqTV0xs5pD0mhgKbk3wKjw==}
+    dependencies:
+      '@aws-amplify/cache': 4.0.28
+      '@aws-amplify/core': 4.3.8
+      amazon-cognito-identity-js: 5.2.3
+      crypto-js: 4.1.1
+    transitivePeerDependencies:
+      - react-native
+    dev: false
+
   /@aws-amplify/auth/4.3.6:
     resolution: {integrity: sha512-deEytr5Y5zSmzGkpc0JQ0rC9NMk0NpEMGnCL9qIoD0TrDNPjrm2+m/emP9Hvh/U4/61hu+h7QPv0oelimVH/lA==}
     dependencies:
@@ -183,8 +194,31 @@ packages:
       - react-native
     dev: false
 
+  /@aws-amplify/cache/4.0.28:
+    resolution: {integrity: sha512-AenPVxrJNp9b8BylFzhnzUU0sKwz7a6sP5xt6KPqW+S8L4wGYkWbobYcDvdrnu/SqqJ+S6xOpLWXaeh5Cjzjyw==}
+    dependencies:
+      '@aws-amplify/core': 4.3.8
+    transitivePeerDependencies:
+      - react-native
+    dev: false
+
   /@aws-amplify/core/4.2.10:
     resolution: {integrity: sha512-xYg4MD6qD8Duo3+D/Js3P/U8+d+UGVQonKoLBdBaDhstjGrWJNBAHLaZknG4t/1xa04gaYEXIJ3jPxrj7wDzAQ==}
+    dependencies:
+      '@aws-crypto/sha256-js': 1.0.0-alpha.0
+      '@aws-sdk/client-cloudwatch-logs': 3.6.1
+      '@aws-sdk/client-cognito-identity': 3.6.1
+      '@aws-sdk/credential-provider-cognito-identity': 3.6.1
+      '@aws-sdk/types': 3.6.1
+      '@aws-sdk/util-hex-encoding': 3.6.1
+      universal-cookie: 4.0.4
+      zen-observable-ts: 0.8.19
+    transitivePeerDependencies:
+      - react-native
+    dev: false
+
+  /@aws-amplify/core/4.3.8:
+    resolution: {integrity: sha512-mLoprQKRC55t7Xy4t7Xiro7qJ0z0mdLFAjJyGSiHHNXPbBcD1N5poHm16od/EJc9T7qldnVKvbPjUmxE2hEYrw==}
     dependencies:
       '@aws-crypto/sha256-js': 1.0.0-alpha.0
       '@aws-sdk/client-cloudwatch-logs': 3.6.1
@@ -3209,8 +3243,8 @@ packages:
     resolution: {integrity: sha512-afmTuJrylUU/0OtqzaRkbyYFFNgCF73Bvel/sw90pvGrWIZ+vyoIJqA6eMSoA6+nb443kTmulmBtC9NerXboNg==}
     dev: false
 
-  /@reduxjs/toolkit/1.6.1_react-redux@7.2.5+react@17.0.2:
-    resolution: {integrity: sha512-pa3nqclCJaZPAyBhruQtiRwtTjottRrVJqziVZcWzI73i6L3miLTtUyWfauwv08HWtiXLx1xGyGt+yLFfW/d0A==}
+  /@reduxjs/toolkit/1.6.2_react-redux@7.2.5+react@17.0.2:
+    resolution: {integrity: sha512-HbfI/hOVrAcMGAYsMWxw3UJyIoAS9JTdwddsjlr5w3S50tXhWb+EMyhIw+IAvCVCLETkzdjgH91RjDSYZekVBA==}
     peerDependencies:
       react: ^16.14.0 || ^17.0.0
       react-redux: ^7.2.1
@@ -3359,6 +3393,14 @@ packages:
       '@types/minimatch': 3.0.5
       '@types/node': 16.9.4
     dev: true
+
+  /@types/glob/7.2.0:
+    resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
+    dependencies:
+      '@types/minimatch': 3.0.5
+      '@types/node': 16.9.4
+    dev: true
+    optional: true
 
   /@types/graceful-fs/4.1.5:
     resolution: {integrity: sha512-anKkLmZZ+xm4p8JWBf4hElkM4XR+EZeA2M9BAkkTldmcyDY4mbdIJnRghDJH3Ov5ooY7/UAoENtmdMSkaAd7Cw==}
@@ -3608,8 +3650,8 @@ packages:
       eslint-visitor-keys: 2.1.0
     dev: true
 
-  /@vini-vici/viddi/1.1.0:
-    resolution: {integrity: sha512-JnZfyhwtvvCSAYEns9T0UxWFPx480nJ5L6fjfLHwnSEJa8HJBhLLMdpMuf/fKxycw9ZYaCCfQni4kXAjf5hRAA==, tarball: download/@vini-vici/viddi/1.1.0/ea72f9a473150bc00128858732576e745fc1c9ec99bf28f9b8715424819f0748}
+  /@vini-vici/viddi/1.1.1:
+    resolution: {integrity: sha512-wMQgb19o77WhwoVq/ZankbyvjvEOYKAPfDUce5FauoGJdFJZD+m+t1pz+2hrbbp2qFbfbMMoxVV7nuL6frIIeg==, tarball: download/@vini-vici/viddi/1.1.1/c750777d497ba028a55537c6e286425c4149f75a8cbdae44200707aadf1504c2}
     dependencies:
       '@mdi/js': 5.9.55
       '@mdi/react': 1.5.0
@@ -3902,6 +3944,16 @@ packages:
       js-cookie: 2.2.1
     dev: false
 
+  /amazon-cognito-identity-js/5.2.3:
+    resolution: {integrity: sha512-zTqhdUgvdGar+wjqcu8y9tnTYIS+6VxecZe7t5HAHXHjvzvENIjTehd4zrB6MvnU+oVKVH2wPlCg6jlWdSs0wg==}
+    dependencies:
+      buffer: 4.9.2
+      crypto-js: 4.1.1
+      fast-base64-decode: 1.0.0
+      isomorphic-unfetch: 3.1.0
+      js-cookie: 2.2.1
+    dev: false
+
   /amdefine/1.0.1:
     resolution: {integrity: sha1-SlKCrBZHKek2Gbz9OtFR+BfOkfU=}
     engines: {node: '>=0.4.2'}
@@ -4103,7 +4155,7 @@ packages:
       mkdirp: 0.5.5
       tmp-promise: 1.1.0
     optionalDependencies:
-      '@types/glob': 7.1.4
+      '@types/glob': 7.2.0
     dev: true
 
   /assertion-error/1.1.0:
@@ -6839,7 +6891,7 @@ packages:
       source-map: 0.6.1
       wordwrap: 1.0.0
     optionalDependencies:
-      uglify-js: 3.14.2
+      uglify-js: 3.14.3
     dev: true
 
   /hard-rejection/2.1.0:
@@ -7724,7 +7776,7 @@ packages:
   /isomorphic-unfetch/3.1.0:
     resolution: {integrity: sha512-geDJjpoZ8N0kWexiwkX8F9NkTsXhetLPVbZFQ+JTW239QNOwvB0gniuR1Wc6f0AMTn7/mFGyXvHTifrCp/GH8Q==}
     dependencies:
-      node-fetch: 2.6.3
+      node-fetch: 2.6.6
       unfetch: 4.2.0
     dev: false
 
@@ -9003,8 +9055,8 @@ packages:
       lodash: 4.17.21
     dev: true
 
-  /node-fetch/2.6.3:
-    resolution: {integrity: sha512-BXSmNTLLDHT0UjQDg5E23x+0n/hPDjySqc0ELE4NpCa2wE5qmmaEWFRP/+v8pfuocchR9l5vFLbSB7CPE2ahvQ==}
+  /node-fetch/2.6.6:
+    resolution: {integrity: sha512-Z8/6vRlTUChSdIgMa51jxQ4lrw/Jy5SOW10ObaA47/RElsAN2c5Pn8bTgFGWn/ibwzXTE8qwr1Yzx28vsecXEA==}
     engines: {node: 4.x || >=6.0.0}
     dependencies:
       whatwg-url: 5.0.0
@@ -11698,8 +11750,8 @@ packages:
     hasBin: true
     dev: true
 
-  /uglify-js/3.14.2:
-    resolution: {integrity: sha512-rtPMlmcO4agTUfz10CbgJ1k6UAoXM2gWb3GoMPPZB/+/Ackf8lNWk11K4rYi2D0apgoFRLtQOZhb+/iGNJq26A==}
+  /uglify-js/3.14.3:
+    resolution: {integrity: sha512-mic3aOdiq01DuSVx0TseaEzMIVqebMZ0Z3vaeDhFEh9bsc24hV1TFvN74reA2vs08D0ZWfNjAcJ3UbVLaBss+g==}
     engines: {node: '>=0.8.0'}
     hasBin: true
     requiresBuild: true

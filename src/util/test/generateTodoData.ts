@@ -1,4 +1,4 @@
-import { Todo } from '@/redux/todos/todos.reducer';
+import { Todo } from '@/redux/todos/todos.api';
 
 export function generateTodos(count = 10): Todo[] {
   return new Array(count).fill(false).map((v, i)=> ({
