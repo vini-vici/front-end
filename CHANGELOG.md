@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/vini-vici/front-end/compare/v1.1.0...v1.2.0) (2021-12-05)
+
+
+### Features
+
+* Adds in new "Releases" page ([813d591](https://github.com/vini-vici/front-end/commit/813d5913a0d61caea0ad8a5cad899170d5ec66fa)), closes [#29](https://github.com/vini-vici/front-end/issues/29) [#30](https://github.com/vini-vici/front-end/issues/30)
+
 ## [1.1.0](https://github.com/vini-vici/front-end/compare/v1.0.0...v1.1.0) (2021-12-04)
 
 
