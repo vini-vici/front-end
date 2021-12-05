@@ -1,19 +1,19 @@
 import { createAsyncThunk, createSlice, AnyAction } from '@reduxjs/toolkit';
-import Amplify, { Hub } from '@aws-amplify/core';
+import Amplify from '@aws-amplify/core';
 import Auth, { CognitoUser } from '@aws-amplify/auth';
+import config from '@/config.json';
+// import { CLIENT_ID, COGNITO_DOMAIN, POOL_ID, REGION } from '@/config.json';
 
-import { CLIENT_ID, COGNITO_DOMAIN, POOL_ID, REGION } from '@/config.json';
 import { RootState } from '../store';
-import { StringableActionCreator } from '.pnpm/@redux-saga+types@1.1.0/node_modules/@redux-saga/types';
 
 // Q: How do we do this without needing to hardcode the values for the 
 Amplify.configure({
   Auth: {
-    region: REGION,
-    userPoolId: POOL_ID,
-    userPoolWebClientId: CLIENT_ID,
+    region: config.REGION,
+    userPoolId: config.POOL_ID,
+    userPoolWebClientId: config.CLIENT_ID,
     oauth: {
-      domain: COGNITO_DOMAIN,
+      domain: config.COGNITO_DOMAIN,
       scope: [
         'phone',
         'email',
@@ -58,8 +58,8 @@ export const signupUserThunk = createAsyncThunk<CognitoState, {
   preferredUsername?: string;
 }>(
   'cognito/signupUser',
-  async ({ username, preferredUsername, password, email }, { getState }) => {
-    const newUser = await Auth.signUp({
+  async ({ username, preferredUsername, password, email }) => {
+    await Auth.signUp({
       username,
       password,
       attributes: {
@@ -83,7 +83,7 @@ export const signupUserThunk = createAsyncThunk<CognitoState, {
 
 export const verifyUserThunk = createAsyncThunk<Record<string, never>, { code: string; password: string;  }>(
   'cognito/verifyUser',
-  async ({ code, password }, { getState, rejectWithValue, fulfillWithValue, dispatch }) => {
+  async ({ code, password }, { getState, rejectWithValue, dispatch }) => {
     const state = getState() as RootState;
     const v = await Auth.confirmSignUp(state.cognito.username, code);
 

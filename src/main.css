@@ -9,3 +9,15 @@
 .container {
   @apply w-5/6 sm:w-4/5 lg:w-3/4 mx-auto;
 }
+
+h2 {
+  @apply text-xl border-b border-purple-800 font-bold;
+}
+
+h3 {
+  @apply text-lg font-semibold;
+}
+
+a[target="_blank"] {
+  @apply text-purple-600 underline;
+}
