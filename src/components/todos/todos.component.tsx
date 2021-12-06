@@ -4,6 +4,7 @@ import TodoComponent from '@/components/todos/todo.component';
 import { Todo } from '@/redux/todos/todos.api';
 import Loading from '@vini-vici/viddi/dist/loading/loading.component';
 import styles from './todos.module.css';
+import { useTranslation } from 'react-i18next';
 
 interface TodosProps {
   loading: boolean;
@@ -15,6 +16,8 @@ interface TodosProps {
 
 export default function TodosComponent(props: TodosProps): React.ReactElement {
   const { todos, loading = false, updateTodo, deleteTodo } = props;
+
+  const { t } = useTranslation();
 
   if(loading) {
     return (
@@ -29,10 +32,10 @@ export default function TodosComponent(props: TodosProps): React.ReactElement {
     <div className="todos-list px-2">
       <div className="grid grid-cols-4 gap-1">
         {/* Header Cells */}
-        <div className={styles.header}>Done?</div>
-        <div className={styles.header}>Title</div>
-        <div className={styles.header}>Description</div>
-        <div className={styles.header}>Actions</div>
+        <div className={styles.header}>{t('Done?')}</div>
+        <div className={styles.header}>{t('Title')}</div>
+        <div className={styles.header}>{t('Description')}</div>
+        <div className={styles.header}>{t('Actions')}</div>
 
         {
           todos?.length ?
@@ -50,7 +53,7 @@ export default function TodosComponent(props: TodosProps): React.ReactElement {
               />
             )) :
             <div className="no-todos col-span-4 text-center py-3">
-              There are no todos. Please click on the pen icon in the top right to add one!
+              {t('Todos-empty')}
             </div>
         }
       </div>

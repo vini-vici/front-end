@@ -5,8 +5,10 @@ import { mdiGithub } from '@mdi/js';
 import { Icon } from '@mdi/react';
 
 import { Link, NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function Navbar(): React.ReactElement {
+  const { t } = useTranslation();
   const user = useSelector((v: RootState) => v.cognito);
   const github = useSelector(({ github }: RootState) => github);
   return (
@@ -20,21 +22,27 @@ export default function Navbar(): React.ReactElement {
         </div>
         
         <div className="flex right-section gap-2 items-center">
-          <NavLink to="/" exact activeClassName="font-semibold underline">Home</NavLink>
-          <NavLink to="/about" activeClassName="font-semibold underline">About</NavLink>
-          <NavLink to="/releases" activeClassName="font-semibold underline">Releases</NavLink>
+          <NavLink to="/" exact activeClassName="font-semibold underline">
+            {t('Home')}
+          </NavLink>
+          <NavLink to="/about" activeClassName="font-semibold underline">
+            {t('About')}
+          </NavLink>
+          <NavLink to="/releases" activeClassName="font-semibold underline">
+            {t('Releases')}
+          </NavLink>
           {
             user.preferredUsername || user.username ?
               (
                 <Link to="/logout">
-                  Logout
+                  {t('Logout')}
                   <span className="text-gray-400 text-sm ml-1">
                     ({user.preferredUsername || user.username})
                   </span>
                 </Link>
               ) :
               (
-                <Link to="/login">Login</Link>
+                <Link to="/login">{t('Login')}</Link>
               )
           }
           <a href="https://github.com/vini-vici/" target="_blank" aria-label="Go to Vini-Vici repos" title={

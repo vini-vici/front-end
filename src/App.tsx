@@ -14,6 +14,7 @@ import { getGithubIssues } from './redux/github/github.thunk';
 
 function AppComponent(): React.ReactElement {
 
+
   React.useEffect(() => {
     store.dispatch(getUserThunk());
     store.dispatch(getGithubIssues());

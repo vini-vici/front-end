@@ -7,6 +7,7 @@ import { RootState } from '@/redux/store';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { toDateTimeString } from '@/util/date';
+import { useTranslation } from 'react-i18next';
 
 export default function ReleaseRoute(): React.ReactElement {
   const { releases, isSuccess, isLoading } = useSelector((v: RootState) => v.releases);
@@ -14,10 +15,20 @@ export default function ReleaseRoute(): React.ReactElement {
   React.useEffect(() => {
     dispatch(getReleases());
   }, []);
+
+  const { t }= useTranslation();
+
   return (
     <div className="flex-grow pb-8">
       <div className="container">
-        <h1 className="text-4xl mt-2">Releases</h1>
+        <h1 className="text-4xl font-bold mt-2">
+          {t('Releases')}
+        </h1>
+        <header className="mt-2 lb-4">
+          <p>
+            {t('Release-description')}
+          </p>
+        </header>
         {isLoading && <Loading />}
         {
           isSuccess && releases.length && releases.map(release => (
@@ -26,8 +37,7 @@ export default function ReleaseRoute(): React.ReactElement {
                 <h1 className="text-2xl font-semibold ">
                   {release.name}
                   <small className="ml-2 font-normal ">
-                    Posted at {' '}
-                    {toDateTimeString(release.created_at)}
+                    {t('Posted at', { date: toDateTimeString(release.published_at) })}
                   </small>
                 </h1>
               </header>

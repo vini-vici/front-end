@@ -1,49 +1,59 @@
 import React from 'react';
+import { useTranslation, Trans } from 'react-i18next';
 
 export default function AboutRoute(): React.ReactElement {
+  const { t } = useTranslation();
   return (
     <div className="flex-grow">
       <div className="container pb-5">
-        <h1 className="text-2xl mt-3">
-          About this project
+        <h1 className="text-3xl font-bold mt-3">
+          {t('About this project')}
         </h1>
+        
         <p>
-          This project is about showing more about the <em>architecture</em> of a larger app
-          than it is about what the app <em>does</em>. For newer people it often is about how cool
-          what they are working on is. This works well, except for in trying to dive into what they perceive as
-          cool they miss a lot of the more minor steps.
+          <Trans i18nKey="About-description">
+            This project is about showing more about the <em>architecture</em> of a larger app
+            than it is about what the app <em>does</em>. For newer people it often is about how cool
+            what they are working on is. This works well, except for in trying to dive into what they perceive as
+            cool they miss a lot of the more minor steps.
+          </Trans>
         </p>
 
         <h2 className="text-xl mt-3">
-          The Author
+          {t('The Author')}
         </h2>
         <p>
-          Before we go any further, let me introduce myself. My name is Jim Burbridge and I've been working
-          in the web since I was 12. I did freelance throughout middle and high school, have interviewed with multiple
-          FAANG companies (and currently work at one). I am currently a Front-End Engineer by title, but I will do work anywhere that is interesting.
+          <Trans i18nKey="About-Author-Description">
+            Before we go any further, let me introduce myself. My name is Jim Burbridge and I've been working
+            in the web since I was 12. I did freelance throughout middle and high school, have interviewed with multiple
+            FAANG companies (and currently work at one). I am currently a Front-End Engineer by title, but I will do work anywhere that is interesting.
+          </Trans>
         </p>
 
         <h2 className="text-xl mt-3">
-          So, what do <em>we</em> get out of it?
+          <Trans i18nKey="About-Out-of-it">
+            So, what do <em>we</em> get out of it?
+          </Trans>
         </h2>
         <p>
+          <Trans i18nKey="About-see-an-application">
           We see an application with quite a few components,
           unit tests, and e2e tests. As well, we get to see
           how to integrate with things like the AWS CDK,
           which builds our staging and production URLs; and AWS Cognito, which is how we handle our user login system.
+          </Trans>
         </p>
 
         <h2 className="text-xl mt-3">
-          So, what's the stack?
+          {t('About-stack')}
         </h2>
         <p>
-          Glad you asked! Unfortunately there isn't a simple solid answer I can give you. Applications tend to be more complex than people think.
-          The components responsible for the build of the Front-end are:
+          {t('About-stack-description')}
         </p>
         <div className="flex flex-col md:flex-row gap-2 mt-3">
           <div className="md:flex-grow">
             <h3 className="text-lg underline">
-              Front-End
+              {t('Front-End')}
             </h3>
             <ul className="list-disc list-inside">
               <li>React</li>
@@ -57,7 +67,9 @@ export default function AboutRoute(): React.ReactElement {
             </ul>
           </div>
           <div className="md:flex-grow">
-            <h3 className="text-lg underline">Back-End</h3>
+            <h3 className="text-lg underline">
+              {t('Back-End')}
+            </h3>
             <ul className="list-disc list-inside">
               <li>AWS Sam CLI</li>
               <li>

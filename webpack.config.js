@@ -34,7 +34,7 @@ function populateConfig() {
       COGNITO_DOMAIN: obj.UserPoolDomain,
       CLIENT_ID: obj.UserPoolClientId,
       REGION: region,
-      API: obj.ApiEndpoint,
+      API: obj.ApiEndpoint || obj['ApiEndpoint-V2'],
       POOL_ID: obj.UserPoolId
     };
     // Write the file.
@@ -117,7 +117,7 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: 'static/*.svg',
+          from: 'static/**/*',
           to: fromRoot('public/'),
           globOptions: {
             ignore: ['index.html']
