@@ -67,13 +67,14 @@ export const todosApi = createApi({
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       async onQueryStarted(
         { id, ...rest },
-        { getState, dispatch, queryFulfilled }
+        { dispatch, queryFulfilled }
       ) {
         const patchResult = dispatch(
           todosApi.util.updateQueryData('getTodos', undefined, draft => {
             // The `draft` is Inner-wrapped and can be "mutated" like in createSlice
             const todo = draft.find(t => t.id === id);
             if (todo) {
+              todo.done = rest.done;
               todo.title = rest.title;
               todo.description = rest.description;
             }
@@ -85,15 +86,6 @@ export const todosApi = createApi({
           patchResult.undo();
         }
       },
-      //   todosApi.util.updateQueryData
-      //   // const r = getState();
-      //   // console.log(todosApi.util.updateQueryData('getTodos', ));
-      //   try {
-      //     await queryFulfilled;
-      //   } catch(e) {
-      //     console.error('whoop');
-      //   }
-      // }
     }),
     deleteTodo: builder.mutation<void, string>({
       query: id => ({

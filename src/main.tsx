@@ -17,7 +17,7 @@ i18n
   .use(initReactI18next)
   // .addResource('a','b','c', 'd')
   .init({
-    fallbackLng: 'es',
+    fallbackLng: 'en',
     debug: import.meta.env !== 'production',
     interpolation: {
       escapeValue : false // React escapes by default.

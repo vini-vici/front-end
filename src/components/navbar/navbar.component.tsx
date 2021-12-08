@@ -26,7 +26,7 @@ export default function Navbar(): React.ReactElement {
             {t('Home')}
           </NavLink>
           <NavLink to="/about" activeClassName="font-semibold underline">
-            {t('About')}
+            {t('About.navbar')}
           </NavLink>
           <NavLink to="/releases" activeClassName="font-semibold underline">
             {t('Releases')}
