@@ -15,7 +15,6 @@ import { Todo } from '@/redux/todos/todos.api';
 import { useAddTodoMutation, useGetTodosQuery } from '@/redux/todos/todos.api';
 import { hideModal, showModal } from '@/redux/createModal/createModal.slice';
 import { Loading } from '@vini-vici/viddi';
-import { getReleases } from '@/redux/releases/releases.thunk';
 
 /**
  * @description Routes in general will not take any props in our application since the corresponding components
@@ -37,7 +36,7 @@ export default function IndexRoute(): React.ReactElement {
   const [{ title, description }, setTodo] = React.useState<Todo>(initialTodos);
   const [ addTodo, { isLoading: addTodoLoading }] = useAddTodoMutation();
   const { refetch } = useGetTodosQuery(undefined, {
-    skip: idToken === '',    
+    skip: idToken === '',
   });
 
   if((cognitoStatus === 'success' || cognitoStatus === 'failure') && idToken === '') return <Redirect to="/login" />;

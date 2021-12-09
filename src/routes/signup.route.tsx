@@ -13,8 +13,9 @@ export default function SignupRoute(): React.ReactElement {
 
   const {
     loggedInUser,
-    needsVerification
-  } = useSelector(({ cognito: { username, needsVerification, idToken  } }: RootState) => ({ loggedInUser: username, needsVerification, idToken }));
+    needsVerification,
+    error
+  } = useSelector(({ cognito: { username, needsVerification, idToken, error  } }: RootState) => ({ loggedInUser: username, needsVerification, idToken, error }));
 
   const dispatch = useDispatch();
 
@@ -35,7 +36,6 @@ export default function SignupRoute(): React.ReactElement {
   });
 
   const [redirect, setRedirect] = React.useState(false);
-  const [error, setError] = React.useState('');
 
   useEffect(() => {
     setValidations({
@@ -51,9 +51,11 @@ export default function SignupRoute(): React.ReactElement {
   return (
     <div className="flex-grow">
       <div className="wrapper md:max-w-md lg:max-w-lg mx-auto my-2 md:border md:shadow-lg p-3">
-        <div>
-          {error}
-        </div>
+        {error && (
+          <div className="border border-red-600 bg-red-300 p-1 my-2">
+            {error}
+          </div>
+        )}
         <h1 className="text-xl font-bold">
           Sign Up
         </h1>

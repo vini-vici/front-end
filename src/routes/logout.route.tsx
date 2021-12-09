@@ -1,7 +1,7 @@
 import { logoutUserThunk } from '@/redux/cognito/cognito.thunk';
 import { RootState } from '@/redux/store';
 import React from 'react';
-import { useDispatch, useSelector, useStore } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Redirect } from 'react-router-dom';
 

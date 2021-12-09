@@ -2,8 +2,6 @@ import { createAsyncThunk, createSlice, AnyAction } from '@reduxjs/toolkit';
 import Amplify from '@aws-amplify/core';
 import Auth, { CognitoUser } from '@aws-amplify/auth';
 import config from '@/config.json';
-// import { CLIENT_ID, COGNITO_DOMAIN, POOL_ID, REGION } from '@/config.json';
-
 import { RootState } from '../store';
 
 // Q: How do we do this without needing to hardcode the values for the 
@@ -32,6 +30,7 @@ interface CognitoState {
   needsVerification?: boolean;
   status: 'pending' | 'success' | 'failure';
   isLoading: boolean;
+  error?: string;
 }
 
 
@@ -51,33 +50,50 @@ export const getUserThunk = createAsyncThunk<CognitoState>('cognito/fetchUser',
   }
 );
 
-export const signupUserThunk = createAsyncThunk<CognitoState, {
+export const signupUserThunk = createAsyncThunk<Partial<CognitoState>, {
   username: string;
   password: string;
   email: string;
   preferredUsername?: string;
 }>(
   'cognito/signupUser',
-  async ({ username, preferredUsername, password, email }) => {
-    await Auth.signUp({
-      username,
-      password,
-      attributes: {
+  async ({ username, preferredUsername, password, email }, { rejectWithValue }) => {
+    try {
+      await Auth.signUp({
+        username,
+        password,
+        attributes: {
+          email,
+          preferred_username: preferredUsername
+        }
+      });
+  
+      return {
+        username,
+        preferredUsername,
         email,
-        preferred_username: preferredUsername
-      }
-    });
+        needsVerification: true,
+        idToken: '',
+        accessToken: '',
+        status: 'success',
+        isLoading: false
+      };
 
-    return {
-      username,
-      preferredUsername,
-      email,
-      needsVerification: true,
-      idToken: '',
-      accessToken: '',
-      status: 'success',
-      isLoading: false
-    };
+    } catch(e) {
+      const error = e as Error;
+      if(error.name === 'UsernameExistsException') {
+        return rejectWithValue({
+          error: 'Username is already taken'
+        });
+      }
+
+      if(error.name === 'InvalidPasswordException') {
+        return rejectWithValue({
+          error: 'Invalid password'
+        });
+      }
+      return rejectWithValue({});
+    }
   }
 );
 
@@ -104,19 +120,38 @@ type UserLogin = {
   password: string;
 }
 
-export const loginUserThunk = createAsyncThunk<CognitoState, UserLogin>('cognito/login',
-  async action => {
-    const user = await Auth.signIn(action.username, action.password);
-    const userAttributes = await Auth.currentUserInfo();
-
-    return {
-      username: user.getUsername(),
-      idToken: user.getSignInUserSession().getIdToken().getJwtToken(),
-      accessToken: user.getSignInUserSession().getAccessToken().getJwtToken(),
-      preferredUsername: userAttributes.attributes.preferredUsername,
-      isLoading: false,
-      status: 'success'
-    };
+export const loginUserThunk = createAsyncThunk<Partial<CognitoState>, UserLogin>('cognito/login',
+  async (action, { rejectWithValue }) => {
+    try {
+      const user = await Auth.signIn(action.username, action.password);
+      const userAttributes = await Auth.currentUserInfo();
+  
+      return {
+        username: user.getUsername(),
+        idToken: user.getSignInUserSession().getIdToken().getJwtToken(),
+        accessToken: user.getSignInUserSession().getAccessToken().getJwtToken(),
+        preferredUsername: userAttributes.attributes.preferredUsername,
+        isLoading: false,
+        status: 'success'
+      };
+    } catch(e: unknown) {
+      const error = e as Error;
+      if(error.name === 'UserNotFoundException' || error.name === 'NotAuthorizedException') {
+        console.log('fail this bitch RIGHT NOW');
+        return rejectWithValue({
+          error: 'Your username or password is incorrect. Please check the values and try again.' //i18n.t('Login.validation-error')
+        } as Partial<CognitoState>);
+      }
+      
+      return rejectWithValue({
+        idToken: '',
+        accessToken: '',
+        username: '',
+        status: 'failure',
+        isLoading: false,
+        error: 'Something has gone wrong trying to login. Please wait for one minute and try again.'
+      } as Partial<CognitoState>);
+    }
   }
 );
 
@@ -138,7 +173,11 @@ export const cognitoSlice = createSlice({
     username: '',
     idToken: '',
     accessToken: '',
-    preferredUsername: ''
+    preferredUsername: '',
+    isLoading: false,
+    status: 'pending',
+    error: '',
+    needsVerification: false
   } as CognitoState,
   reducers: {},
   extraReducers: builder => {
@@ -153,6 +192,9 @@ export const cognitoSlice = createSlice({
       state.isLoading = false;
     });
 
+    builder.addCase(loginUserThunk.pending, state => {
+      state.error = '';
+    });
     // When logging a user in is fulfilled.
     builder.addCase(loginUserThunk.fulfilled, (state, action) => {
       state.username = action.payload.username;
@@ -194,10 +236,11 @@ export const cognitoSlice = createSlice({
       });
     });
 
-    builder.addMatcher((action: AnyAction) => (action.type as string).endsWith('/rejected'), state => {
+    builder.addMatcher((action: AnyAction) => (action.type as string).endsWith('/rejected'), (state, action) => {
       Object.assign(state, {
         isLoading: false,
-        status: 'failure'
+        status: 'failure',
+        error: action?.payload?.error || ''
       });
     });
   }

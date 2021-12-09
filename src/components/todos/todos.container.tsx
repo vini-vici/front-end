@@ -10,7 +10,6 @@ export default function TodosContainer(): React.ReactElement {
   const idToken = useSelector(({ cognito: { idToken } }: RootState) => idToken);
 
   // grab the dispatch.
-  const dispatch = useDispatch();
   const { data: todos, isLoading } = useGetTodosQuery(undefined, {
     skip: idToken === '',
   });
