@@ -31,7 +31,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'pnpm'
         registry-url: 'https://npm.pkg.github.com'
-    - run: npm i -g pnpm
     - run: pnpm i --frozen-lockfile
       env:
         NODE_AUTH_TOKEN: ${{ secrets.VIDDI_PAT }}
@@ -44,12 +43,14 @@ jobs:
         node-version: [ 16.x ]
     steps:
     - uses: actions/checkout@v2
+    - uses: pnpm/action-setup@v2.0.1
+      with:
+        version: 6.23.6
     - name: Uses Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'pnpm'
-    - run: npm i -g pnpm
     - run: pnpm i --frozen-lockfile
       env:
         NODE_AUTH_TOKEN: ${{ secrets.VIDDI_PAT }}
