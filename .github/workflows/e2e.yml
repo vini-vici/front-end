@@ -15,13 +15,20 @@ jobs:
         os: [ubuntu-latest, windows-latest]
         node: [ 16.x ]
     steps:
+      - uses: actions/checkout@v1
       # Setup node
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.23.6
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
-      # checkout 
-      - uses: actions/checkout@v1
-      - run: npm i -g pnpm && pnpm i --frozen-lockfile
+          cache: 'pnpm'
+          registry-url: 'https://npm.pkg.github.com'
+       
+      - run: pnpm i --frozen-lockfile
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.VIDDI_PAT }}
       - run: pnpm e2e:ci
       - uses: actions/upload-artifact@v2
         name: Save screenshots
