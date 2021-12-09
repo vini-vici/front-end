@@ -15,6 +15,7 @@ jobs:
         os: [ubuntu-latest, windows-latest]
         node: [ 16.x ]
     steps:
+      - uses: actions/checkout@v1
       # Setup node
       - uses: pnpm/action-setup@v2.0.1
         with:
@@ -22,8 +23,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
-      # checkout 
-      - uses: actions/checkout@v1
+          cache: 'pnpm'
+          registry-url: 'https://npm.pkg.github.com'
+       
       - run: pnpm i --frozen-lockfile
         env:
           NODE_AUTH_TOKEN: ${{ secrets.VIDDI_PAT }}
