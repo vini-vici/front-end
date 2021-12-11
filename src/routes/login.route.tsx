@@ -17,7 +17,6 @@ export default function LoginRoute(): React.ReactElement {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [showClearModal, setClearModal] = React.useState(false);
-  const [error, setError] = React.useState('');
 
   const loginHandler = () => {
     // signIn(username, password)
@@ -51,10 +50,10 @@ export default function LoginRoute(): React.ReactElement {
       <div className="mx-auto my-2 p-3 max-w-sm border shadow-lg rounded-md">
         <h1 className="text-xl font-semibold">Login Form</h1>
         {
-          error &&
+          user?.error &&
           (
             <div className="border border-red-600 bg-red-300 p-1">
-              {error}
+              {user.error}
             </div>
           )
         }
@@ -73,6 +72,7 @@ export default function LoginRoute(): React.ReactElement {
                 setUsername(e.target.value);
               }}
               className="w-full"
+              disabled={user.isLoading}
               placeholder={'"bob@email.com" or just "bob_rocks89"'}
             />
           </FormField>
@@ -85,6 +85,7 @@ export default function LoginRoute(): React.ReactElement {
               className="w-full"
               placeholder="Passwords should contain an upper case, number, and special symbol."
               value={password}
+              disabled={user.isLoading}
               onChange={e => {
                 setPassword(e.target.value);
               }}

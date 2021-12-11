@@ -40,6 +40,22 @@ export const todosApi = createApi({
         body,
       }),
       invalidatesTags: [{ type: 'Todo', id: 'LIST' }],
+      async onQueryStarted(todo, { queryFulfilled, dispatch }) {
+        const patch = dispatch(
+          todosApi.util.updateQueryData('getTodos', undefined, draft => {
+            draft.unshift({
+              id: 'pending',
+              title: todo.title || '',
+              description: todo.description || '',
+              done: todo.done || false
+            });
+          }
+          )
+        );
+
+        await queryFulfilled.catch(patch.undo);
+
+      }
     }),
     updateTodo: builder.mutation<void, Pick<Todo, 'id'> & Partial<Todo>>({
       query: ({ id, ...rest }) => ({
@@ -85,6 +101,14 @@ export const todosApi = createApi({
         method: 'DELETE',
       }),
       invalidatesTags: [{ type: 'Todo', id: 'LIST' }],
+      // Adds optimistic removal of todos
+      async onQueryStarted(id, { dispatch, queryFulfilled, }) {
+        const patch = dispatch(todosApi.util.updateQueryData('getTodos', undefined, draft => {
+          const index = draft.findIndex(t => t.id === id);
+          draft.splice(index, 1);
+        }));
+        await queryFulfilled.catch(patch.undo);
+      }
     }),
   }),
 });
