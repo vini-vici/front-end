@@ -96,6 +96,15 @@ function AppComponent(): React.ReactElement {
                 }
               />
               <Route
+                path="/user"
+                exact
+                component={
+                  React.lazy(
+                    () => import(/* webpackChunkName: "UserRoute" */'./routes/user.route')
+                  )
+                }
+              />
+              <Route
                 path="/"
                 component={
                   React.lazy(
