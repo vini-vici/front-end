@@ -9,6 +9,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { loginUserThunk } from '@/redux/cognito/cognito.thunk';
+import { useTranslation } from 'react-i18next';
 
 
 export default function LoginRoute(): React.ReactElement {
@@ -17,6 +18,7 @@ export default function LoginRoute(): React.ReactElement {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [showClearModal, setClearModal] = React.useState(false);
+  const { t } = useTranslation();
 
   const loginHandler = () => {
     // signIn(username, password)
@@ -45,10 +47,12 @@ export default function LoginRoute(): React.ReactElement {
           setClearModal(false);
         }}
       >
-        Are you sure you want to clear the form?
+        {t('Clear-form')}
       </Modal>
       <div className="mx-auto my-2 p-3 max-w-sm border shadow-lg rounded-md">
-        <h1 className="text-xl font-semibold">Login Form</h1>
+        <h1 className="text-xl font-semibold">
+          {t('Login-form')}
+        </h1>
         {
           user?.error &&
           (
@@ -63,8 +67,8 @@ export default function LoginRoute(): React.ReactElement {
           }}
         >
           <FormField
-            label="Username"
-            description="Could be your email address or chosen username"
+            label={t('Username')}
+            description={t('Username-description')}
           >
             <Input
               value={username}
@@ -73,17 +77,17 @@ export default function LoginRoute(): React.ReactElement {
               }}
               className="w-full"
               disabled={user.isLoading}
-              placeholder={'"bob@email.com" or just "bob_rocks89"'}
+              placeholder={t('Username-placeholder')}
             />
           </FormField>
           <FormField
-            label="Password"
-            description="Passwords must contain a whole bunch of things."
+            label={t('Password')}
+            description={t('Password-description')}
           >
             <Input
               type="password"
               className="w-full"
-              placeholder="Passwords should contain an upper case, number, and special symbol."
+              placeholder={t('Password-placeholder')}
               value={password}
               disabled={user.isLoading}
               onChange={e => {
@@ -92,7 +96,7 @@ export default function LoginRoute(): React.ReactElement {
             />
           </FormField>
           <div className="mt-2 text-right">
-            <Link to="/signup">Signup</Link>
+            <Link to="/signup">{t('Signup')}</Link>
           </div>
           <div className="flex mt-3 justify-end gap-2">
             <Button
@@ -101,7 +105,7 @@ export default function LoginRoute(): React.ReactElement {
                 setClearModal(true);
               }}
             >
-              Reset
+              {t('Reset')}
             </Button>
             <Button
               variant="primary"
@@ -110,7 +114,7 @@ export default function LoginRoute(): React.ReactElement {
                 loginHandler();
               }}
             >
-              Submit
+              {t('Submit')}
             </Button>
           </div>
         </form>

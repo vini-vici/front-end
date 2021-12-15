@@ -4,8 +4,7 @@
     "noEmit": true,
     "types": [
       "jest",
-      "redux",
-      "redux-saga"
+      "redux"
     ]
   },
   "exclude": [

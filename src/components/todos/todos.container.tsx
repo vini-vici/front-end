@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import TodosComponent from './todos.component';
 import { useDeleteTodoMutation, useGetTodosQuery, useUpdateTodoMutation } from '@/redux/todos/todos.api';
@@ -14,8 +14,8 @@ export default function TodosContainer(): React.ReactElement {
     skip: idToken === '',
   });
 
-  const [updateTodo, { isSuccess, isLoading: updateLoading, isError: addError }] = useUpdateTodoMutation();
-  const [deleteTodo, { isSuccess: deleteSuccess, isLoading: deleteLoading, isError: deleteError }] = useDeleteTodoMutation();
+  const [updateTodo] = useUpdateTodoMutation();
+  const [deleteTodo] = useDeleteTodoMutation();
 
   // This function merely serves as a wrapper for the actual TodosComponent.
   return (

@@ -1,49 +1,55 @@
 import React from 'react';
+import { useTranslation, Trans } from 'react-i18next';
 
 export default function AboutRoute(): React.ReactElement {
+  const { t } = useTranslation();
   return (
     <div className="flex-grow">
       <div className="container pb-5">
-        <h1 className="text-2xl mt-3">
-          About this project
+        <h1 className="text-3xl font-bold mt-3">
+          {t('About.About-this-project')}
         </h1>
+        
         <p>
-          This project is about showing more about the <em>architecture</em> of a larger app
-          than it is about what the app <em>does</em>. For newer people it often is about how cool
-          what they are working on is. This works well, except for in trying to dive into what they perceive as
-          cool they miss a lot of the more minor steps.
+          <Trans i18nKey="About.About-description">
+            This project is about showing more about the <em>architecture</em> of a larger app
+            than it is about what the app <em>does</em>. For newer people it often is about how cool
+            what they are working on is. This works well, except for in trying to dive into what they perceive as
+            cool they miss a lot of the more minor steps.
+          </Trans>
         </p>
 
         <h2 className="text-xl mt-3">
-          The Author
+          {t('About.The-Author')}
         </h2>
         <p>
-          Before we go any further, let me introduce myself. My name is Jim Burbridge and I've been working
-          in the web since I was 12. I did freelance throughout middle and high school, have interviewed with multiple
-          FAANG companies (and currently work at one). I am currently a Front-End Engineer by title, but I will do work anywhere that is interesting.
+          {t('About.About-Author-Description')}
         </p>
 
         <h2 className="text-xl mt-3">
-          So, what do <em>we</em> get out of it?
+          <Trans i18nKey="About.About-Out-of-it">
+            So, what do <em>we</em> get out of it?
+          </Trans>
         </h2>
         <p>
+          <Trans i18nKey="About.About-see-an-application">
           We see an application with quite a few components,
           unit tests, and e2e tests. As well, we get to see
           how to integrate with things like the AWS CDK,
           which builds our staging and production URLs; and AWS Cognito, which is how we handle our user login system.
+          </Trans>
         </p>
 
         <h2 className="text-xl mt-3">
-          So, what's the stack?
+          {t('About.About-stack')}
         </h2>
         <p>
-          Glad you asked! Unfortunately there isn't a simple solid answer I can give you. Applications tend to be more complex than people think.
-          The components responsible for the build of the Front-end are:
+          {t('About.About-stack-description')}
         </p>
         <div className="flex flex-col md:flex-row gap-2 mt-3">
           <div className="md:flex-grow">
             <h3 className="text-lg underline">
-              Front-End
+              {t('Front-End')}
             </h3>
             <ul className="list-disc list-inside">
               <li>React</li>
@@ -57,7 +63,9 @@ export default function AboutRoute(): React.ReactElement {
             </ul>
           </div>
           <div className="md:flex-grow">
-            <h3 className="text-lg underline">Back-End</h3>
+            <h3 className="text-lg underline">
+              {t('Back-End')}
+            </h3>
             <ul className="list-disc list-inside">
               <li>AWS Sam CLI</li>
               <li>
@@ -69,15 +77,17 @@ export default function AboutRoute(): React.ReactElement {
             </ul>
           </div>
         </div>
-        <small>* Vidi UI is a part of the same project, just split out into its own repo.</small>
+        <small>*{t('About.vidi-ui-disclaimer')}</small>
 
         <h2 className="text-xl mt-3">
-          That's it?
+          {t('About.thats-it')}
         </h2>
-        <p>Yes, but actually no!</p>
+        <p>{t('About.yes-but-no')}</p>
         <p className="mt-2">
-          These are just the tools used to develop the front and back end.
-          Let's start by listing all of the actual packages involved in making this project.
+          <Trans i18nKey="About.tools">
+            These are just the tools used to develop the front and back end.
+            Let's start by listing all of the actual packages involved in making this project.
+          </Trans>
         </p>
 
         <ol className="list-decimal list-inside mt-2">
@@ -89,35 +99,44 @@ export default function AboutRoute(): React.ReactElement {
 
         <h3 className="text-lg mt-3">Vicci Front-End (FE)</h3>
 
-        <p>This repository is actually the repo you see now. It handles the pages, and it's CDK includes the necessary CloudFront and S3 assets to deploy the code.</p>
+        <p>
+          <Trans i18nKey="About.about-front-end">
+
+            This repository is actually the repo you see now. It handles the pages, and it's CDK includes the necessary CloudFront and S3 assets to deploy the code.
+          </Trans>
+        </p>
 
         <h3 className="text-lg mt-3">Vicci Back-End (BE)</h3>
 
-        <p>This is the main repository for the API. It creates an API Gateway, as well as some lambda functions for basic <abbr title="Create, Read, Update, DELETE">CRUD</abbr> functionality.</p>
+        <p>
+          <Trans i18nKey="About.about-back-end">
+            This is the main repository for the API. It creates an API Gateway, as well as some lambda functions for basic <abbr title="Create, Read, Update, DELETE">CRUD</abbr> functionality.
+          </Trans>
+        </p>
 
         <h3 className="text-lg mt-3">Vicci Share Infrastructure</h3>
 
         <p>
-          Both the FE and BE rely on Cognito, so the infrastructure package that creates it is separate from the FE or BE repo.
-          This was done largely because the FE needs information from the BE, but the BE needs information about Cognito in order to authorize requests.
-          This meant that putting the Cognito information in the FE would require someone to build and deploy the front-end, then build and deploy the back-end,
-          and then re-build and re-deploy the front end. Separating it out means that we do not have to perform that flow.
+          {t('About.about-share-infrastructure')}
         </p>
 
         <h3 className="text-lg mt-3">Viddi UI</h3>
 
         <p>
-          At one point in development there were <em>a lot</em> of components in the FE repo. These components got split out into the Viddi UI components.
-          The Viddi UI automates some parts of the process necessary for working with component UI, such as automatic CHANGELOG generation. Automated publishing to NPM is still <abbr title="work in progress">WIP</abbr>
+          <Trans i18nKey="About.about-viddi">
+            At one point in development there were <em>a lot</em> of components in the FE repo. These components got split out into the Viddi UI components.
+            The Viddi UI automates some parts of the process necessary for working with component UI, such as automatic CHANGELOG generation. Automated publishing to NPM is still <abbr title={t('work in progress')}>WIP</abbr>
+          </Trans>
         </p>
 
         <h3 className="text-lg mt-3">Wrapping Up</h3>
 
-        <p>So, what am I hoping this does for you?</p>
+        <p>
+          {t('About.does-for-you')}
+        </p>
 
         <p>
-          Best case scenario I hope that this gives people a peek into what makes a simple app. 
-          It uses a lot of things, such as Infrastructure-as-Code (IaC), Serverless functions, and a very rough JAMStack implementation.
+          {t('About.best-case-scenario')}
         </p>
 
       </div>

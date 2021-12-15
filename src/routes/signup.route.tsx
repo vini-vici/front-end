@@ -8,6 +8,7 @@ import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
 import Button from '@vini-vici/viddi/dist/button/button.component';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import { useTranslation } from 'react-i18next';
 
 export default function SignupRoute(): React.ReactElement {
 
@@ -44,6 +45,8 @@ export default function SignupRoute(): React.ReactElement {
     });
   }, [signupData.username, signupData.confirmUsername, signupData.password, signupData.confirmPassword]);
 
+  const { t } = useTranslation();
+
 
   if(redirect || (loggedInUser && !needsVerification))
     return <Redirect to="/" />;
@@ -57,7 +60,7 @@ export default function SignupRoute(): React.ReactElement {
           </div>
         )}
         <h1 className="text-xl font-bold">
-          Sign Up
+          {t('Signup-page.title')}
         </h1>
         <form onSubmit={e => {
           e.preventDefault();
@@ -73,61 +76,62 @@ export default function SignupRoute(): React.ReactElement {
           }
         }}>
           <FormField
-            label="Username"
+            label={t('Username')}
           >
             <Input
               className="w-full"
-              placeholder="Desired Username"
+              placeholder={t('Signup-page.Desired-username')}
               value={signupData.username}
               onChange={e => setSignupData({ ...signupData, username: e.target.value }) }
             />
           </FormField>
           <FormField
-            label="Confirm Username"
+            label={t('Signup-page.Confirm-username')}
           >
-            <Input disabled={needsVerification} className="w-full" placeholder="Confirm Username" value={signupData.confirmUsername} onChange={e => setSignupData({ ...signupData, confirmUsername: e.target.value }) }/>
+            <Input disabled={needsVerification} className="w-full" placeholder={t('Signup-page.Confirm-username')} value={signupData.confirmUsername} onChange={e => setSignupData({ ...signupData, confirmUsername: e.target.value }) }/>
           </FormField>
           <FormField
-            label="Email"
+            label={t('Signup-page.Email')}
           >
             <Input
               disabled={needsVerification}
               className="w-full"
               type="email"
-              placeholder="Your email address, e.g. bob@company.com"
+              placeholder={t('Signup-page.Email-description')}
               onChange={e => setSignupData({ ...signupData, email: e.target.value })}
             />
           </FormField>
           <FormField
-            label="Password"
+            label={t('Password')}
           >
             <Input
               disabled={needsVerification}
               className="w-full"
               type="password"
-              placeholder="Enter your password"
+              placeholder={t('Signup-page.Password-description')}
               onChange={e => setSignupData({ ...signupData, password: e.target.value })}
             />
           </FormField>
           <FormField
-            label="Password Confirm"
+            label={t('Signup-page.Confirm-password')}
           >
             <Input
               disabled={needsVerification}
               className="w-full"
               type="password"
-              placeholder="Confirm your password"
+              placeholder={t('Signup-page.Confirm-password-description')}
               onChange={e => setSignupData({ ...signupData, confirmPassword: e.target.value })}
             />
           </FormField>
           <FormField
-            label="Preferred Username"
+            label={t('Signup-page.Preferred-username')}
+            description={t('Signup-page.Preferred-username-description')}
           >
             <Input
               disabled={needsVerification}
               className="w-full"
               type="text"
-              placeholder="Enter your preferred username."
+              placeholder={t('Signup-page.Preferred-username-placeholder')}
               onChange={e => setSignupData({ ...signupData, preferedUserName: e.target.value })}
             />
           </FormField>
@@ -135,7 +139,7 @@ export default function SignupRoute(): React.ReactElement {
             needsVerification && 
             (
               <FormField
-                label="Verification Code"
+                label={t('Signup-page.Verification-code')}
               >
                 <Input type="text" value={token} onChange={e => setToken(e.target.value)} />
               </FormField>
@@ -143,7 +147,7 @@ export default function SignupRoute(): React.ReactElement {
           }
           <div className="mt-2">
             <Button type="submit">
-              {needsVerification ? 'Verify' : 'Sign Up'}
+              {t( needsVerification ? 'Signup-page.Verify' : 'Signup-page.title')}
             </Button>
           </div>
         </form>

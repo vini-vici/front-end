@@ -41,7 +41,7 @@ export const getUserThunk = createAsyncThunk<CognitoState>('cognito/fetchUser',
     const signedIn = user.getSignInUserSession();
     return {
       username: user.getUsername(),
-      prerredUsername: userDetails.attributes.preferredUsername,
+      preferredUsername: userDetails.attributes.preferred_username,
       idToken: signedIn.getIdToken().getJwtToken(),
       accessToken: signedIn.getAccessToken().getJwtToken(),
       status: 'success',
@@ -130,7 +130,7 @@ export const loginUserThunk = createAsyncThunk<Partial<CognitoState>, UserLogin>
         username: user.getUsername(),
         idToken: user.getSignInUserSession().getIdToken().getJwtToken(),
         accessToken: user.getSignInUserSession().getAccessToken().getJwtToken(),
-        preferredUsername: userAttributes.attributes.preferredUsername,
+        preferredUsername: userAttributes.attributes.preferred_username,
         isLoading: false,
         status: 'success'
       };
@@ -184,6 +184,7 @@ export const cognitoSlice = createSlice({
 
     // when the fetch user thunk is fulfilled
     builder.addCase(getUserThunk.fulfilled, (state, action) => {
+      console.log(action);
       state.username = action.payload.username;
       state.accessToken = action.payload.accessToken;
       state.idToken = action.payload.idToken,
