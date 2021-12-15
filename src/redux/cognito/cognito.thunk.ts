@@ -81,6 +81,22 @@ export const signupUserThunk = createAsyncThunk<CognitoState, {
   }
 );
 
+export const updateUserThunk = createAsyncThunk<string, {
+  email: string;
+  preferredUsername?: string;
+}>(
+  'cognito/updateUser',
+  async({ email, preferredUsername }) => {
+    let user = await Auth.currentAuthenticatedUser();
+    const response = await Auth.updateUserAttributes(user, {
+      preferred_username: preferredUsername,
+      email: email
+    });
+
+    return response;
+  }
+);
+
 export const verifyUserThunk = createAsyncThunk<Record<string, never>, { code: string; password: string;  }>(
   'cognito/verifyUser',
   async ({ code, password }, { getState, rejectWithValue, dispatch }) => {
