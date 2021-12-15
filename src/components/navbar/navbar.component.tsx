@@ -23,6 +23,7 @@ export default function Navbar(): React.ReactElement {
           <NavLink to="/" exact activeClassName="font-semibold underline">Home</NavLink>
           <NavLink to="/about" activeClassName="font-semibold underline">About</NavLink>
           <NavLink to="/releases" activeClassName="font-semibold underline">Releases</NavLink>
+          <NavLink to="/user" activeClassName="font-semibold underline">Profile</NavLink>
           {
             user.preferredUsername || user.username ?
               (
