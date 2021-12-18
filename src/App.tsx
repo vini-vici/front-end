@@ -12,6 +12,8 @@ import store from '@/redux/store';
 import { getUserThunk } from '@/redux/cognito/cognito.thunk';
 import { getGithubIssues } from './redux/github/github.thunk';
 
+import Commands from './components/commands.component';
+
 function AppComponent(): React.ReactElement {
 
 
@@ -25,6 +27,7 @@ function AppComponent(): React.ReactElement {
       <Provider
         store={store}
       >
+        <Commands />
         <Router>
           <Navbar />
           <React.Suspense fallback={

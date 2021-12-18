@@ -64,6 +64,7 @@ export default function LoginRoute(): React.ReactElement {
         <form 
           onSubmit={e => {
             e.preventDefault();
+            loginHandler();
           }}
         >
           <FormField
