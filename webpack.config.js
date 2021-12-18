@@ -118,10 +118,10 @@ module.exports = {
       patterns: [
         {
           from: 'static/**/*',
-          to: fromRoot('public/'),
+          to: fromRoot('dist/'),
           globOptions: {
             ignore: ['index.html']
-          }
+          } 
         }
       ]
     }),
