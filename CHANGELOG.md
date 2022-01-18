@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/vini-vici/front-end/compare/v1.2.0...v1.3.0) (2022-01-18)
+
+
+### Features
+
+* Adds in translation support for the website ([7e69e7f](https://github.com/vini-vici/front-end/commit/7e69e7f80cdc2e2e9e93edbeb432835e2157f2aa)), closes [#34](https://github.com/vini-vici/front-end/issues/34)
+* **list-page:** Added optimistic update feature to todo component ([2fea604](https://github.com/vini-vici/front-end/commit/2fea60478e84cada6c63e72422cbfddcda68a1c2)), closes [#26](https://github.com/vini-vici/front-end/issues/26)
+
+
+### Bug Fixes
+
+* Resolves space error on mobile screens ([1ce90bf](https://github.com/vini-vici/front-end/commit/1ce90bffd7015f105fd97f1c5946a207eaf6190b))
+* **Users:** Re-adds errors in login and signup contexts. ([e579760](https://github.com/vini-vici/front-end/commit/e579760b9b10181d8dccd8a7118ee7b09857bf20)), closes [#32](https://github.com/vini-vici/front-end/issues/32)
+
 ## [1.2.0](https://github.com/vini-vici/front-end/compare/v1.1.0...v1.2.0) (2021-12-05)
 
 
