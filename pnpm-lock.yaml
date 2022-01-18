@@ -20,7 +20,7 @@ specifiers:
   '@types/react-router-dom': ^5.1.9
   '@typescript-eslint/eslint-plugin': ^4.31.2
   '@typescript-eslint/parser': ^4.31.2
-  '@vini-vici/viddi': ^1.1.0
+  '@vini-vici/viddi': file:../viddi-ui
   autoprefixer: ^10.3.4
   aws-amplify: ^4.2.10
   babel-loader: ^8.2.2
@@ -65,7 +65,7 @@ dependencies:
   '@hot-loader/react-dom': 17.0.1_react@17.0.2
   '@mdi/js': 5.9.55
   '@mdi/react': 1.5.0
-  '@vini-vici/viddi': 1.1.1
+  '@vini-vici/viddi': link:../viddi-ui
   aws-amplify: 4.2.10
   core-js: 3.18.0
   i18next: 20.6.1
@@ -3760,15 +3760,6 @@ packages:
       '@typescript-eslint/types': 4.31.2
       eslint-visitor-keys: 2.1.0
     dev: true
-
-  /@vini-vici/viddi/1.1.1:
-    resolution: {integrity: sha512-wMQgb19o77WhwoVq/ZankbyvjvEOYKAPfDUce5FauoGJdFJZD+m+t1pz+2hrbbp2qFbfbMMoxVV7nuL6frIIeg==, tarball: download/@vini-vici/viddi/1.1.1/c750777d497ba028a55537c6e286425c4149f75a8cbdae44200707aadf1504c2}
-    dependencies:
-      '@mdi/js': 5.9.55
-      '@mdi/react': 1.5.0
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-    dev: false
 
   /@webassemblyjs/ast/1.11.1:
     resolution: {integrity: sha512-ukBh14qFLjxTQNTXocdyksN5QdM28S1CxHt2rdskFyL+xFV7VremuBLVbmCePj+URalXBENx/9Lm7lnhihtCSw==}

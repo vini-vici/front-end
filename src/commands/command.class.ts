@@ -1,12 +1,10 @@
-export interface KeyMap {
-  ctrlKey: boolean;
-  altKey: boolean;
- 
-}
 
 export default class Command {
-  constructor(public commandId: string) {
+  constructor(public commandId: string, protected global = false) {
+  }
 
+  action() {
+    console.log('hello, I am the action');
   }
 }
 

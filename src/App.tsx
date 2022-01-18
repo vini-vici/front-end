@@ -22,96 +22,100 @@ function AppComponent(): React.ReactElement {
     store.dispatch(getGithubIssues());
   }, []);
 
+
   return (
     <ErrorBoundary>
-      <Provider
-        store={store}
-      >
-        <Commands />
-        <Router>
-          <Navbar />
-          <React.Suspense fallback={
-            <div style={{ flexGrow: 1, textAlign: 'center' }}>
-              <Loading />
-            </div>
-          }>
-            <Switch>
-              <Route
-                path="/"
-                exact
-                component={
-                  React.lazy(
-                    () => import(/* webpackChunkName: "IndexRoute", webpackPreload: true */'./routes/index.route')
-                  )
-                }
-              />
-              <Route
-                path="/callback"
-                exact
-                component={
-                  React.lazy(
-                    () => import(/* webpackChunkName: "CallbackRoute" */'./routes/callback.route')
-                  )
-                }
-              />
-              <Route
-                path="/about"
-                exact
-                component={
-                  React.lazy(
-                    () => import(/* webpackChunkName: "AboutRoute"  */'./routes/about.route')
-                  )
-                }
-              />
-              <Route
-                path="/releases"
-                exact
-                component={
-                  React.lazy(
-                    () => import(/* webpackChunkName: "ReleaseRoute" */'./routes/releases.route')
-                  )
-                }
-              />
-              <Route
-                path="/logout"
-                exact
-                component={
-                  React.lazy(
-                    () => import(/* webpackChunkName: "LogoutRoute" */'./routes/logout.route')
-                  )
-                }
-              />
-              <Route
-                path="/login"
-                exact
-                component={
-                  React.lazy(
-                    () => import(/* webpackChunkName: "LoginRoute" */'./routes/login.route')
-                  )
-                }
-              />
-              <Route
-                path="/signup"
-                exact
-                component={
-                  React.lazy(
-                    () => import(/* webpackChunkName: "SignupRoute" */'./routes/signup.route')
-                  )
-                }
-              />
-              <Route
-                path="/"
-                component={
-                  React.lazy(
-                    () => import(/* webpackChunkName: "404Route", webpackPrefetch: true */'./routes/_404')
-                  )
-                }
-              />
-            </Switch>
-          </React.Suspense>
-          <Footer />
-        </Router>
-      </Provider>
+      <React.StrictMode>
+
+        <Provider
+          store={store}
+        >
+          <Commands />
+          <Router>
+            <Navbar />
+            <React.Suspense fallback={
+              <div style={{ flexGrow: 1, textAlign: 'center' }}>
+                <Loading />
+              </div>
+            }>
+              <Switch>
+                <Route
+                  path="/"
+                  exact
+                  component={
+                    React.lazy(
+                      () => import(/* webpackChunkName: "IndexRoute", webpackPreload: true */'./routes/index.route')
+                    )
+                  }
+                />
+                <Route
+                  path="/callback"
+                  exact
+                  component={
+                    React.lazy(
+                      () => import(/* webpackChunkName: "CallbackRoute" */'./routes/callback.route')
+                    )
+                  }
+                />
+                <Route
+                  path="/about"
+                  exact
+                  component={
+                    React.lazy(
+                      () => import(/* webpackChunkName: "AboutRoute"  */'./routes/about.route')
+                    )
+                  }
+                />
+                <Route
+                  path="/releases"
+                  exact
+                  component={
+                    React.lazy(
+                      () => import(/* webpackChunkName: "ReleaseRoute" */'./routes/releases.route')
+                    )
+                  }
+                />
+                <Route
+                  path="/logout"
+                  exact
+                  component={
+                    React.lazy(
+                      () => import(/* webpackChunkName: "LogoutRoute" */'./routes/logout.route')
+                    )
+                  }
+                />
+                <Route
+                  path="/login"
+                  exact
+                  component={
+                    React.lazy(
+                      () => import(/* webpackChunkName: "LoginRoute" */'./routes/login.route')
+                    )
+                  }
+                />
+                <Route
+                  path="/signup"
+                  exact
+                  component={
+                    React.lazy(
+                      () => import(/* webpackChunkName: "SignupRoute" */'./routes/signup.route')
+                    )
+                  }
+                />
+                <Route
+                  path="/"
+                  component={
+                    React.lazy(
+                      () => import(/* webpackChunkName: "404Route", webpackPrefetch: true */'./routes/_404')
+                    )
+                  }
+                />
+              </Switch>
+            </React.Suspense>
+            <Footer />
+          </Router>
+        </Provider>
+      </React.StrictMode>
     </ErrorBoundary>
   );
 }
