@@ -41,7 +41,7 @@ export function useAddTodo(): UseMutationResult<Todo> {
   return useMutation(
     ['addTodo'],
     async (todo: Partial<Todo>) => {
-      const response = fetch(
+      const response = await fetch(
         config.API,
         {
           headers: prepareHeaders(cognito.data.idToken),
@@ -49,12 +49,25 @@ export function useAddTodo(): UseMutationResult<Todo> {
           body: JSON.stringify(todo),
         }
       ).then(res => res.json());
-      return response as unknown as Todo;
+      return response;
     },
     {
-      onSuccess() {
-        qc.invalidateQueries(['fetchTodos']);
-      }
+      onMutate(data) {
+
+        const current = qc.getQueryData(['fetchTodos']) as Todo[];
+
+        qc.setQueryData(['fetchTodos'], current.concat(data as Required<Todo>));
+
+        return {
+          old: current,
+        };
+      },
+      onSuccess(data, variables, context) {
+        qc.setQueryData(['fetchTodos'], [{ ...variables, id: data }].concat(context.old));
+      },
+      onError(error, variables, context) {
+        qc.setQueryData(['fetchTodos'], context.old);
+      },
     }
   );
 }
@@ -68,12 +81,21 @@ export function useRemoveTodo(): UseMutationResult<boolean> {
       const response = await fetch(`${config.API}/${id}`, {
         headers: prepareHeaders(cognito.data.idToken),
         method: 'DELETE'
-      }).then(res => res.json());
+      }).then(res => res.ok);
       return response;
     },
     {
-      onSuccess() {
-        qc.invalidateQueries(['fetchTodos']);
+      onMutate(data) {
+        const current = qc.getQueryData(['fetchTodos']) as Todo[];
+
+        qc.setQueryData(['fetchTodos'], current.filter(item => item.id !== data));
+
+        return {
+          oldData: current,
+        };
+      },
+      onError(err, v, context) {
+        qc.setQueryData(['fetchTodos'], context.oldData);
       }
     }
   );
@@ -84,20 +106,36 @@ type RequiredKeys<T, K extends keyof T> = Required<Pick<T, K>> & Partial<Omit<T,
 export function useUpdateTodo(): UseMutationResult<boolean, unknown, RequiredKeys<Todo, 'id'>> {
   const cognito = useCognito();
   const qc = useQueryClient();
+
   return useMutation(
     ['updateTodo'],
     async ({ id, ...rest }: RequiredKeys<Todo, 'id'>) => {
+
       await fetch(`${config.API}/${id}`,
         {
           headers: prepareHeaders(cognito.data.idToken),
           method: 'POST',
           body: JSON.stringify(rest)
         }).then(res => res.json());
+
       return true;
     },
     {
       onSuccess() {
         qc.invalidateQueries(['fetchTodos']);
+      },
+      onMutate(todo) {
+        const previousTodos = qc.getQueryData('fetchTodos') as Todo[];
+        qc.setQueryData(
+          ['fetchTodos'],
+          previousTodos.map(td => td.id === todo.id ? todo : td)
+        );
+        return {
+          previousTodos,
+        };
+      },
+      onError(err, newTodo, context) {
+        qc.setQueryData('fetchTodos', context.previousTodos);
       }
     }
   );

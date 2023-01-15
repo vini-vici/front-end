@@ -32,7 +32,7 @@ export const releaseSlice = createSlice({
     isError: false,
     isSuccess: false,
     status: 'initial'
-  } as ReleaseState ,
+  } as ReleaseState,
   reducers: {},
   extraReducers: builder => {
     builder.addCase(getReleases.fulfilled, (state, action) => {

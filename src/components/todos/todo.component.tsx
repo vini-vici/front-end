@@ -5,6 +5,8 @@ import Textarea from '@vini-vici/viddi/dist/textarea/textarea.component';
 import Checkbox from '@vini-vici/viddi/dist/checkbox/checkbox.component';
 import Button from '@vini-vici/viddi/dist/button/button.component';
 import Dc from '@vini-vici/viddi/dist/classes/domClasses.class';
+import Icon from '@mdi/react';
+import { mdiTrashCan } from '@mdi/js';
 
 export interface TodoProps extends Todo {
   onDelete: (todoId: string) => void;
@@ -30,11 +32,11 @@ export default function TodoComponent(
     description
   });
 
-  const rowClasses = new Dc('todo-row contents');
+  const rowClasses = new Dc('border rounded');
 
   return (
-    <div className={rowClasses.toString()}>
-      <div className="border-l p-2 text-center">
+    <tr className={rowClasses.toString()}>
+      <td className="border-l p-3 text-center">
         <div className="mx-auto">
           <Checkbox
             checked={done}
@@ -50,11 +52,11 @@ export default function TodoComponent(
             }}
           />
         </div>
-      </div>
+      </td>
 
-      <div>
+      <td>
         {
-          isEditing ? 
+          isEditing ?
             (
               <Input
                 value={local.title}
@@ -65,11 +67,11 @@ export default function TodoComponent(
                   });
                 }}
               />
-            ):
+            ) :
             title
         }
-      </div>
-      <div className="border-l p-2">
+      </td>
+      <td className="p-3">
         {
           isEditing ?
             (
@@ -79,38 +81,41 @@ export default function TodoComponent(
                 onChange={({ target }) => setLocal({ ...local, description: target.value })}
               />
             ) :
-            description?.split('\n').map((s, i)=> <p key={`paragraph-${id}-${i}`}>{s}</p>)
+            description?.split('\n').map((s, i) => <p key={`paragraph-${id}-${i}`}>{s}</p>)
         }
-      </div>
-      
-      <div className="flex justify-evenly items-start">
-        <div onClick={() => {
-          if(isEditing) {
-            onChange?.(
-              new CustomEvent('TodoChange', {
-                detail: {
-                  ...local,
-                  id,
-                  done
-                }
-              })
-            );
-          }
-          setEditing(!isEditing);
-        }}>
-          {
-            isEditing
-              ? (<button className="bg-purple-500 text-gray-100 px-2 py-1 rounded">Save</button>)
-              : (<span className="text-blue-500">Edit</span>)
-          }
+      </td>
+
+      <td className="p-3">
+
+        <div className="flex justify-center items-center gap-4">
+          <div onClick={() => {
+            if (isEditing) {
+              onChange?.(
+                new CustomEvent('TodoChange', {
+                  detail: {
+                    ...local,
+                    id,
+                    done
+                  }
+                })
+              );
+            }
+            setEditing(!isEditing);
+          }}>
+            {
+              isEditing
+                ? (<button className="bg-purple-500 text-gray-100 px-2 py-1 rounded">Save</button>)
+                : (<span className="text-blue-500">Edit</span>)
+            }
+          </div>
+          <Button
+            variant="secondary"
+            onClick={() => onDelete(id)}
+          >
+            <Icon path={mdiTrashCan} title="Delete" size={1} />
+          </Button>
         </div>
-        <Button 
-          variant="secondary"
-          onClick={() => onDelete(id)}
-        >
-          Delete
-        </Button>
-      </div>
-    </div>
+      </td>
+    </tr>
   );
 }

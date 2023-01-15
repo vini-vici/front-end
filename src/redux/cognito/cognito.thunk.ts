@@ -22,7 +22,7 @@ Amplify.configure({
   }
 });
 
-interface CognitoState {
+export interface CognitoState {
   username: string;
   idToken: string;
   accessToken: string;
@@ -67,7 +67,7 @@ export const signupUserThunk = createAsyncThunk<Partial<CognitoState>, {
           preferred_username: preferredUsername
         }
       });
-  
+
       return {
         username,
         preferredUsername,
@@ -79,15 +79,15 @@ export const signupUserThunk = createAsyncThunk<Partial<CognitoState>, {
         isLoading: false
       };
 
-    } catch(e) {
+    } catch (e) {
       const error = e as Error;
-      if(error.name === 'UsernameExistsException') {
+      if (error.name === 'UsernameExistsException') {
         return rejectWithValue({
           error: 'Username is already taken'
         });
       }
 
-      if(error.name === 'InvalidPasswordException') {
+      if (error.name === 'InvalidPasswordException') {
         return rejectWithValue({
           error: 'Invalid password'
         });
@@ -97,7 +97,7 @@ export const signupUserThunk = createAsyncThunk<Partial<CognitoState>, {
   }
 );
 
-export const verifyUserThunk = createAsyncThunk<Record<string, never>, { code: string; password: string;  }>(
+export const verifyUserThunk = createAsyncThunk<Record<string, never>, { code: string; password: string; }>(
   'cognito/verifyUser',
   async ({ code, password }, { getState, rejectWithValue, dispatch }) => {
     const state = getState() as RootState;
@@ -125,7 +125,7 @@ export const loginUserThunk = createAsyncThunk<Partial<CognitoState>, UserLogin>
     try {
       const user = await Auth.signIn(action.username, action.password);
       const userAttributes = await Auth.currentUserInfo();
-  
+
       return {
         username: user.getUsername(),
         idToken: user.getSignInUserSession().getIdToken().getJwtToken(),
@@ -134,15 +134,14 @@ export const loginUserThunk = createAsyncThunk<Partial<CognitoState>, UserLogin>
         isLoading: false,
         status: 'success'
       };
-    } catch(e: unknown) {
+    } catch (e: unknown) {
       const error = e as Error;
-      if(error.name === 'UserNotFoundException' || error.name === 'NotAuthorizedException') {
-        console.log('fail this bitch RIGHT NOW');
+      if (error.name === 'UserNotFoundException' || error.name === 'NotAuthorizedException') {
         return rejectWithValue({
           error: 'Your username or password is incorrect. Please check the values and try again.' //i18n.t('Login.validation-error')
         } as Partial<CognitoState>);
       }
-      
+
       return rejectWithValue({
         idToken: '',
         accessToken: '',
@@ -184,10 +183,9 @@ export const cognitoSlice = createSlice({
 
     // when the fetch user thunk is fulfilled
     builder.addCase(getUserThunk.fulfilled, (state, action) => {
-      console.log(action);
       state.username = action.payload.username;
       state.accessToken = action.payload.accessToken;
-      state.idToken = action.payload.idToken,
+      state.idToken = action.payload.idToken;
       state.preferredUsername = action.payload.preferredUsername;
       state.status = 'success';
       state.isLoading = false;

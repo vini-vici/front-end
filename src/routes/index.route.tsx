@@ -1,24 +1,19 @@
 import React, { useEffect } from 'react';
 
 import { Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import Icon from '@mdi/react';
-import { mdiPenPlus, mdiRefresh } from '@mdi/js';
-import TodosComponent from '@/components/todos/todos.container';
+import { useSelector } from 'react-redux';
 import Modal from '@vini-vici/viddi/dist/modal/modal.component';
-import Button from '@vini-vici/viddi/dist/button/button.component';
 import Input from '@vini-vici/viddi/dist/input/input.component';
 import Textarea from '@vini-vici/viddi/dist/textarea/textarea.component';
 import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
 import { RootState } from '@/redux/store';
-import { Todo, useDeleteTodoMutation } from '@/redux/todos/todos.api';
+import { Todo } from '@/redux/todos/todos.api';
 import { useAddTodoMutation, useGetTodosQuery } from '@/redux/todos/todos.api';
-import { hideModal, showModal } from '@/redux/createModal/createModal.slice';
-import { Loading } from '@vini-vici/viddi';
 import { useTranslation } from 'react-i18next';
-import { useAddTodo, useRemoveTodo, useTodos, useUpdateTodo } from '@/hooks/todos';
-import { useCognito } from '@/hooks/cognito';
-import TodosContainerNew from '@/components/todos/todos.newContainer';
+import TodosContainerNew from '@/components/todos/todos.container';
+import { useRecoilState } from 'recoil';
+import createModal from '@/state/createModal';
+import { useAddTodo } from '@/hooks/todos';
 
 /**
  * @description Routes in general will not take any props in our application since the corresponding components
@@ -26,9 +21,7 @@ import TodosContainerNew from '@/components/todos/todos.newContainer';
  */
 export default function IndexRoute(): React.ReactElement {
 
-  const dispatch = useDispatch();
-
-  const { idToken, showCreateModal, cognitoStatus } = useSelector((r: RootState) => ({ idToken: r.cognito.idToken, showCreateModal: r.modal.show, cognitoStatus: r.cognito.status }));
+  const { idToken, cognitoStatus } = useSelector((r: RootState) => ({ idToken: r.cognito.idToken, showCreateModal: r.modal.show, cognitoStatus: r.cognito.status }));
 
   const initialTodos: Todo = {
     id: '',
@@ -40,10 +33,9 @@ export default function IndexRoute(): React.ReactElement {
   const { t } = useTranslation();
 
   const [{ title, description }, setTodo] = React.useState<Todo>(initialTodos);
-  const [addTodo, { isLoading: addTodoLoading }] = useAddTodoMutation();
-  const { refetch } = useGetTodosQuery(undefined, {
-    skip: idToken === '',
-  });
+  const addTodo = useAddTodo();
+
+  const [showCreateModal, setShowCreateModal] = useRecoilState(createModal);
 
   if ((cognitoStatus === 'success' || cognitoStatus === 'failure') && idToken === '') return <Redirect to="/login" />;
 
@@ -57,14 +49,14 @@ export default function IndexRoute(): React.ReactElement {
             {t('Add a todo')}
           </div>
         }
-        onClose={() => dispatch(hideModal())}
+        onClose={() => setShowCreateModal(false)}
         onConfirm={() => {
-          addTodo({
+          addTodo.mutate({
             title,
             description,
             done: false
           });
-          dispatch(hideModal());
+          setShowCreateModal(false);
         }}
         confirmText={t('Submit')}
       >

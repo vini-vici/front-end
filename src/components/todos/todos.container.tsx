@@ -1,30 +1,69 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
-import TodosComponent from './todos.component';
-import { useDeleteTodoMutation, useGetTodosQuery, useUpdateTodoMutation } from '@/redux/todos/todos.api';
+import { useTodos, useUpdateTodo, useRemoveTodo } from '@/hooks/todos';
+import { Button, Checkbox } from '@vini-vici/viddi';
+import { useTranslation } from 'react-i18next';
+import Icon from '@mdi/react';
+import { mdiPencilPlus, mdiRefresh } from '@mdi/js';
+import { useRecoilState } from 'recoil';
+import createModal from '@/state/createModal';
+import TodoComponent from './todo.component';
 
-export default function TodosContainer(): React.ReactElement {
-  // Map the todo state to the current object.
-  
-  const idToken = useSelector(({ cognito: { idToken } }: RootState) => idToken);
+export default function TodosContainerNew(): JSX.Element {
 
-  // grab the dispatch.
-  const { data: todos, isLoading } = useGetTodosQuery(undefined, {
-    skip: idToken === '',
-  });
+  const todos = useTodos();
+  const { t } = useTranslation();
+  const updateTodo = useUpdateTodo();
+  const deleteTodo = useRemoveTodo();
+  const [_, setShowCreateModal] = useRecoilState(createModal);
 
-  const [updateTodo] = useUpdateTodoMutation();
-  const [deleteTodo] = useDeleteTodoMutation();
-
-  // This function merely serves as a wrapper for the actual TodosComponent.
   return (
-    <TodosComponent
-      loading={isLoading}
-      todos={todos}
-      toggleDone={todoId => idToken && updateTodo({ id: todoId, done: !todos.find(v => v.id === todoId).done })}
-      updateTodo={todo => idToken && updateTodo(todo)}
-      deleteTodo={todo =>  idToken && deleteTodo(todo)}
-    />
+    <table className="todos  w-full border p-3 rounded border-collapse">
+      <caption className="text-left py-3" style={{ margin: 'unset' }}>
+        <h1 className="text-2xl font-semibold flex justify-between">
+          <div>{t('Todos')}</div>
+          <div className="actions">
+            <Button variant="custom" className="text-gray-500 hover:text-purple-500" onClick={() => todos.refetch()}>
+              <Icon path={mdiRefresh} size={1} />
+            </Button>
+            <Button variant="custom" className="text-gray-500 hover:text-purple-500" onClick={() => setShowCreateModal(true)}>
+              <Icon path={mdiPencilPlus} size={1} />
+            </Button>
+          </div>
+        </h1>
+      </caption>
+      <thead>
+        <tr>
+          <th>
+            {t('Done?')}
+          </th>
+          <th>
+            {t('Title')}
+          </th>
+          <th>
+            {t('Description')}
+          </th>
+          <th>
+            {t('Actions')}
+          </th>
+        </tr>
+      </thead>
+      <colgroup>
+        <col style={{ width: 'fit-content', textAlign: 'center' }} />
+        <col />
+        <col />
+        <col />
+      </colgroup>
+      <tbody>
+        {todos.data.map(todo => (
+          <TodoComponent
+            key={`todo-${todo.id}`}
+            onDelete={() => console.info('delete')}
+            onChange={t => updateTodo.mutate(t.detail)}
+            onDone={t => updateTodo.mutate(t.detail)}
+            {...todo}
+          />
+        ))}
+      </tbody>
+    </table>
   );
 }
