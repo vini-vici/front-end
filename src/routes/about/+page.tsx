@@ -9,7 +9,7 @@ export default function AboutRoute(): React.ReactElement {
         <h1 className="text-3xl font-bold mt-3">
           {t('About.About-this-project')}
         </h1>
-        
+
         <p>
           <Trans i18nKey="About.About-description">
             This project is about showing more about the <em>architecture</em> of a larger app
@@ -33,10 +33,10 @@ export default function AboutRoute(): React.ReactElement {
         </h2>
         <p>
           <Trans i18nKey="About.About-see-an-application">
-          We see an application with quite a few components,
-          unit tests, and e2e tests. As well, we get to see
-          how to integrate with things like the AWS CDK,
-          which builds our staging and production URLs; and AWS Cognito, which is how we handle our user login system.
+            We see an application with quite a few components,
+            unit tests, and e2e tests. As well, we get to see
+            how to integrate with things like the AWS CDK,
+            which builds our staging and production URLs; and AWS Cognito, which is how we handle our user login system.
           </Trans>
         </p>
 
@@ -54,8 +54,8 @@ export default function AboutRoute(): React.ReactElement {
             <ul className="list-disc list-inside">
               <li>React</li>
               <li>TypeScript</li>
-              <li>Redux</li>
-              <li>Redux-Saga</li>
+              <li>React-Query</li>
+              <li>Recoil</li>
               <li>Vidi UI Components*</li>
               <li>Webpack</li>
               <li>AWS Amplify</li>

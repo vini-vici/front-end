@@ -1,26 +1,17 @@
-import React from 'react';
-import { Loading } from '@vini-vici/viddi';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { getReleases } from '@/redux/releases/releases.thunk';
-import { RootState } from '@/redux/store';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { useReleases } from '@/hooks/releases';
 import { toDateTimeString } from '@/util/date';
+import { Loading } from '@vini-vici/viddi';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
+import remarkGfm from 'remark-gfm';
 
-export default function ReleaseRoute(): React.ReactElement {
-  const { releases, isSuccess, isLoading } = useSelector((v: RootState) => v.releases);
-  const dispatch = useDispatch();
-  React.useEffect(() => {
-    dispatch(getReleases());
-  }, []);
-
-  const { t }= useTranslation();
-
+export default function ReleasesPage(): JSX.Element {
+  const { t } = useTranslation();
+  const releases = useReleases();
   return (
-    <div className="flex-grow pb-8">
-      <div className="container">
+    <div className="flex-grow">
+      <div className="container py-3">
         <h1 className="text-4xl font-bold mt-2">
           {t('Releases')}
         </h1>
@@ -29,9 +20,8 @@ export default function ReleaseRoute(): React.ReactElement {
             {t('Release-description')}
           </p>
         </header>
-        {isLoading && <Loading />}
         {
-          isSuccess && releases.length && releases.map(release => (
+          releases.isSuccess && releases.data.length && releases.data.map(release => (
             <div key={`release-${release.id}`} className="release mt-2 border border-gray-300 py-2 px-4 rounded-lg shadow">
               <header>
                 <h1 className="text-2xl font-semibold ">
