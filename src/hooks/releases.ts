@@ -1,5 +1,5 @@
 import { Octokit } from '@octokit/rest';
-import { useQuery, UseQueryResult } from 'react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 const octokit = new Octokit();
 type Awaited<T> = T extends PromiseLike<infer U> ? U : T;

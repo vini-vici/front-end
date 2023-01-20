@@ -16,14 +16,14 @@ const fromSrc = fromRoot.bind(null, 'src');
  * will pull values from the exports in cloudformation.
  */
 function populateConfig() {
-  if(!existsSync(fromSrc('config.json'))) {
+  if (!existsSync(fromSrc('config.json'))) {
     const { region = 'us-west-1' } = process.env;
     // Get the raw data
     const raw = execSync('aws cloudformation list-exports --region ' + region).toString();
     // Parse it
     const data = JSON.parse(raw);
     // if we don't have anything, fucky wucky
-    if(data.Exports.length === 0) throw Error('You must run the shared infrastructure and deployments first.');
+    if (data.Exports.length === 0) throw Error('You must run the shared infrastructure and deployments first.');
     // Turn the array into an object
     const obj = data.Exports.reduce((cumulative, cur) => {
       cumulative[cur.Name] = cur.Value;
@@ -72,7 +72,7 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
     alias: {
       '@': fromSrc('.'),
-      'react-dom': '@hot-loader/react-dom'
+      'react': fromRoot('node_modules/react'),
     }
   },
   module: {
@@ -121,7 +121,7 @@ module.exports = {
           to: fromRoot('dist/'),
           globOptions: {
             ignore: ['index.html']
-          } 
+          }
         }
       ]
     }),

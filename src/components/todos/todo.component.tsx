@@ -1,5 +1,4 @@
 import React from 'react';
-import { Todo } from '@/redux/todos/todos.api';
 import Input from '@vini-vici/viddi/dist/input/input.component';
 import Textarea from '@vini-vici/viddi/dist/textarea/textarea.component';
 import Checkbox from '@vini-vici/viddi/dist/checkbox/checkbox.component';
@@ -7,6 +6,13 @@ import Button from '@vini-vici/viddi/dist/button/button.component';
 import Dc from '@vini-vici/viddi/dist/classes/domClasses.class';
 import Icon from '@mdi/react';
 import { mdiTrashCan } from '@mdi/js';
+
+export interface Todo {
+  title: string;
+  description: string;
+  id: string;
+  done: boolean;
+}
 
 export interface TodoProps extends Todo {
   onDelete: (todoId: string) => void;

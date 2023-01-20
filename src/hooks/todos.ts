@@ -1,5 +1,5 @@
-import { Todo } from '@/redux/todos/todos.api';
-import { useMutation, UseMutationResult, useQuery, useQueryClient, UseQueryResult } from 'react-query';
+import { Todo } from '@/components/todos/todo.component';
+import { useMutation, UseMutationResult, useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query';
 import config from '@/config.json';
 import { useCognito } from './cognito';
 
@@ -30,7 +30,7 @@ export function useTodos(): UseQueryResult<Todo[]> {
       return response;
     },
     {
-      enabled: cognito.isSuccess && cognito.data.idToken !== ''
+      enabled: cognito.data.idToken !== ''
     }
   );
 }
@@ -125,7 +125,7 @@ export function useUpdateTodo(): UseMutationResult<boolean, unknown, RequiredKey
         qc.invalidateQueries(['fetchTodos']);
       },
       onMutate(todo) {
-        const previousTodos = qc.getQueryData('fetchTodos') as Todo[];
+        const previousTodos = qc.getQueryData(['fetchTodos']) as Todo[];
         qc.setQueryData(
           ['fetchTodos'],
           previousTodos.map(td => td.id === todo.id ? todo : td)
@@ -135,7 +135,7 @@ export function useUpdateTodo(): UseMutationResult<boolean, unknown, RequiredKey
         };
       },
       onError(err, newTodo, context) {
-        qc.setQueryData('fetchTodos', context.previousTodos);
+        qc.setQueryData(['fetchTodos'], context.previousTodos);
       }
     }
   );

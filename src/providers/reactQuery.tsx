@@ -1,16 +1,17 @@
 import React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 export const client = new QueryClient({
   defaultOptions: {
     queries: {
       suspense: true,
+      useErrorBoundary: false,
       retry: 1,
       retryDelay: 2_000,
       refetchOnMount: false,
       refetchOnWindowFocus: false,
-      cacheTime: 8 * 60 * 1000
-    }
+      cacheTime: 8 * 60 * 1000,
+    },
   }
 });
 

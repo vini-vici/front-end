@@ -33,8 +33,8 @@ function AppComponent(): React.ReactElement {
               <Router>
                 <Navbar />
                 <React.Suspense fallback={
-                  <div style={{ flexGrow: 1, textAlign: 'center' }}>
-                    <Loading />
+                  <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Loading size={1.5} />
                   </div>
                 }>
                   <Switch>
@@ -43,7 +43,7 @@ function AppComponent(): React.ReactElement {
                       exact
                       component={
                         React.lazy(
-                          () => import(/* webpackChunkName: "IndexRoute", webpackPreload: true */'./routes/index.route')
+                          () => import(/* webpackChunkName: "IndexRoute", webpackPreload: true */'./routes/index/+page')
                         )
                       }
                     />
@@ -61,7 +61,7 @@ function AppComponent(): React.ReactElement {
                       exact
                       component={
                         React.lazy(
-                          () => import(/* webpackChunkName: "AboutRoute"  */'./routes/about.route')
+                          () => import(/* webpackChunkName: "AboutRoute"  */'./routes/about/+page')
                         )
                       }
                     />
@@ -70,7 +70,7 @@ function AppComponent(): React.ReactElement {
                       exact
                       component={
                         React.lazy(
-                          () => import(/* webpackChunkName: "ReleaseRoute" */'./routes/releases.route')
+                          () => import(/* webpackChunkName: "ReleaseRoute" */'./routes/releases/+page')
                         )
                       }
                     />
@@ -79,7 +79,7 @@ function AppComponent(): React.ReactElement {
                       exact
                       component={
                         React.lazy(
-                          () => import(/* webpackChunkName: "LogoutRoute" */'./routes/logout.route')
+                          () => import(/* webpackChunkName: "LogoutRoute" */'./routes/logout/+page')
                         )
                       }
                     />
@@ -88,7 +88,7 @@ function AppComponent(): React.ReactElement {
                       exact
                       component={
                         React.lazy(
-                          () => import(/* webpackChunkName: "LoginRoute" */'./routes/login.route')
+                          () => import(/* webpackChunkName: "LoginRoute" */'./routes/login/+page')
                         )
                       }
                     />

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -7,13 +7,13 @@ import Input from '@vini-vici/viddi/dist/input/input.component';
 import Textarea from '@vini-vici/viddi/dist/textarea/textarea.component';
 import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
 import { RootState } from '@/redux/store';
-import { Todo } from '@/redux/todos/todos.api';
-import { useAddTodoMutation, useGetTodosQuery } from '@/redux/todos/todos.api';
+import { Todo } from '@/components/todos/todo.component';
 import { useTranslation } from 'react-i18next';
 import TodosContainerNew from '@/components/todos/todos.container';
 import { useRecoilState } from 'recoil';
 import createModal from '@/state/createModal';
 import { useAddTodo } from '@/hooks/todos';
+import { useCognito } from '@/hooks/cognito';
 
 /**
  * @description Routes in general will not take any props in our application since the corresponding components
@@ -37,7 +37,9 @@ export default function IndexRoute(): React.ReactElement {
 
   const [showCreateModal, setShowCreateModal] = useRecoilState(createModal);
 
-  if ((cognitoStatus === 'success' || cognitoStatus === 'failure') && idToken === '') return <Redirect to="/login" />;
+  const cognito = useCognito();
+
+  if (cognito.isError && cognito.error === 'The user is not authenticated') return <Redirect to="/login" />;
 
   return (
     <div className="w-full sm:w-4/5 lg:w-3/4 mx-auto flex-grow">

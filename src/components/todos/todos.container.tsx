@@ -57,7 +57,7 @@ export default function TodosContainerNew(): JSX.Element {
         {todos.data.map(todo => (
           <TodoComponent
             key={`todo-${todo.id}`}
-            onDelete={() => console.info('delete')}
+            onDelete={e => deleteTodo.mutate(e)}
             onChange={t => updateTodo.mutate(t.detail)}
             onDone={t => updateTodo.mutate(t.detail)}
             {...todo}

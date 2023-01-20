@@ -9,14 +9,17 @@ import Button from '@vini-vici/viddi/dist/button/button.component';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useTranslation } from 'react-i18next';
+import { useCognito, useSignupUser } from '@/hooks/cognito';
 
 export default function SignupRoute(): React.ReactElement {
+
+  const cognito = useCognito();
 
   const {
     loggedInUser,
     needsVerification,
     error
-  } = useSelector(({ cognito: { username, needsVerification, idToken, error  } }: RootState) => ({ loggedInUser: username, needsVerification, idToken, error }));
+  } = useSelector(({ cognito: { username, needsVerification, idToken, error } }: RootState) => ({ loggedInUser: username, needsVerification, idToken, error }));
 
   const dispatch = useDispatch();
 
@@ -46,17 +49,25 @@ export default function SignupRoute(): React.ReactElement {
   }, [signupData.username, signupData.confirmUsername, signupData.password, signupData.confirmPassword]);
 
   const { t } = useTranslation();
+  const signupUser = useSignupUser();
+  console.info(signupUser.data);
+  /**
+   * 1. Fill in information
+   * 2. Send data to cognito.
+   * 3. on success from cognito, switch to verification mode.
+   * 4. Wait for verification token to be input
+   * 5. On successful verification, auth the user?
+   */
 
-
-  if(redirect || (loggedInUser && !needsVerification))
+  if (redirect || (loggedInUser && !needsVerification))
     return <Redirect to="/" />;
 
   return (
     <div className="flex-grow">
       <div className="wrapper md:max-w-md lg:max-w-lg mx-auto my-2 md:border md:shadow-lg p-3">
-        {error && (
+        {signupUser.isError && (
           <div className="border border-red-600 bg-red-300 p-1 my-2">
-            {error}
+            {signupUser.error.message}
           </div>
         )}
         <h1 className="text-xl font-bold">
@@ -64,15 +75,22 @@ export default function SignupRoute(): React.ReactElement {
         </h1>
         <form onSubmit={e => {
           e.preventDefault();
-          if(validations.username && validations.password && !needsVerification) {
-            dispatch(signupUserThunk({
-              ...signupData
-            }));
-          } else if(needsVerification && token.length) {
-            dispatch(verifyUserThunk({
+
+          if (signupUser.data === undefined) {
+            signupUser.mutate({
+              username: signupData.username,
+              password: signupData.password,
+              email: signupData.email,
+              preferredUsername: signupData.preferedUserName,
+            });
+          } else {
+            signupUser.mutate({
+              username: signupData.username,
+              password: signupData.password,
+              email: signupData.email,
+              preferredUsername: signupData.preferedUserName,
               code: token,
-              password: signupData.password
-            }));
+            });
           }
         }}>
           <FormField
@@ -82,19 +100,19 @@ export default function SignupRoute(): React.ReactElement {
               className="w-full"
               placeholder={t('Signup-page.Desired-username')}
               value={signupData.username}
-              onChange={e => setSignupData({ ...signupData, username: e.target.value }) }
+              onChange={e => setSignupData({ ...signupData, username: e.target.value })}
             />
           </FormField>
           <FormField
             label={t('Signup-page.Confirm-username')}
           >
-            <Input disabled={needsVerification} className="w-full" placeholder={t('Signup-page.Confirm-username')} value={signupData.confirmUsername} onChange={e => setSignupData({ ...signupData, confirmUsername: e.target.value }) }/>
+            <Input disabled={!!signupUser.data} className="w-full" placeholder={t('Signup-page.Confirm-username')} value={signupData.confirmUsername} onChange={e => setSignupData({ ...signupData, confirmUsername: e.target.value })} />
           </FormField>
           <FormField
             label={t('Signup-page.Email')}
           >
             <Input
-              disabled={needsVerification}
+              disabled={!!signupUser.data}
               className="w-full"
               type="email"
               placeholder={t('Signup-page.Email-description')}
@@ -105,7 +123,7 @@ export default function SignupRoute(): React.ReactElement {
             label={t('Password')}
           >
             <Input
-              disabled={needsVerification}
+              disabled={!!signupUser.data}
               className="w-full"
               type="password"
               placeholder={t('Signup-page.Password-description')}
@@ -116,7 +134,7 @@ export default function SignupRoute(): React.ReactElement {
             label={t('Signup-page.Confirm-password')}
           >
             <Input
-              disabled={needsVerification}
+              disabled={!!signupUser.data}
               className="w-full"
               type="password"
               placeholder={t('Signup-page.Confirm-password-description')}
@@ -128,7 +146,7 @@ export default function SignupRoute(): React.ReactElement {
             description={t('Signup-page.Preferred-username-description')}
           >
             <Input
-              disabled={needsVerification}
+              disabled={!!signupUser.data}
               className="w-full"
               type="text"
               placeholder={t('Signup-page.Preferred-username-placeholder')}
@@ -136,7 +154,7 @@ export default function SignupRoute(): React.ReactElement {
             />
           </FormField>
           {
-            needsVerification && 
+            !!signupUser.data &&
             (
               <FormField
                 label={t('Signup-page.Verification-code')}
@@ -147,7 +165,7 @@ export default function SignupRoute(): React.ReactElement {
           }
           <div className="mt-2">
             <Button type="submit">
-              {t( needsVerification ? 'Signup-page.Verify' : 'Signup-page.title')}
+              {t(signupUser.data ? 'Signup-page.Verify' : 'Signup-page.title')}
             </Button>
           </div>
         </form>

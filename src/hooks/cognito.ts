@@ -1,7 +1,7 @@
 import Amplify from '@aws-amplify/core';
 import Auth, { CognitoUser } from '@aws-amplify/auth';
 import React from 'react';
-import { useMutation, UseMutationResult, useQuery, useQueryClient, UseQueryResult } from 'react-query';
+import { useMutation, UseMutationResult, useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query';
 import config from '@/config.json';
 Amplify.configure({
   Auth: {
@@ -27,7 +27,7 @@ export interface CognitoReturned {
   accessToken: string;
 }
 
-export function useCognito(): UseQueryResult<CognitoReturned> {
+export function useCognito(suspense = true): UseQueryResult<CognitoReturned> {
   return useQuery(
     ['fetchCognitoUser'],
     async () => {
@@ -41,6 +41,12 @@ export function useCognito(): UseQueryResult<CognitoReturned> {
         accessToken: signedIn.getAccessToken().getJwtToken(),
       };
     },
+    {
+      onError(e) {
+        console.warn('whoops', e, typeof e);
+      },
+      suspense,
+    }
   );
 }
 
@@ -51,26 +57,91 @@ interface SignupUser {
   preferredUsername?: string;
 }
 
-export function signupUser(): UseMutationResult {
+// eslint-disable-next-line no-undef
+export function useSignupUser(): UseMutationResult<Awaited<ReturnType<typeof Auth.signUp>> & { needsVerification: boolean; }, Error> {
   const qc = useQueryClient();
   return useMutation(['signupUser'], async ({
     username,
     password,
     email,
-    preferredUsername
-  }: SignupUser) => {
-    const data = await Auth.signUp({
-      username,
-      password,
-      attributes: {
-        email,
-        preferred_username: preferredUsername,
+    preferredUsername,
+    code,
+  }: SignupUser & { code: string; }) => {
+    if (!code) {
+
+      const data = await Auth.signUp({
+        username,
+        password,
+        attributes: {
+          email,
+          preferred_username: preferredUsername,
+        }
+      });
+      return {
+        ...data,
+        needsVerification: true,
+      };
+    } else {
+      const data = await Auth.confirmSignUp(username, code);
+      if (data === 'SUCCESS') {
+        return {
+          ...data,
+          needsVerification: false
+        };
       }
-    });
-    return data;
-  }, {
-    onSuccess() {
-      qc.invalidateQueries(['fetchCognitoUser']);
     }
   });
+}
+
+export function useCognitoLogin(): UseMutationResult<CognitoReturned, Error> {
+  const qc = useQueryClient();
+  return useMutation(
+    ['loginUser'],
+    async ({
+      username,
+      password
+    }: { username: string; password: string }) => {
+      try {
+        const user = await Auth.signIn(username, password);
+        const attributes = await Auth.currentUserInfo();
+        return {
+          username: user.getUsername(),
+          idToken: user.getSignInUserSession().getIdToken().getJwtToken(),
+          accessToken: user.getSignInUserSession().getAccessToken().getJwtToken(),
+          preferredUsername: attributes.attributes.preferred_username,
+        }
+      } catch (e) {
+        console.info(e);
+        throw e;
+      }
+    },
+    {
+      onSuccess() {
+        qc.invalidateQueries(['fetchCognitoUser']);
+      }
+    }
+  );
+}
+
+export function useCognitoLogout() {
+  const qc = useQueryClient();
+  return useMutation(
+    ['logoutCognitoUser'],
+    async () => {
+      try {
+
+        await Auth.signOut({ global: true });
+        return true;
+      } catch (e) {
+        console.error(e);
+        return false;
+      }
+    },
+    {
+      onSuccess() {
+        console.info('are we hitting this?');
+        qc.invalidateQueries(['fetchCognitoUser']);
+      }
+    }
+  );
 }
