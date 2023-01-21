@@ -1,27 +1,16 @@
 import React, { useEffect } from 'react';
 
-import { Redirect } from 'react-router-dom';
-import { signupUserThunk, verifyUserThunk } from '@/redux/cognito/cognito.thunk';
+import { Redirect, useHistory } from 'react-router-dom';
 
 import Input from '@vini-vici/viddi/dist/input/input.component';
 import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
 import Button from '@vini-vici/viddi/dist/button/button.component';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
 import { useTranslation } from 'react-i18next';
 import { useCognito, useSignupUser } from '@/hooks/cognito';
 
 export default function SignupRoute(): React.ReactElement {
 
   const cognito = useCognito();
-
-  const {
-    loggedInUser,
-    needsVerification,
-    error
-  } = useSelector(({ cognito: { username, needsVerification, idToken, error } }: RootState) => ({ loggedInUser: username, needsVerification, idToken, error }));
-
-  const dispatch = useDispatch();
 
   const [signupData, setSignupData] = React.useState({
     username: '',
@@ -50,7 +39,7 @@ export default function SignupRoute(): React.ReactElement {
 
   const { t } = useTranslation();
   const signupUser = useSignupUser();
-  console.info(signupUser.data);
+
   /**
    * 1. Fill in information
    * 2. Send data to cognito.
@@ -59,8 +48,15 @@ export default function SignupRoute(): React.ReactElement {
    * 5. On successful verification, auth the user?
    */
 
-  if (redirect || (loggedInUser && !needsVerification))
-    return <Redirect to="/" />;
+  const history = useHistory();
+
+  useEffect(() => {
+    if (signupUser.data && !signupUser.data.needsVerification) {
+      history.push({
+        pathname: '/login'
+      });
+    }
+  }, [signupUser.data]);
 
   return (
     <div className="flex-grow">

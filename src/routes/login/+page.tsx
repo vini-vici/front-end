@@ -6,14 +6,11 @@ import Button from '@vini-vici/viddi/dist/button/button.component';
 import Modal from '@vini-vici/viddi/dist/modal/modal.component';
 import { Link, useHistory } from 'react-router-dom';
 
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
 import { useTranslation } from 'react-i18next';
 import { useCognito, useCognitoLogin } from '@/hooks/cognito';
 import { Loading } from '@vini-vici/viddi';
 
 export default function LoginRoute(): React.ReactElement {
-  const user = useSelector(({ cognito }: RootState) => cognito);
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [showClearModal, setClearModal] = React.useState(false);
@@ -27,8 +24,6 @@ export default function LoginRoute(): React.ReactElement {
       history.push('/');
 
   }, [cognito.isSuccess, cognito.data]);
-
-  console.info(loginUser);
 
   return (
     <div className="flex-grow">

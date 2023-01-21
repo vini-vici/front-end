@@ -1,12 +1,10 @@
 import React from 'react';
 
 import { Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import Modal from '@vini-vici/viddi/dist/modal/modal.component';
 import Input from '@vini-vici/viddi/dist/input/input.component';
 import Textarea from '@vini-vici/viddi/dist/textarea/textarea.component';
 import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
-import { RootState } from '@/redux/store';
 import { Todo } from '@/components/todos/todo.component';
 import { useTranslation } from 'react-i18next';
 import TodosContainerNew from '@/components/todos/todos.container';
@@ -20,8 +18,6 @@ import { useCognito } from '@/hooks/cognito';
  * will always pull data from Redux.
  */
 export default function IndexRoute(): React.ReactElement {
-
-  const { idToken, cognitoStatus } = useSelector((r: RootState) => ({ idToken: r.cognito.idToken, showCreateModal: r.modal.show, cognitoStatus: r.cognito.status }));
 
   const initialTodos: Todo = {
     id: '',

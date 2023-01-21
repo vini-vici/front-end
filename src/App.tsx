@@ -1,5 +1,4 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
@@ -9,111 +8,98 @@ import Footer from '@/components/footer/footer.component';
 import ErrorBoundary from './components/errorBoundary.component';
 import Navbar from './components/navbar/navbar.component';
 
-import store from '@/redux/store';
-import { getUserThunk } from '@/redux/cognito/cognito.thunk';
-import { getGithubIssues } from './redux/github/github.thunk';
 import ReactQueryProvider from './providers/reactQuery';
 
 function AppComponent(): React.ReactElement {
-
-
-  React.useEffect(() => {
-    store.dispatch(getUserThunk());
-    store.dispatch(getGithubIssues());
-  }, []);
 
   return (
     <ErrorBoundary>
       <ReactQueryProvider>
         <React.Suspense fallback="Loading...">
           <RecoilRoot>
-            <Provider
-              store={store}
-            >
-              <Router>
-                <Navbar />
-                <React.Suspense fallback={
-                  <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Loading size={1.5} />
-                  </div>
-                }>
-                  <Switch>
-                    <Route
-                      path="/"
-                      exact
-                      component={
-                        React.lazy(
-                          () => import(/* webpackChunkName: "IndexRoute", webpackPreload: true */'./routes/index/+page')
-                        )
-                      }
-                    />
-                    <Route
-                      path="/callback"
-                      exact
-                      component={
-                        React.lazy(
-                          () => import(/* webpackChunkName: "CallbackRoute" */'./routes/callback.route')
-                        )
-                      }
-                    />
-                    <Route
-                      path="/about"
-                      exact
-                      component={
-                        React.lazy(
-                          () => import(/* webpackChunkName: "AboutRoute"  */'./routes/about/+page')
-                        )
-                      }
-                    />
-                    <Route
-                      path="/releases"
-                      exact
-                      component={
-                        React.lazy(
-                          () => import(/* webpackChunkName: "ReleaseRoute" */'./routes/releases/+page')
-                        )
-                      }
-                    />
-                    <Route
-                      path="/logout"
-                      exact
-                      component={
-                        React.lazy(
-                          () => import(/* webpackChunkName: "LogoutRoute" */'./routes/logout/+page')
-                        )
-                      }
-                    />
-                    <Route
-                      path="/login"
-                      exact
-                      component={
-                        React.lazy(
-                          () => import(/* webpackChunkName: "LoginRoute" */'./routes/login/+page')
-                        )
-                      }
-                    />
-                    <Route
-                      path="/signup"
-                      exact
-                      component={
-                        React.lazy(
-                          () => import(/* webpackChunkName: "SignupRoute" */'./routes/signup.route')
-                        )
-                      }
-                    />
-                    <Route
-                      path="/"
-                      component={
-                        React.lazy(
-                          () => import(/* webpackChunkName: "404Route", webpackPrefetch: true */'./routes/_404')
-                        )
-                      }
-                    />
-                  </Switch>
-                </React.Suspense>
-                <Footer />
-              </Router>
-            </Provider>
+            <Router>
+              <Navbar />
+              <React.Suspense fallback={
+                <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <Loading size={1.5} />
+                </div>
+              }>
+                <Switch>
+                  <Route
+                    path="/"
+                    exact
+                    component={
+                      React.lazy(
+                        () => import(/* webpackChunkName: "IndexRoute", webpackPreload: true */'./routes/index/+page')
+                      )
+                    }
+                  />
+                  <Route
+                    path="/callback"
+                    exact
+                    component={
+                      React.lazy(
+                        () => import(/* webpackChunkName: "CallbackRoute" */'./routes/callback.route')
+                      )
+                    }
+                  />
+                  <Route
+                    path="/about"
+                    exact
+                    component={
+                      React.lazy(
+                        () => import(/* webpackChunkName: "AboutRoute"  */'./routes/about/+page')
+                      )
+                    }
+                  />
+                  <Route
+                    path="/releases"
+                    exact
+                    component={
+                      React.lazy(
+                        () => import(/* webpackChunkName: "ReleaseRoute" */'./routes/releases/+page')
+                      )
+                    }
+                  />
+                  <Route
+                    path="/logout"
+                    exact
+                    component={
+                      React.lazy(
+                        () => import(/* webpackChunkName: "LogoutRoute" */'./routes/logout/+page')
+                      )
+                    }
+                  />
+                  <Route
+                    path="/login"
+                    exact
+                    component={
+                      React.lazy(
+                        () => import(/* webpackChunkName: "LoginRoute" */'./routes/login/+page')
+                      )
+                    }
+                  />
+                  <Route
+                    path="/signup"
+                    exact
+                    component={
+                      React.lazy(
+                        () => import(/* webpackChunkName: "SignupRoute" */'./routes/signup/+page')
+                      )
+                    }
+                  />
+                  <Route
+                    path="/"
+                    component={
+                      React.lazy(
+                        () => import(/* webpackChunkName: "404Route", webpackPrefetch: true */'./routes/_404')
+                      )
+                    }
+                  />
+                </Switch>
+              </React.Suspense>
+              <Footer />
+            </Router>
           </RecoilRoot>
         </React.Suspense>
       </ReactQueryProvider>
