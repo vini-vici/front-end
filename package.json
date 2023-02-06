@@ -62,7 +62,7 @@
     "@mdi/js": "^5.9.55",
     "@mdi/react": "^1.5.0",
     "@tanstack/react-query": "^4.24.4",
-    "@vini-vici/viddi": "file:../vidi",
+    "@vini-vici/viddi": "^1.1.0",
     "aws-amplify": "^4.2.10",
     "core-js": "^3.18.0",
     "i18next": "^20.6.1",
