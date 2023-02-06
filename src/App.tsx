@@ -5,7 +5,7 @@ import { RecoilRoot } from 'recoil';
 import Loading from '@vini-vici/viddi/dist/loading/loading.component';
 import Footer from '@/components/footer/footer.component';
 
-import ErrorBoundary from './components/errorBoundary.component';
+import ErrorBoundary from './components/errorboundary.component';
 import Navbar from './components/navbar/navbar.component';
 
 import ReactQueryProvider from './providers/reactQuery';
