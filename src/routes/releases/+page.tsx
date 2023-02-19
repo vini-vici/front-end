@@ -13,11 +13,11 @@ export default function ReleasesPage(): JSX.Element {
     <div className="flex-grow">
       <div className="container py-3">
         <h1 className="text-4xl font-bold mt-2">
-          {t('Releases')}
+          {t('Releases') as string}
         </h1>
         <header className="mt-2 lb-4">
           <p>
-            {t('Release-description')}
+            {t('Release-description') as string}
           </p>
         </header>
         {
@@ -27,7 +27,7 @@ export default function ReleasesPage(): JSX.Element {
                 <h1 className="text-2xl font-semibold ">
                   {release.name}
                   <small className="ml-2 font-normal ">
-                    {t('Posted at', { date: toDateTimeString(release.published_at) })}
+                    {t('Posted at', { date: toDateTimeString(release.published_at) }) as string}
                   </small>
                 </h1>
               </header>

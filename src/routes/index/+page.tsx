@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Redirect } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 import Modal from '@vini-vici/viddi/dist/modal/modal.component';
 import Input from '@vini-vici/viddi/dist/input/input.component';
 import Textarea from '@vini-vici/viddi/dist/textarea/textarea.component';
@@ -35,7 +35,10 @@ export default function IndexRoute(): React.ReactElement {
 
   const cognito = useCognito();
 
-  if (cognito.isError && cognito.error === 'The user is not authenticated') return <Redirect to="/login" />;
+  if (cognito.isError && cognito.error === 'The user is not authenticated') {
+    redirect('/login');
+    return null;
+  }
 
   return (
     <div className="w-full sm:w-4/5 lg:w-3/4 mx-auto flex-grow">
@@ -44,7 +47,7 @@ export default function IndexRoute(): React.ReactElement {
         show={showCreateModal}
         title={
           <div className="text-xl font-bold">
-            {t('Add a todo')}
+            {t('Add a todo') as string}
           </div>
         }
         onClose={() => setShowCreateModal(false)}
@@ -56,7 +59,7 @@ export default function IndexRoute(): React.ReactElement {
           });
           setShowCreateModal(false);
         }}
-        confirmText={t('Submit')}
+        confirmText={t('Submit') as string}
       >
         <FormField
           label={t('Todo title')}

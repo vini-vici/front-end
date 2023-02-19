@@ -12,6 +12,11 @@ export const client = new QueryClient({
       refetchOnWindowFocus: false,
       cacheTime: 8 * 60 * 1000,
     },
+    mutations: {
+      onSettled(data, error, variables, context) {
+        console.info(data, error, variables, context);
+      },
+    }
   }
 });
 

@@ -14,7 +14,7 @@ export function useTodos(): UseQueryResult<Todo[]> {
   const cognito = useCognito();
   const qc = useQueryClient();
   return useQuery(
-    ['fetchTodos'],
+    ['fetchTodos', cognito.data?.username],
     async () => {
       const { API: url } = config;
       const headers = prepareHeaders(cognito.data.idToken);
@@ -24,7 +24,7 @@ export function useTodos(): UseQueryResult<Todo[]> {
       }).then(res => res.json() as unknown as Todo[]);
 
       for (const todo of response)
-        qc.setQueryData(['fetchTodos', todo.id], todo);
+        qc.setQueryData(['fetchTodos', 'todo', todo.id], todo);
 
 
       return response;

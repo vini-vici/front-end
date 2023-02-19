@@ -57,16 +57,21 @@ interface SignupUser {
   preferredUsername?: string;
 }
 
+interface SignupData {
+  username: string;
+  email: string;
+  preferredUsername: string;
+  needsVerification: boolean;
+}
 // eslint-disable-next-line no-undef
-export function useSignupUser(): UseMutationResult<Awaited<ReturnType<typeof Auth.signUp>> & { needsVerification: boolean; }, Error> {
-  const qc = useQueryClient();
+export function useSignupUser(): UseMutationResult<SignupData, Error> {
   return useMutation(['signupUser'], async ({
     username,
     password,
     email,
     preferredUsername,
     code,
-  }: SignupUser & { code: string; }) => {
+  }: SignupUser & { code: string; },) => {
     if (!code) {
 
       const data = await Auth.signUp({
@@ -77,16 +82,21 @@ export function useSignupUser(): UseMutationResult<Awaited<ReturnType<typeof Aut
           preferred_username: preferredUsername,
         }
       });
+
       return {
-        ...data,
+        username,
+        email,
+        preferredUsername,
         needsVerification: true,
       };
     } else {
       const data = await Auth.confirmSignUp(username, code);
       if (data === 'SUCCESS') {
         return {
-          ...data,
-          needsVerification: false
+          username,
+          email,
+          preferredUsername,
+          needsVerification: false,
         };
       }
     }
@@ -139,8 +149,9 @@ export function useCognitoLogout() {
     },
     {
       onSuccess() {
-        console.info('are we hitting this?');
+        qc.setQueryData(['fetchTodos'], undefined);
         qc.invalidateQueries(['fetchCognitoUser']);
+        qc.invalidateQueries(['fetchTodos']);
       }
     }
   );

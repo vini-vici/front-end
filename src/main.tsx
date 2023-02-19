@@ -14,7 +14,6 @@ i18n
   .use(Backend)
   .use(LanguageDetector)
   .use(initReactI18next)
-  // .addResource('a','b','c', 'd')
   .init({
     fallbackLng: 'en',
     debug: import.meta.env !== 'production',
@@ -23,7 +22,8 @@ i18n
     },
     backend: {
       loadPath: '/static/{{lng}}/{{ns}}.json',
-    }
+    },
+    returnNull: false,
   })
   .then(() => {
     const root = createRoot(document.querySelector('#app'));

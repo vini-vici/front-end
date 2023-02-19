@@ -4,7 +4,7 @@ import Input from '@vini-vici/viddi/dist/input/input.component';
 import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
 import Button from '@vini-vici/viddi/dist/button/button.component';
 import Modal from '@vini-vici/viddi/dist/modal/modal.component';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useTranslation } from 'react-i18next';
 import { useCognito, useCognitoLogin } from '@/hooks/cognito';
@@ -14,14 +14,14 @@ export default function LoginRoute(): React.ReactElement {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [showClearModal, setClearModal] = React.useState(false);
+  const navigate = useNavigate();
   const { t } = useTranslation();
-  const history = useHistory();
   const loginUser = useCognitoLogin();
   const cognito = useCognito();
 
   React.useEffect(() => {
     if (cognito.isSuccess && cognito.data.idToken !== '')
-      history.push('/');
+      navigate('/');
 
   }, [cognito.isSuccess, cognito.data]);
 
@@ -39,7 +39,7 @@ export default function LoginRoute(): React.ReactElement {
           setClearModal(false);
         }}
       >
-        {t('Clear-form')}
+        {t('Clear-form') as string}
       </Modal>
       <div className="mx-auto my-2 p-3 max-w-sm border shadow-lg rounded-md">
         <h1 className="text-xl font-semibold flex">
@@ -92,7 +92,7 @@ export default function LoginRoute(): React.ReactElement {
             />
           </FormField>
           <div className="mt-2 text-right">
-            <Link to="/signup">{t('Signup')}</Link>
+            <Link to="/signup">{t('Signup') as string}</Link>
           </div>
           <div className="flex mt-3 justify-end gap-2">
             <Button
@@ -101,7 +101,7 @@ export default function LoginRoute(): React.ReactElement {
                 setClearModal(true);
               }}
             >
-              {t('Reset')}
+              {t('Reset') as string}
             </Button>
             <Button
               variant="primary"
@@ -114,7 +114,7 @@ export default function LoginRoute(): React.ReactElement {
                 // loginHandler();
               }}
             >
-              {t('Submit')}
+              {t('Submit') as string}
             </Button>
           </div>
         </form>

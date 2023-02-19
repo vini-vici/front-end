@@ -7,9 +7,8 @@ export default function AboutRoute(): React.ReactElement {
     <div className="flex-grow">
       <div className="container pb-5">
         <h1 className="text-3xl font-bold mt-3">
-          {t('About.About-this-project')}
+          {t('About.About-this-project') as string}
         </h1>
-
         <p>
           <Trans i18nKey="About.About-description">
             This project is about showing more about the <em>architecture</em> of a larger app
@@ -20,10 +19,10 @@ export default function AboutRoute(): React.ReactElement {
         </p>
 
         <h2 className="text-xl mt-3">
-          {t('About.The-Author')}
+          {t('About.The-Author') as string}
         </h2>
         <p>
-          {t('About.About-Author-Description')}
+          {t('About.About-Author-Description') as string}
         </p>
 
         <h2 className="text-xl mt-3">
@@ -77,12 +76,12 @@ export default function AboutRoute(): React.ReactElement {
             </ul>
           </div>
         </div>
-        <small>*{t('About.vidi-ui-disclaimer')}</small>
+        <small>*{t('About.vidi-ui-disclaimer') as string}</small>
 
         <h2 className="text-xl mt-3">
-          {t('About.thats-it')}
+          {t('About.thats-it') as string}
         </h2>
-        <p>{t('About.yes-but-no')}</p>
+        <p>{t('About.yes-but-no') as string}</p>
         <p className="mt-2">
           <Trans i18nKey="About.tools">
             These are just the tools used to develop the front and back end.
@@ -117,7 +116,7 @@ export default function AboutRoute(): React.ReactElement {
         <h3 className="text-lg mt-3">Vicci Share Infrastructure</h3>
 
         <p>
-          {t('About.about-share-infrastructure')}
+          {t('About.about-share-infrastructure') as string}
         </p>
 
         <h3 className="text-lg mt-3">Viddi UI</h3>
@@ -132,11 +131,11 @@ export default function AboutRoute(): React.ReactElement {
         <h3 className="text-lg mt-3">Wrapping Up</h3>
 
         <p>
-          {t('About.does-for-you')}
+          {t('About.does-for-you') as string}
         </p>
 
         <p>
-          {t('About.best-case-scenario')}
+          {t('About.best-case-scenario') as string}
         </p>
 
       </div>

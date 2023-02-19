@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { Redirect, useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Input from '@vini-vici/viddi/dist/input/input.component';
 import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
@@ -10,6 +10,7 @@ import { useCognito, useSignupUser } from '@/hooks/cognito';
 
 export default function SignupRoute(): React.ReactElement {
 
+  const navigate = useNavigate();
   const cognito = useCognito();
 
   const [signupData, setSignupData] = React.useState({
@@ -27,8 +28,6 @@ export default function SignupRoute(): React.ReactElement {
     username: true,
     password: true
   });
-
-  const [redirect, setRedirect] = React.useState(false);
 
   useEffect(() => {
     setValidations({
@@ -48,14 +47,10 @@ export default function SignupRoute(): React.ReactElement {
    * 5. On successful verification, auth the user?
    */
 
-  const history = useHistory();
-
   useEffect(() => {
-    if (signupUser.data && !signupUser.data.needsVerification) {
-      history.push({
-        pathname: '/login'
-      });
-    }
+    if (signupUser.data && !signupUser.data.needsVerification)
+      navigate('/login');
+
   }, [signupUser.data]);
 
   return (
@@ -67,7 +62,7 @@ export default function SignupRoute(): React.ReactElement {
           </div>
         )}
         <h1 className="text-xl font-bold">
-          {t('Signup-page.title')}
+          {t('Signup-page.title') as string}
         </h1>
         <form onSubmit={e => {
           e.preventDefault();
@@ -161,7 +156,7 @@ export default function SignupRoute(): React.ReactElement {
           }
           <div className="mt-2">
             <Button type="submit">
-              {t(signupUser.data ? 'Signup-page.Verify' : 'Signup-page.title')}
+              {t('Signup-page.Verify') as string}
             </Button>
           </div>
         </form>

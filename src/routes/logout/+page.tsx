@@ -1,7 +1,7 @@
 import { useCognitoLogout } from '@/hooks/cognito';
 import React from 'react';
 
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function LogoutRoute(): React.ReactElement {
   const logoutUser = useCognitoLogout();
@@ -10,11 +10,11 @@ export default function LogoutRoute(): React.ReactElement {
   React.useEffect(() => {
     logoutUser.mutate();
   }, []);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (logoutUser.isSuccess)
-      history.push('/login');
+      navigate('/login');
 
   }, [logoutUser.isSuccess]);
 

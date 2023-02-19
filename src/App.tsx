@@ -10,6 +10,38 @@ import Navbar from './components/navbar/navbar.component';
 
 import ReactQueryProvider from './providers/reactQuery';
 
+const IndexRoute = React.lazy(
+  () => import(/* webpackChunkName: "IndexRoute", webpackPreload: true */'./routes/index/+page')
+);
+
+const CallbackRoute = React.lazy(
+  () => import(/* webpackChunkName: "CallbackRoute" */'./routes/callback.route')
+);
+
+const LogoutRoute = React.lazy(
+  () => import(/* webpackChunkName: "LogoutRoute" */ './routes/logout/+page')
+);
+
+const LoginRoute = React.lazy(
+  () => import(/* webpackChunkName: "LoginRoute" */ './routes/login/+page')
+);
+
+const AboutRoute = React.lazy(
+  () => import(/* webpackChunkName: "AboutRoute"  */ './routes/about/+page')
+);
+
+const ReleasesRoute = React.lazy(
+  () => import(/* webpackChunkName: "ReleaseRoute" */ './routes/releases/+page')
+);
+
+const SignupRoute = React.lazy(
+  () => import(/* webpackChunkName: "SignupRoute" */ './routes/signup/+page')
+);
+
+const NotFoundRoute = React.lazy(
+  () => import(/* webpackChunkName: "404Route", webpackPrefetch: true */ './routes/_404')
+);
+
 function AppComponent(): React.ReactElement {
 
   return (
@@ -24,76 +56,52 @@ function AppComponent(): React.ReactElement {
                   <Loading size={1.5} />
                 </div>
               }>
+
                 <Switch>
                   <Route
                     path="/"
-                    exact
-                    component={
-                      React.lazy(
-                        () => import(/* webpackChunkName: "IndexRoute", webpackPreload: true */'./routes/index/+page')
-                      )
+                    index
+                    element={
+                      <IndexRoute />
                     }
                   />
                   <Route
                     path="/callback"
-                    exact
-                    component={
-                      React.lazy(
-                        () => import(/* webpackChunkName: "CallbackRoute" */'./routes/callback.route')
-                      )
-                    }
+                    element={<CallbackRoute />}
                   />
                   <Route
                     path="/about"
-                    exact
-                    component={
-                      React.lazy(
-                        () => import(/* webpackChunkName: "AboutRoute"  */'./routes/about/+page')
-                      )
+                    element={
+                      <AboutRoute />
                     }
                   />
                   <Route
                     path="/releases"
-                    exact
-                    component={
-                      React.lazy(
-                        () => import(/* webpackChunkName: "ReleaseRoute" */'./routes/releases/+page')
-                      )
+                    element={
+                      <ReleasesRoute />
                     }
                   />
                   <Route
                     path="/logout"
-                    exact
-                    component={
-                      React.lazy(
-                        () => import(/* webpackChunkName: "LogoutRoute" */'./routes/logout/+page')
-                      )
+                    element={
+                      <LogoutRoute />
                     }
                   />
                   <Route
                     path="/login"
-                    exact
-                    component={
-                      React.lazy(
-                        () => import(/* webpackChunkName: "LoginRoute" */'./routes/login/+page')
-                      )
+                    element={
+                      <LoginRoute />
                     }
                   />
                   <Route
                     path="/signup"
-                    exact
-                    component={
-                      React.lazy(
-                        () => import(/* webpackChunkName: "SignupRoute" */'./routes/signup/+page')
-                      )
+                    element={
+                      <SignupRoute />
                     }
                   />
                   <Route
-                    path="/"
-                    component={
-                      React.lazy(
-                        () => import(/* webpackChunkName: "404Route", webpackPrefetch: true */'./routes/_404')
-                      )
+                    element={
+                      <NotFoundRoute />
                     }
                   />
                 </Switch>
