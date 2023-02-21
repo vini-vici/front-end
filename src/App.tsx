@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
 import Loading from '@vini-vici/viddi/dist/loading/loading.component';
@@ -56,14 +56,10 @@ function AppComponent(): React.ReactElement {
                   <Loading size={1.5} />
                 </div>
               }>
-
-                <Switch>
+                <Routes>
                   <Route
                     path="/"
-                    index
-                    element={
-                      <IndexRoute />
-                    }
+                    element={<IndexRoute />}
                   />
                   <Route
                     path="/callback"
@@ -104,7 +100,8 @@ function AppComponent(): React.ReactElement {
                       <NotFoundRoute />
                     }
                   />
-                </Switch>
+
+                </Routes>
               </React.Suspense>
               <Footer />
             </Router>

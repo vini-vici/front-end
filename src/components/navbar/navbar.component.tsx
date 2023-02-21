@@ -3,11 +3,12 @@ import { mdiGithub, mdiMenu } from '@mdi/js';
 import { Icon } from '@mdi/react';
 import { DomClasses as Dc } from '@vini-vici/viddi';
 
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { useCognito } from '@/hooks/cognito';
 import useGithub from '@/hooks/github';
+import NavLink from '../navlink/navlink.component';
 
 export default function Navbar(): React.ReactElement {
   const { t } = useTranslation();
@@ -36,7 +37,7 @@ export default function Navbar(): React.ReactElement {
         </div>
 
         <div className={classes.toString()}>
-          <NavLink to="/" exact activeClassName="font-semibold underline">
+          <NavLink to="/" activeClassName="font-semibold underline">
             {t('Home')}
           </NavLink>
           <NavLink to="/about" activeClassName="font-semibold underline">

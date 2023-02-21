@@ -6,7 +6,6 @@ import { useCognito } from './cognito';
 export function prepareHeaders(token: string): Headers {
   const headers = new Headers();
   headers.set('authorization', `Bearer ${token}`);
-  // headers.set('Access-Control-Allow-Origin', '"*"');
   return headers;
 }
 
@@ -54,19 +53,19 @@ export function useAddTodo(): UseMutationResult<Todo> {
     {
       onMutate(data) {
 
-        const current = qc.getQueryData(['fetchTodos']) as Todo[];
-
-        qc.setQueryData(['fetchTodos'], current.concat(data as Required<Todo>));
+        const current = qc.getQueryData(['fetchTodos', cognito.data?.username]) as Todo[];
+        console.info('Hello??');
+        qc.setQueryData(['fetchTodos', cognito.data?.username], current.concat(data as Required<Todo>));
 
         return {
           old: current,
         };
       },
       onSuccess(data, variables, context) {
-        qc.setQueryData(['fetchTodos'], [{ ...variables, id: data }].concat(context.old));
+        qc.setQueryData(['fetchTodos', cognito.data?.username], [{ ...variables, id: data }].concat(context.old));
       },
       onError(error, variables, context) {
-        qc.setQueryData(['fetchTodos'], context.old);
+        qc.setQueryData(['fetchTodos', cognito.data?.username], context.old);
       },
     }
   );
@@ -86,16 +85,16 @@ export function useRemoveTodo(): UseMutationResult<boolean> {
     },
     {
       onMutate(data) {
-        const current = qc.getQueryData(['fetchTodos']) as Todo[];
+        const current = qc.getQueryData(['fetchTodos', cognito.data?.username]) as Todo[];
 
-        qc.setQueryData(['fetchTodos'], current.filter(item => item.id !== data));
+        qc.setQueryData(['fetchTodos', cognito.data.username], current.filter(item => item.id !== data));
 
         return {
           oldData: current,
         };
       },
       onError(err, v, context) {
-        qc.setQueryData(['fetchTodos'], context.oldData);
+        qc.setQueryData(['fetchTodos', cognito.data.username], context.oldData);
       }
     }
   );
@@ -122,12 +121,12 @@ export function useUpdateTodo(): UseMutationResult<boolean, unknown, RequiredKey
     },
     {
       onSuccess() {
-        qc.invalidateQueries(['fetchTodos']);
+        qc.invalidateQueries(['fetchTodos', cognito.data.username]);
       },
       onMutate(todo) {
-        const previousTodos = qc.getQueryData(['fetchTodos']) as Todo[];
+        const previousTodos = (qc.getQueryData(['fetchTodos', cognito.data?.username]) || []) as Todo[];
         qc.setQueryData(
-          ['fetchTodos'],
+          ['fetchTodos', cognito.data?.username],
           previousTodos.map(td => td.id === todo.id ? todo : td)
         );
         return {
@@ -135,7 +134,7 @@ export function useUpdateTodo(): UseMutationResult<boolean, unknown, RequiredKey
         };
       },
       onError(err, newTodo, context) {
-        qc.setQueryData(['fetchTodos'], context.previousTodos);
+        qc.setQueryData(['fetchTodos', cognito.data?.username], context.previousTodos);
       }
     }
   );
