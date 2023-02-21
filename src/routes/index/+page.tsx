@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Modal from '@vini-vici/viddi/dist/modal/modal.component';
 import Input from '@vini-vici/viddi/dist/input/input.component';
 import Textarea from '@vini-vici/viddi/dist/textarea/textarea.component';
@@ -26,6 +26,8 @@ export default function IndexRoute(): React.ReactElement {
     done: false
   };
 
+  const navigate = useNavigate();
+
   const { t } = useTranslation();
 
   const [{ title, description }, setTodo] = React.useState<Todo>(initialTodos);
@@ -35,10 +37,13 @@ export default function IndexRoute(): React.ReactElement {
 
   const cognito = useCognito();
 
-  if (cognito.isError && cognito.error === 'The user is not authenticated') {
-    redirect('/login');
+  React.useEffect(() => {
+    if (cognito.isError && cognito.error === 'The user is not authenticated')
+      navigate('/login');
+  }, [cognito.error, cognito.isError]);
+
+  if (cognito.isError && cognito.error === 'The user is not authenticated')
     return null;
-  }
 
   return (
     <div className="w-full sm:w-4/5 lg:w-3/4 mx-auto flex-grow">

@@ -1,6 +1,5 @@
 import Amplify from '@aws-amplify/core';
 import Auth, { CognitoUser } from '@aws-amplify/auth';
-import React from 'react';
 import { useMutation, UseMutationResult, useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query';
 import config from '@/config.json';
 Amplify.configure({
@@ -74,7 +73,7 @@ export function useSignupUser(): UseMutationResult<SignupData, Error> {
   }: SignupUser & { code: string; },) => {
     if (!code) {
 
-      const data = await Auth.signUp({
+      await Auth.signUp({
         username,
         password,
         attributes: {
@@ -119,7 +118,7 @@ export function useCognitoLogin(): UseMutationResult<CognitoReturned, Error> {
           idToken: user.getSignInUserSession().getIdToken().getJwtToken(),
           accessToken: user.getSignInUserSession().getAccessToken().getJwtToken(),
           preferredUsername: attributes.attributes.preferred_username,
-        }
+        };
       } catch (e) {
         console.info(e);
         throw e;

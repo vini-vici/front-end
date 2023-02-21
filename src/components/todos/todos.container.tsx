@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTodos, useUpdateTodo, useRemoveTodo } from '@/hooks/todos';
-import { Button, Checkbox } from '@vini-vici/viddi';
+import { Button } from '@vini-vici/viddi';
 import { useTranslation } from 'react-i18next';
 import Icon from '@mdi/react';
 import { mdiPencilPlus, mdiRefresh } from '@mdi/js';
@@ -14,7 +14,8 @@ export default function TodosContainerNew(): JSX.Element {
   const { t } = useTranslation();
   const updateTodo = useUpdateTodo();
   const deleteTodo = useRemoveTodo();
-  const [_, setShowCreateModal] = useRecoilState(createModal);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_showCreateModal, setShowCreateModal] = useRecoilState(createModal);
 
   return (
     <table className="todos  w-full border p-3 rounded border-collapse">

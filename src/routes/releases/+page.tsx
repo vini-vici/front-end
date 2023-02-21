@@ -1,6 +1,5 @@
 import { useReleases } from '@/hooks/releases';
 import { toDateTimeString } from '@/util/date';
-import { Loading } from '@vini-vici/viddi';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';

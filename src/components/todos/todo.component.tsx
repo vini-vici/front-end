@@ -5,7 +5,7 @@ import Checkbox from '@vini-vici/viddi/dist/checkbox/checkbox.component';
 import Button from '@vini-vici/viddi/dist/button/button.component';
 import Dc from '@vini-vici/viddi/dist/classes/domClasses.class';
 import Icon from '@mdi/react';
-import { mdiPencil, mdiPencilBox, mdiTrashCan } from '@mdi/js';
+import { mdiPencil, mdiTrashCan } from '@mdi/js';
 
 export interface Todo {
   title: string;

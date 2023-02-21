@@ -53,7 +53,7 @@ export default function LoginRoute(): React.ReactElement {
           loginUser.isError &&
           (
             <div className="border border-red-600 bg-red-300 p-1">
-              {(loginUser.error as any)?.message}
+              {(loginUser.error as Error)?.message}
             </div>
           )
         }

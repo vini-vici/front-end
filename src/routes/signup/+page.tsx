@@ -6,12 +6,11 @@ import Input from '@vini-vici/viddi/dist/input/input.component';
 import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
 import Button from '@vini-vici/viddi/dist/button/button.component';
 import { useTranslation } from 'react-i18next';
-import { useCognito, useSignupUser } from '@/hooks/cognito';
+import { useSignupUser } from '@/hooks/cognito';
 
 export default function SignupRoute(): React.ReactElement {
 
   const navigate = useNavigate();
-  const cognito = useCognito();
 
   const [signupData, setSignupData] = React.useState({
     username: '',
@@ -24,6 +23,7 @@ export default function SignupRoute(): React.ReactElement {
 
   const [token, setToken] = React.useState('');
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [validations, setValidations] = React.useState({
     username: true,
     password: true
