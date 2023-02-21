@@ -5,7 +5,7 @@ import Checkbox from '@vini-vici/viddi/dist/checkbox/checkbox.component';
 import Button from '@vini-vici/viddi/dist/button/button.component';
 import Dc from '@vini-vici/viddi/dist/classes/domClasses.class';
 import Icon from '@mdi/react';
-import { mdiTrashCan } from '@mdi/js';
+import { mdiPencil, mdiPencilBox, mdiTrashCan } from '@mdi/js';
 
 export interface Todo {
   title: string;
@@ -94,26 +94,27 @@ export default function TodoComponent(
       <td className="p-3">
 
         <div className="flex justify-center items-center gap-4">
-          <div onClick={() => {
-            if (isEditing) {
-              onChange?.(
-                new CustomEvent('TodoChange', {
-                  detail: {
-                    ...local,
-                    id,
-                    done
-                  }
-                })
-              );
-            }
-            setEditing(!isEditing);
-          }}>
-            {
-              isEditing
-                ? (<button className="bg-purple-500 text-gray-100 px-2 py-1 rounded">Save</button>)
-                : (<span className="text-blue-500">Edit</span>)
-            }
-          </div>
+          {
+            isEditing && <Button className="rounded" onClick={() => {
+              onChange?.(new CustomEvent('TodoChange', {
+                detail: {
+                  ...local,
+                  id,
+                  done,
+                }
+              }));
+              setEditing(false);
+            }}>Save</Button>
+          }
+          {
+            !isEditing &&
+            <Button className="text-blue-500 px-2 py-1 bg-white" variant="custom" onClick={() => {
+              setEditing(true);
+            }}>
+              <Icon path={mdiPencil} title="Edit" size={1} />
+            </Button>
+          }
+
           <Button
             variant="secondary"
             onClick={() => onDelete(id)}

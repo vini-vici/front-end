@@ -1,7 +1,7 @@
 {
   "name": "vinny",
   "version": "1.3.0",
-  "description": "Example Repo using React, Redux, TypeScript, Jest, and TestCafe",
+  "description": "Example Repo using React, Recoil, TypeScript, Jest, React Query, and TestCafe",
   "main": "index.js",
   "scripts": {
     "dev": "webpack serve",
@@ -61,6 +61,7 @@
     "@aws-amplify/core": "^4.3.8",
     "@mdi/js": "^5.9.55",
     "@mdi/react": "^1.5.0",
+    "@tanstack/react-query": "^4.24.4",
     "@vini-vici/viddi": "^1.1.0",
     "aws-amplify": "^4.2.10",
     "core-js": "^3.28.0",
