@@ -17,6 +17,8 @@
   "Release-description": "Note: the text below is from an API and therefore will always be in English.",
   "Front-End": "Front-End",
   "Back-End": "Back-End",
+  "Done": "Hecho",
+  "Not done": "No Heco",
   "Done?": "Hecho?",
   "Title": "Título",
   "Description": "Descripción",

@@ -20,7 +20,7 @@ node --version && npm --version
 # 6.14.10
 ```
 
-I personally use [Pnpm](https://pnpm.io/installation) over NPM for reasons. If you don't care, you can use NPM and that would be fine, however whenever you run a command you would need to change `pnpm [command]` to `npm run [command]` if it is a package-defined script.
+I personally use [Pnpm](https://pnpm.io/installation) over NPM for reasons. If you don't care, you can use NPM and that would be fine, however whenever you run a command you would need to change `npm run [command]` to `npm run [command]` if it is a package-defined script.
 
 ## Running Locally
 
@@ -50,7 +50,7 @@ cdk deploy Vicci-140851651058-alpha-us-west-1
 You should be able to run the entire thing with just 
 
 ```sh
-pnpm dev
+npm run dev
 ```
 
 ## Running Unit Tests
@@ -64,7 +64,7 @@ Unit tests are meant to test the components themselves; each individual componen
 To run the unit tests use
 
 ```sh
-pnpm test # or "npm run test" - no quotes
+npm run test # or "npm run test" - no quotes
 ```
 
 ## Running Integration Tests
@@ -80,7 +80,7 @@ Any new feature should be accompanied by integration tests, as well as unit test
 To run the integration tests against your local changes, run 
 
 ```sh
-pnpm e2e:local
+npm run e2e:local
 ```
 
 ### Modifying which tests are run (useful during development)

@@ -1,114 +1,113 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 
 import Loading from '@vini-vici/viddi/dist/loading/loading.component';
 import Footer from '@/components/footer/footer.component';
 
-import ErrorBoundary from './components/errorBoundary.component';
+import ErrorBoundary from './components/errorboundary.component';
 import Navbar from './components/navbar/navbar.component';
 
-import store from '@/redux/store';
-import { getUserThunk } from '@/redux/cognito/cognito.thunk';
-import { getGithubIssues } from './redux/github/github.thunk';
+import ReactQueryProvider from './providers/reactQuery';
+
+const IndexRoute = React.lazy(
+  () => import(/* webpackChunkName: "IndexRoute", webpackPreload: true */'./routes/index/+page')
+);
+
+const CallbackRoute = React.lazy(
+  () => import(/* webpackChunkName: "CallbackRoute" */'./routes/callback.route')
+);
+
+const LogoutRoute = React.lazy(
+  () => import(/* webpackChunkName: "LogoutRoute" */ './routes/logout/+page')
+);
+
+const LoginRoute = React.lazy(
+  () => import(/* webpackChunkName: "LoginRoute" */ './routes/login/+page')
+);
+
+const AboutRoute = React.lazy(
+  () => import(/* webpackChunkName: "AboutRoute"  */ './routes/about/+page')
+);
+
+const ReleasesRoute = React.lazy(
+  () => import(/* webpackChunkName: "ReleaseRoute" */ './routes/releases/+page')
+);
+
+const SignupRoute = React.lazy(
+  () => import(/* webpackChunkName: "SignupRoute" */ './routes/signup/+page')
+);
+
+const NotFoundRoute = React.lazy(
+  () => import(/* webpackChunkName: "404Route", webpackPrefetch: true */ './routes/_404')
+);
 
 function AppComponent(): React.ReactElement {
 
-
-  React.useEffect(() => {
-    store.dispatch(getUserThunk());
-    store.dispatch(getGithubIssues());
-  }, []);
-
   return (
     <ErrorBoundary>
-      <Provider
-        store={store}
-      >
-        <Router>
-          <Navbar />
-          <React.Suspense fallback={
-            <div style={{ flexGrow: 1, textAlign: 'center' }}>
-              <Loading />
-            </div>
-          }>
-            <Switch>
-              <Route
-                path="/"
-                exact
-                component={
-                  React.lazy(
-                    () => import(/* webpackChunkName: "IndexRoute", webpackPreload: true */'./routes/index.route')
-                  )
-                }
-              />
-              <Route
-                path="/callback"
-                exact
-                component={
-                  React.lazy(
-                    () => import(/* webpackChunkName: "CallbackRoute" */'./routes/callback.route')
-                  )
-                }
-              />
-              <Route
-                path="/about"
-                exact
-                component={
-                  React.lazy(
-                    () => import(/* webpackChunkName: "AboutRoute"  */'./routes/about.route')
-                  )
-                }
-              />
-              <Route
-                path="/releases"
-                exact
-                component={
-                  React.lazy(
-                    () => import(/* webpackChunkName: "ReleaseRoute" */'./routes/releases.route')
-                  )
-                }
-              />
-              <Route
-                path="/logout"
-                exact
-                component={
-                  React.lazy(
-                    () => import(/* webpackChunkName: "LogoutRoute" */'./routes/logout.route')
-                  )
-                }
-              />
-              <Route
-                path="/login"
-                exact
-                component={
-                  React.lazy(
-                    () => import(/* webpackChunkName: "LoginRoute" */'./routes/login.route')
-                  )
-                }
-              />
-              <Route
-                path="/signup"
-                exact
-                component={
-                  React.lazy(
-                    () => import(/* webpackChunkName: "SignupRoute" */'./routes/signup.route')
-                  )
-                }
-              />
-              <Route
-                path="/"
-                component={
-                  React.lazy(
-                    () => import(/* webpackChunkName: "404Route", webpackPrefetch: true */'./routes/_404')
-                  )
-                }
-              />
-            </Switch>
-          </React.Suspense>
-          <Footer />
-        </Router>
-      </Provider>
+      <ReactQueryProvider>
+        <React.Suspense fallback="Loading...">
+          <RecoilRoot>
+            <Router>
+              <Navbar />
+              <React.Suspense fallback={
+                <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <Loading size={1.5} />
+                </div>
+              }>
+                <Routes>
+                  <Route
+                    path="/"
+                    element={<IndexRoute />}
+                  />
+                  <Route
+                    path="/callback"
+                    element={<CallbackRoute />}
+                  />
+                  <Route
+                    path="/about"
+                    element={
+                      <AboutRoute />
+                    }
+                  />
+                  <Route
+                    path="/releases"
+                    element={
+                      <ReleasesRoute />
+                    }
+                  />
+                  <Route
+                    path="/logout"
+                    element={
+                      <LogoutRoute />
+                    }
+                  />
+                  <Route
+                    path="/login"
+                    element={
+                      <LoginRoute />
+                    }
+                  />
+                  <Route
+                    path="/signup"
+                    element={
+                      <SignupRoute />
+                    }
+                  />
+                  <Route
+                    element={
+                      <NotFoundRoute />
+                    }
+                  />
+
+                </Routes>
+              </React.Suspense>
+              <Footer />
+            </Router>
+          </RecoilRoot>
+        </React.Suspense>
+      </ReactQueryProvider>
     </ErrorBoundary>
   );
 }

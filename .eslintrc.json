@@ -24,7 +24,12 @@
   "rules": {
     "no-unused-vars": "off",
     "react/jsx-uses-react": "error",
-    "react/jsx-indent-props": ["error", 2],
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "react/jsx-indent-props": [
+      "error",
+      2
+    ],
     "indent": [
       "error",
       2,
@@ -44,9 +49,20 @@
       "error",
       "always"
     ],
-    "object-curly-spacing": ["error", "always"]
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ]
   },
   "overrides": [
+    {
+      "files": [
+        "**/*.tsx"
+      ],
+      "globals": {
+        "JSX": true
+      }
+    },
     {
       "files": [
         "**/*.spec.ts",

@@ -1,21 +1,23 @@
-import { RootState } from '@/redux/store';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { mdiGithub, mdiMenu } from '@mdi/js';
 import { Icon } from '@mdi/react';
 import { DomClasses as Dc } from '@vini-vici/viddi';
 
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+
+import { useCognito } from '@/hooks/cognito';
+import useGithub from '@/hooks/github';
+import NavLink from '../navlink/navlink.component';
 
 export default function Navbar(): React.ReactElement {
   const { t } = useTranslation();
-  const user = useSelector((v: RootState) => v.cognito);
-  const github = useSelector(({ github }: RootState) => github);
   const [forceShow, updateForceShow] = React.useState(false);
+  const cognito = useCognito(false);
+  const github = useGithub(false);
 
   const classes = new Dc('flex-grow md:flex-grow-0 md:flex-row w-full md:w-auto hidden flex-col items-center pb-2 md:pb-0 md:gap-2 md:flex');
-  if(forceShow) classes.remove('hidden').add('flex');
+  if (forceShow) classes.remove('hidden').add('flex');
 
   return (
     <nav className="bg-gray-800 dark:bg-black text-gray-100 md:h-full md:max-h-12 py-4 md:px-2 flex-shrink-0 flex items-center">
@@ -23,7 +25,7 @@ export default function Navbar(): React.ReactElement {
         <div className="left-section flex items-center flex-shrink-0">
           <img src="/static/vicci-favicon.svg" style={{ height: '1.5em', display: 'inline-block', marginRight: '0.5em' }} alt="Vicci" />
           <div>
-            Vicci
+            <Link to="/">Vicci</Link>
           </div>
         </div>
 
@@ -31,11 +33,11 @@ export default function Navbar(): React.ReactElement {
           className="block md:hidden flex-shrink-0"
           onClick={() => updateForceShow(!forceShow)}
         >
-          <Icon path={mdiMenu} size={1}/>
+          <Icon path={mdiMenu} size={1} />
         </div>
-        
+
         <div className={classes.toString()}>
-          <NavLink to="/" exact activeClassName="font-semibold underline">
+          <NavLink to="/" activeClassName="font-semibold underline">
             {t('Home')}
           </NavLink>
           <NavLink to="/about" activeClassName="font-semibold underline">
@@ -45,12 +47,12 @@ export default function Navbar(): React.ReactElement {
             {t('Releases')}
           </NavLink>
           {
-            user.preferredUsername || user.username ?
+            cognito.data?.preferredUsername || cognito.data?.username ?
               (
                 <Link to="/logout">
                   {t('Logout')}
                   <span className="text-gray-400 text-sm ml-1">
-                    ({user.preferredUsername || user.username})
+                    ({cognito.data.preferredUsername || cognito.data.username})
                   </span>
                 </Link>
               ) :
@@ -59,11 +61,11 @@ export default function Navbar(): React.ReactElement {
               )
           }
           <a href="https://github.com/vini-vici/" target="_blank" aria-label="Go to Vini-Vici repos" title={
-            github.state === 'successful' ? 
-              `${github.issues} open issues, ${github.pullRequests} open PR(s)` :
+            github.isSuccess ?
+              `${github.data.issues} open issues, ${github.data.pullRequests} open PR(s)` :
               'Github'
           }>
-            <Icon path={mdiGithub} size={0.75}/>
+            <Icon path={mdiGithub} size={0.75} />
           </a>
         </div>
       </div>

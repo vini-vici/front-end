@@ -8,6 +8,8 @@
   "Any details necessary to complete the todo should go here": "Any details necessary to complete the todo should go here",
   "Any details that are needed to complete the todo": "Any details that are needed to complete the todo",
   "Todos": "Todos",
+  "Done": "Done",
+  "Not done": "Not done",
   "Add todo": "Add todo",
   "Home": "Home",
   "Releases": "Releases",
@@ -22,7 +24,7 @@
   "Description": "Description",
   "Actions": "Actions",
   "Todos-empty": "There are no todos. Please click the pen icon in the top right to add a new one!",
-  "work in progress": "trabajo en progresso",
+  "work in progress": "Work In Progress",
   "Username": "Username",
   "Username-description": "note, this is NOT your preferred username or E-Mail",
   "Username-placeholder": "bob_rocks89, or demonslayer77",
@@ -58,10 +60,12 @@
     "About-see-an-application": "We see an application with quite a few components, unit tests, and e2e tests. As well, we get to see how to integrate with things like the AWS CDK, which builds our staging and production URLs; and AWS Cognito, which is how we handle our user login system.",
     "About-stack": "So, what's the stack?",
     "About-Out-of-it": "So, what do <1>we</1> get out of it?",
+    "vidi-ui-disclaimer": "Vidi UI is a part of the same project, but is separate in it's own respository.",
     "navbar": "About",
     "thats-it": "That's it?",
     "yes-but-no": "Yes, but actually no!",
     "does-for-you": "So, what am I hoping this does for you?",
-    "best-case-scenario": "Best case scenario I hope that this gives people a peek into what makes a simple app. It uses a lot of things, such as Infrastructure-as-Code (IaC), Serverless functions, and a very rough JAMStack implementation."
+    "best-case-scenario": "Best case scenario I hope that this gives people a peek into what makes a simple app. It uses a lot of things, such as Infrastructure-as-Code (IaC), Serverless functions, and a very rough JAMStack implementation.",
+    "about-share-infrastructure": "The shared infrastructure sets up some things, such as the Cognito pool the main certificate, and the domain name used by AWS Cognito."
   }
 }
