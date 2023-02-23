@@ -42,6 +42,10 @@ const NotFoundRoute = React.lazy(
   () => import(/* webpackChunkName: "404Route", webpackPrefetch: true */ './routes/_404')
 );
 
+const UserRoute = React.lazy(
+  () => import(/* webpackChunkName: "UserRoute", webpackPrefetch: true*/'./routes/user.route')
+);
+
 function AppComponent(): React.ReactElement {
 
   return (
@@ -93,6 +97,12 @@ function AppComponent(): React.ReactElement {
                     path="/signup"
                     element={
                       <SignupRoute />
+                    }
+                  />
+                  <Route
+                    path="/user"
+                    element={
+                      <UserRoute/>
                     }
                   />
                   <Route
