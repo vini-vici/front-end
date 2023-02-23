@@ -155,3 +155,28 @@ export function useCognitoLogout() {
     }
   );
 }
+
+export interface UpdatePreference {
+  oldPassword: string;
+  password: string;
+  preferredUsername: string;
+  email: string;
+}
+
+export function useUpdatePreferences(suspense = true) {
+  const cognito = useCognito();
+  return useMutation(
+    ['updateCognitoUser'],
+    async ({ oldPassword, password, preferredUsername, email }: UpdatePreference) => {
+      const user = await Auth.currentAuthenticatedUser()
+      if(password !== '' && oldPassword !== '') {
+        try {
+          const passwordResponse = await Auth.changePassword(user, oldPassword, password)
+          console.info(passwordResponse);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+  );
+}

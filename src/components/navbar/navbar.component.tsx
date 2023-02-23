@@ -46,6 +46,7 @@ export default function Navbar(): React.ReactElement {
           <NavLink to="/releases" activeClassName="font-semibold underline">
             {t('Releases')}
           </NavLink>
+          <NavLink to="/user" activeClassName="font-semibold underline">Profile</NavLink>
           {
             cognito.data?.preferredUsername || cognito.data?.username ?
               (
