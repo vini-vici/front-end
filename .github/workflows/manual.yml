@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Testing
+name: Release
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -19,13 +19,16 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Runs a single command using the runners shell
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Configure AWS Credentials from Test account
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        role-to-assume: arn:aws:iam::471993188491:role/Github-Action
-        aws-region: us-west-1
-    - name: Testing
-      run: aws sts get-caller-identity
+      # Runs a single command using the runners shell
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Configure AWS Credentials from Staging account
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::471993188491:role/Github-Action
+          aws-region: us-west-1
+
+      - name: Get into correct directory
+        run: cd configuration
+      - name: testing
+        run: echo "hello"

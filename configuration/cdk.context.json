@@ -18,5 +18,8 @@
   "hosted-zone:account=471993188491:domainName=staging.vicci.dev:region=us-west-1": {
     "Id": "/hostedzone/Z04643353LGF73001XERH",
     "Name": "staging.vicci.dev."
-  }
+  },
+  "acknowledged-issue-numbers": [
+    19836
+  ]
 }
