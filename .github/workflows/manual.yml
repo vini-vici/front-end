@@ -37,8 +37,11 @@ jobs:
         run: cd configuration
       - name: testing
         run: echo "hello"
-      - run: cd configuration && npm ci
+      - name: Install everything
+        run: npm ci && cd configuration && npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.VIDDI_PAT }}
+      - name: build fe
+        run: npm run release
       - run: pwd
       - run: cd configuration && npx cdk list
