@@ -40,4 +40,5 @@ jobs:
       - run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.VIDDI_PAT }}
+      - run: pwd
       - run: npx cdk list
