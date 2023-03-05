@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { useTranslation } from 'react-i18next';
 import { useCognito, useCognitoLogin } from '@/hooks/cognito';
-import { Loading } from '@vini-vici/viddi';
+import Loading from '@vini-vici/viddi/dist/loading/loading.component';
 
 export default function LoginRoute(): React.ReactElement {
   const [username, setUsername] = React.useState('');
