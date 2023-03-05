@@ -28,7 +28,16 @@ jobs:
           role-to-assume: arn:aws:iam::471993188491:role/Github-Action
           aws-region: us-west-1
 
+      - name: Setup node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          registry-url: "https://npm.pkg.github.com"
       - name: Get into correct directory
         run: cd configuration
       - name: testing
         run: echo "hello"
+      - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.VIDDI_PAT }}
+      - run: npx cdk list
