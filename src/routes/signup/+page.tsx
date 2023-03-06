@@ -2,9 +2,7 @@ import React, { useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import Input from '@vini-vici/viddi/dist/input/input.component';
-import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
-import Button from '@vini-vici/viddi/dist/button/button.component';
+import { Button, Input, FormField } from '@vini-vici/viddi';
 import { useTranslation } from 'react-i18next';
 import { useSignupUser } from '@/hooks/cognito';
 
