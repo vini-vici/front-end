@@ -86,13 +86,6 @@ export class VicciStack extends cdk.Stack {
       priceClass: PriceClass.PRICE_CLASS_100
     });
 
-    // Deploy things.
-    new BucketDeployment(this, 'AssetDeployment-' + stage, {
-      sources: [Source.asset('../dist')],
-      destinationBucket: websiteBucket,
-      distribution
-    });
-
     // Outputs
 
     // Output to view this easily.
