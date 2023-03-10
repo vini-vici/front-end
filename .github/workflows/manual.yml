@@ -39,8 +39,11 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.VIDDI_PAT }}
       - name: build fe
         run: npm run release
-      - run: pwd
-      - run: cd configuration && npx cdk list
-      - id: install-aws-cli
-        uses: unfor19/install-aws-cli-action@v1
-      - run: aws cloudformation list-stacks --region us-west-1
+      - run: cd configuration && npx cdk synthesize Vicci-471993188491-gamma-us-west-1
+        name: Synthesize changes
+      - run: cd configuration && npx cdk deploy Vicci-471993188491-gamma-us-west-1
+        name: Deploy changes
+      # - run: cd configuration && npx cdk list
+      # - id: install-aws-cli
+      #   uses: unfor19/install-aws-cli-action@v1
+      # - run: aws cloudformation list-stacks --region us-west-1
