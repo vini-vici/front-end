@@ -20,8 +20,6 @@ node --version && npm --version
 # 6.14.10
 ```
 
-I personally use [Pnpm](https://pnpm.io/installation) over NPM for reasons. If you don't care, you can use NPM and that would be fine, however whenever you run a command you would need to change `npm run [command]` to `npm run [command]` if it is a package-defined script.
-
 ## Running Locally
 
 Make sure that you have the AWS CDK CLI installed.
