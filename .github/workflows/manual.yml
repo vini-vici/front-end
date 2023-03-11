@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Testing
+name: Release
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -19,13 +19,31 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Runs a single command using the runners shell
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Configure AWS Credentials from Test account
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        role-to-assume: arn:aws:iam::471993188491:role/Github-Action
-        aws-region: us-west-1
-    - name: Testing
-      run: aws sts get-caller-identity
+      # Runs a single command using the runners shell
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Configure AWS Credentials from Staging account
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::471993188491:role/Github-Action
+          aws-region: us-west-1
+
+      - name: Setup node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          registry-url: "https://npm.pkg.github.com"
+      - name: Install everything
+        run: npm ci && cd configuration && npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.VIDDI_PAT }}
+      - name: build fe
+        run: npm run release
+      - run: cd configuration && npx cdk synthesize Vicci-471993188491-gamma-us-west-1
+        name: Synthesize changes
+      - run: cd configuration && npx cdk deploy Vicci-471993188491-gamma-us-west-1 --require-approval=never
+        name: Deploy changes
+      # - run: cd configuration && npx cdk list
+      # - id: install-aws-cli
+      #   uses: unfor19/install-aws-cli-action@v1
+      # - run: aws cloudformation list-stacks --region us-west-1

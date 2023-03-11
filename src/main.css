@@ -1,6 +1,9 @@
+@import '@vini-vici/viddi/style.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 #app {
   @apply h-screen flex flex-col;

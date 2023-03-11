@@ -1,11 +1,7 @@
 import React from 'react';
-import Input from '@vini-vici/viddi/dist/input/input.component';
-import Textarea from '@vini-vici/viddi/dist/textarea/textarea.component';
-import Checkbox from '@vini-vici/viddi/dist/checkbox/checkbox.component';
-import Button from '@vini-vici/viddi/dist/button/button.component';
-import Dc from '@vini-vici/viddi/dist/classes/domClasses.class';
 import Icon from '@mdi/react';
 import { mdiPencil, mdiTrashCan } from '@mdi/js';
+import { DomClasses as Dc, Input, Textarea, Checkbox, Button, } from '@vini-vici/viddi';
 
 export interface Todo {
   title: string;
@@ -46,13 +42,13 @@ export default function TodoComponent(
         <div className="mx-auto">
           <Checkbox
             checked={done}
-            onChange={({ target }) => {
+            onChange={e => {
               onDone(new CustomEvent('TodoDone', {
                 detail: {
                   id,
                   title,
                   description,
-                  done: target.checked
+                  done: (e.target as HTMLInputElement).checked
                 }
               }));
             }}
@@ -84,7 +80,7 @@ export default function TodoComponent(
               <Textarea
                 className="w-full"
                 value={local.description}
-                onChange={({ target }) => setLocal({ ...local, description: target.value })}
+                onChange={e => setLocal({ ...local, description: (e.target as HTMLTextAreaElement).value })}
               />
             ) :
             description?.split('\n').map((s, i) => <p key={`paragraph-${id}-${i}`}>{s}</p>)

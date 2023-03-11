@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Expandable from '@vini-vici/viddi/dist/expandable/expandable.component';
+import { Expandable } from '@vini-vici/viddi';
 
 export default class ErrorBoundary extends React.Component<React.PropsWithChildren<unknown>> {
   state = {

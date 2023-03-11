@@ -126,7 +126,7 @@ module.exports = {
       ]
     }),
     new HtmlPlugin({
-      template: fromRoot('static', 'index.html')
+      template: fromRoot('index.html')
     }),
     new CssPlugin(),
   ]

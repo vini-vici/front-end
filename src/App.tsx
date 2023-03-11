@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
-import Loading from '@vini-vici/viddi/dist/loading/loading.component';
+import { Loading } from '@vini-vici/viddi';
 import Footer from '@/components/footer/footer.component';
 
 import ErrorBoundary from './components/errorboundary.component';
@@ -43,6 +43,9 @@ const NotFoundRoute = React.lazy(
 );
 
 function AppComponent(): React.ReactElement {
+
+
+
 
   return (
     <ErrorBoundary>

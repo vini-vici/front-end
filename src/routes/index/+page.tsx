@@ -1,10 +1,7 @@
 import React from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import Modal from '@vini-vici/viddi/dist/modal/modal.component';
-import Input from '@vini-vici/viddi/dist/input/input.component';
-import Textarea from '@vini-vici/viddi/dist/textarea/textarea.component';
-import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
+import { FormField, Textarea, Input, Modal } from '@vini-vici/viddi';
 import { Todo } from '@/components/todos/todo.component';
 import { useTranslation } from 'react-i18next';
 import TodosContainerNew from '@/components/todos/todos.container';
@@ -84,7 +81,7 @@ export default function IndexRoute(): React.ReactElement {
           <Textarea
             className="w-full"
             placeholder={t('Any details that are needed to complete the todo')}
-            onChange={({ target }) => setTodo({ ...initialTodos, title, description: target.value })}
+            onChange={e => setTodo({ ...initialTodos, title, description: (e.target as HTMLTextAreaElement).value })}
           />
         </FormField>
       </Modal>

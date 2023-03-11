@@ -9,7 +9,7 @@ import {
 } from '@aws-cdk/aws-s3-deployment';
 import {
   Distribution,
-  PriceClass
+  PriceClass,
 } from '@aws-cdk/aws-cloudfront';
 import {
   S3Origin
@@ -22,7 +22,7 @@ import {
 import * as certs from '@aws-cdk/aws-certificatemanager';
 
 function getDomainName(stage: string): string {
-  if(stage === 'gamma') return 'staging.vicci.dev';
+  if (stage === 'gamma') return 'staging.vicci.dev';
   return 'vicci.dev';
 }
 
@@ -55,12 +55,12 @@ export class VicciStack extends cdk.Stack {
 
     // let certificate: DnsValidatedCertificate;
     const domainNames = stage === 'prod' ? ['vicci.dev'] : undefined;
-    
+
     // Create WebsiteBucket
-    const websiteBucket = new Bucket(this, 'WebsiteBucket-'+stage);
+    const websiteBucket = new Bucket(this, 'WebsiteBucket-' + stage);
 
     // Create CDN Distribution
-    const distribution = new Distribution(this, 'CdnDistribution-'+stage, {
+    const distribution = new Distribution(this, 'CdnDistribution-' + stage, {
       // Need to figure out a way to do some shenanigans here.
       domainNames,
       certificate: stage === 'prod' ? certificate : undefined,
@@ -87,14 +87,14 @@ export class VicciStack extends cdk.Stack {
     });
 
     // Deploy things.
-    new BucketDeployment(this, 'AssetDeployment-'+stage, {
+    new BucketDeployment(this, 'AssetDeployment-' + stage, {
       sources: [Source.asset('../dist')],
       destinationBucket: websiteBucket,
       distribution
     });
 
     // Outputs
-    
+
     // Output to view this easily.
     new cdk.CfnOutput(this, 'CloudfrontDistribution', {
       exportName: 'CdnUrl',

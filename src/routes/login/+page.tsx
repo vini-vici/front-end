@@ -1,14 +1,10 @@
 import React from 'react';
 
-import Input from '@vini-vici/viddi/dist/input/input.component';
-import FormField from '@vini-vici/viddi/dist/formfield/formfield.component';
-import Button from '@vini-vici/viddi/dist/button/button.component';
-import Modal from '@vini-vici/viddi/dist/modal/modal.component';
+import { Modal, Input, Loading, FormField, Button } from '@vini-vici/viddi';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useTranslation } from 'react-i18next';
 import { useCognito, useCognitoLogin } from '@/hooks/cognito';
-import { Loading } from '@vini-vici/viddi';
 
 export default function LoginRoute(): React.ReactElement {
   const [username, setUsername] = React.useState('');
