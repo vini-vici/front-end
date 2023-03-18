@@ -23,10 +23,10 @@ export default function TodosContainerNew(): JSX.Element {
         <h1 className="text-2xl font-semibold flex justify-between">
           <div>{t('Todos')}</div>
           <div className="actions">
-            <Button variant="custom" className="text-gray-500 hover:text-purple-500" onClick={() => todos.refetch()}>
+            <Button variant="custom" title="Refresh Todos" className="text-gray-500 hover:text-purple-500" onClick={() => todos.refetch()}>
               <Icon path={mdiRefresh} size={1} />
             </Button>
-            <Button variant="custom" className="text-gray-500 hover:text-purple-500" onClick={() => setShowCreateModal(true)}>
+            <Button variant="custom" title="Add todo" className="text-gray-500 hover:text-purple-500" onClick={() => setShowCreateModal(true)}>
               <Icon path={mdiPencilPlus} size={1} />
             </Button>
           </div>
