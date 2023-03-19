@@ -10,6 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Configure AWS Credentials from Staging account
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::471993188491:role/Github-Action
+          aws-region: us-west-1
       - uses: actions/setup-node@v1
         with:
           node-version: 16
