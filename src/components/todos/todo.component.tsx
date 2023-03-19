@@ -62,6 +62,8 @@ export default function TodoComponent(
             (
               <Input
                 value={local.title}
+                placeholder="Todo title"
+                name="title"
                 onChange={({ target }) => {
                   setLocal({
                     ...local,
@@ -80,6 +82,7 @@ export default function TodoComponent(
               <Textarea
                 className="w-full"
                 value={local.description}
+                placeholder="Todo description"
                 onChange={e => setLocal({ ...local, description: (e.target as HTMLTextAreaElement).value })}
               />
             ) :
@@ -91,7 +94,7 @@ export default function TodoComponent(
 
         <div className="flex justify-center items-center gap-4">
           {
-            isEditing && <Button className="rounded" onClick={() => {
+            isEditing && <Button title="Save todo" className="rounded" onClick={() => {
               onChange?.(new CustomEvent('TodoChange', {
                 detail: {
                   ...local,
@@ -104,7 +107,7 @@ export default function TodoComponent(
           }
           {
             !isEditing &&
-            <Button className="text-blue-500 px-2 py-1 bg-white" variant="custom" onClick={() => {
+            <Button title="Edit todo" className="text-blue-500 px-2 py-1 bg-white" variant="custom" onClick={() => {
               setEditing(true);
             }}>
               <Icon path={mdiPencil} title="Edit" size={1} />
@@ -114,6 +117,7 @@ export default function TodoComponent(
           <Button
             variant="secondary"
             onClick={() => onDelete(id)}
+            title="Delete todo"
           >
             <Icon path={mdiTrashCan} title="Delete" size={1} />
           </Button>

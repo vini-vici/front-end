@@ -1,0 +1,38 @@
+name: Playwright Tests
+on:
+  push:
+    branches: [mainline]
+  pull_request:
+    branches: [mainline]
+jobs:
+  test:
+    permissions:
+      id-token: write
+      contents: read
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Configure AWS Credentials from Staging account
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::471993188491:role/Github-Action
+          aws-region: us-west-1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16
+          registry-url: "https://npm.pkg.github.com"
+      - run: npm ci
+        name: Install dependencies
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.VIDDI_PAT }}
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright tests
+        run: npm run e2e
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
