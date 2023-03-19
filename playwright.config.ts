@@ -43,7 +43,7 @@ export default defineConfig({
     trace: 'on-first-retry',
     ignoreHTTPSErrors: true,
     screenshot: 'on',
-    video: 'retain-on-failure'
+    video: 'retain-on-failure',
   },
 
   /* Configure projects for major browsers */
@@ -91,6 +91,6 @@ export default defineConfig({
   webServer: {
     command: 'npm run dev',
     port: 8080,
-    timeout: 10000
+    timeout: 30000,
   },
 });
