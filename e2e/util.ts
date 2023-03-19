@@ -1,8 +1,8 @@
 import { Page } from '@playwright/test';
 
 const {
-  USERNAME,
-  PASSWORD,
+  USERNAME = '',
+  PASSWORD = '',
   APP_URL = 'https://localhost:8080/'
 } = process.env;
 
@@ -16,6 +16,7 @@ const {
 export async function login(page: Page, username?: string, password?: string) {
   await page.goto(APP_URL);
   await page.waitForLoadState('networkidle');
+  await page.getByPlaceholder('bob_rocks89').waitFor({ state: 'visible' });
   await page.getByPlaceholder('bob_rocks89').fill(username || USERNAME);
   await page.getByPlaceholder('(8+)Uppercase').fill(password || PASSWORD);
   await page.getByRole('button', { name: 'Submit' }).click();
