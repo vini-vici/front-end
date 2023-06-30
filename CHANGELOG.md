@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/vini-vici/front-end/compare/v1.3.0...v1.4.0) (2023-06-30)
+
+
+### Features
+
+* move to react query ([#49](https://github.com/vini-vici/front-end/issues/49)) ([3c7fc23](https://github.com/vini-vici/front-end/commit/3c7fc2335cee35a4b3541c12d22f116b829ae9ca))
+
 ## [1.3.0](https://github.com/vini-vici/front-end/compare/v1.2.0...v1.3.0) (2022-01-18)
 
 

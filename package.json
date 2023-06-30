@@ -1,6 +1,6 @@
 {
   "name": "vinny",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Example Repo using React, Recoil, TypeScript, Jest, React Query, and TestCafe",
   "main": "index.js",
   "scripts": {
